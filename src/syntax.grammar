@@ -1,26 +1,220 @@
-@top Program { expression* }
+@precedence {
 
-@skip { space | LineComment }
+    prec_ellipsis
 
-expression {
-  Identifier |
-  String |
-  Boolean |
-  Application { "(" expression* ")" }
+    prec_delc_field
+    prec_expr_primay_expr
+    prec_operand_lit
+    prec_argument
+    prec_operand_name
+    prec_label_name
+
+    prec_file_attr
+    prec_decl_attr
+    prec_decl
+
+    prec_label_str
+    prec_lit_str
+
+    prec_import_package_name
+    prec_import_path
+
+    prec_attr
+
+    prec_alias_expr
+    prec_operand_expr
+
+    prec_element_list
+    prec_list_lit
+
+    prec_label_expr
+    prec_embedding
+
+    prec_attr_tokens_hi
+    prec_attr_tokens_char
+    prec_attr_tokens_low
+
+    unary @right
+    prec7 @left
+    prec6 @left
+    prec5 @left
+    prec4 @left
+    prec3 @left
+    prec2 @left
+    prec1 @left
 }
 
+@top SourceFile {
+    (Attribute !prec_file_attr ","?)*
+    (PackageClause ","?)?
+    (ImportDecl ","?)*
+    (Declaration !prec_decl ","?)*
+}
+
+@skip { space | Comment }
+
+// Numeric literals
+IntLit     { DecimalLit | SiLit | OctalLit | BinaryLit | HexLit }
+
+// String and byte sequence literals
+// TODO: to be completed
+StringLit       { SimpleBytesLit | !prec_lit_str SimpleStringLit }
+
+// Values
+
+BottomLit { "_|_" }
+Top { kw<"_"> }
+NullLit { kw<"null"> }
+BoolLit { kw<"true"> | kw<"false"> }
+
+// Structs
+
+StructLit       { "{" (Declaration (("," | "\n") Declaration)* ","?)? "}" }
+Declaration     { !prec_delc_field Field | Ellipsis | Embedding | LetClause | !prec_decl_attr Attribute }
+Ellipsis        { !prec_ellipsis "..." Expression? }
+Embedding       { Comprehension | !prec_embedding AliasExpr }
+Field           { Label ":" ( Label ":" )* AliasExpr ( Attribute )* }
+Label           { ( Identifier "=" )? LabelExpr }
+LabelExpr       { LabelName ( "?" | "!" )? | !prec_label_expr "[" AliasExpr "]" }
+LabelName       { !prec_label_name Identifier | !prec_label_str SimpleStringLit | "(" AliasExpr ")" }
+
+Attribute       { !prec_attr "@" Identifier "(" AttrTokens ")" }
+AttrTokens      { ( !prec_attr_tokens_low attr_token? |
+                    !prec_attr_tokens_hi "(" AttrTokens ")" |
+                    !prec_attr_tokens_hi "[" AttrTokens "]" |
+                    !prec_attr_tokens_hi "{" AttrTokens "}" )* }
+attr_token      { !prec_attr_tokens_char attr_token_char+ }
+
+AliasExpr  { !prec_alias_expr ( Identifier "=" )? Expression }
+
+ListLit       { !prec_list_lit "[" ( ElementList ","? )? "]" }
+ElementList   { Ellipsis | !prec_element_list Embedding ( "," Embedding )* ("," Ellipsis)? }
+
+// Predeclared identifiers
+// ...
+
+operand     { !prec_operand_lit Literal | OperandName | !prec_operand_expr "(" Expression ")" }
+Literal     { BasicLit | ListLit | StructLit }
+BasicLit    { IntLit | FloatLit | StringLit |
+              NullLit | BoolLit | BottomLit | Top }
+OperandName { !prec_operand_name Identifier | QualifiedIdent }
+
+QualifiedIdent { PackageName "." Identifier }
+
+primaryExpr {
+	operand |
+	primaryExpr Selector |
+	primaryExpr Index |
+	primaryExpr Arguments }
+
+Selector       { "." (Identifier | SimpleStringLit) }
+Index          { "[" Expression "]" }
+Argument       { !prec_argument Expression }
+Arguments      { "(" (Argument ("," Argument)*  ","? )? ")" }
+
+// https://cuelang.org/docs/reference/spec/#operator-precedence
+// Precedence    Operator
+//     7             *  /
+//     6             +  -
+//     5             ==  !=  <  <=  >  >= =~ !~
+//     4             &&
+//     3             ||
+//     2             &
+//     1             |
+
+Expression { !prec_expr_primay_expr primaryExpr | UnaryExpr | BinExpr }
+BinExpr    { Expression binary_op Expression }
+UnaryExpr  { !unary unary_op UnaryExpr }
+
+binary_op  {
+    !prec1 bitwise_or_op |
+    !prec2 bitwise_and_op |
+    !prec3 or_op |
+    !prec4 and_op |
+    !prec5 rel_op |
+    !prec6 add_op |
+    !prec7 mul_op
+}
+
+bitwise_or_op  { "|" }
+bitwise_and_op { "&" }
+or_op          { "||" }
+and_op         { "&&" }
+rel_op         { "==" | "!=" | "<" | "<=" | ">" | ">=" | "=~" | "!~" }
+add_op         { "+" | "-" }
+mul_op         { "*" | "/" }
+unary_op       { "+" | "-" | "!" | "*" | rel_op }
+
+Comprehension       { Clauses StructLit }
+
+Clauses             { StartClause (","? Clause)* }
+StartClause         { ForClause | GuardClause }
+Clause              { StartClause | LetClause }
+ForClause           { kw<"for"> Identifier ("," Identifier)? "in" Expression }
+GuardClause         { kw<"if"> Expression }
+LetClause           { kw<"let"> Identifier "=" Expression }
+
+PackageClause  { kw<"package"> PackageName }
+PackageName    { !prec_import_package_name ~Identifier }
+
+ImportDecl       { kw<"import"> ( ImportSpec | "(" (ImportSpec ",")* ")" ) }
+ImportSpec       { PackageName? ImportPath }
+ImportLocation   { letter*  }
+ImportPath       { !prec_import_path '"' ImportLocation (":" Identifier)? '"' }
+
+kw<word> { @specialize[@name={word}]<Identifier, word> }
+
 @tokens {
-  Identifier { $[a-zA-Z_\-0-9]+ }
+  letter        { $[_a-zA-Z\u{a1}-\u{10ffff}] | "$" }
+  digit         { $[0-9] }
+  decimal_digit { digit }
+  binary_digit  { $[0-1] }
+  octal_digit   { $[0-7] }
+  hex_digit     { $[0-9A-Fa-f] }
 
-  String { '"' (!["\\] | "\\" _)* '"' }
+  attr_token_char { ![[\](){}] }
 
-  Boolean { "#t" | "#f" }
+  Comment { "//" ![\n]* }
 
-  LineComment { ";" ![\n]* }
+  SimpleStringLit { '"' !["]* '"'}
+  SimpleBytesLit { "'" ![']* "'" }
+
+  Identifier { ("#" | "_#")? letter (letter | digit)* }
+
+  @precedence {
+      "_|_", Identifier
+  }
+
+  DecimalLit { "0" | $[1-9] ("_"? decimal_digit)* }
+  decimals   { decimal_digit ("_"? decimal_digit)* }
+  SiLit       { decimals ("." decimals)? multiplier |
+                "." decimals  multiplier }
+  BinaryLit  { "0b" binary_digit ("_"?  binary_digit)* }
+  HexLit     { "0" ( "x" | "X" ) hex_digit ( "_"? hex_digit )* }
+  OctalLit   { "0o" octal_digit ( "_"? octal_digit )* }
+  multiplier { ( "K" | "M" | "G" | "T" | "P" ) "i"? }
+
+  FloatLit   {
+      decimals "." decimals? exponent? |
+      decimals exponent |
+      "." decimals exponent? }
+  exponent   { ( "e" | "E" ) ("+" | "-")? decimals }
+
+  @precedence {
+      SiLit, FloatLit, ".", HexLit, BinaryLit, OctalLit, DecimalLit
+  }
 
   space { $[ \t\n\r]+ }
-
   "(" ")"
+  "{" "}"
+  "[" "]"
+
+  @precedence {
+      attr_token_char
+      "/", Comment
+      "\n", space
+  }
+  
 }
 
 @detectDelim
