@@ -30,9 +30,17 @@
     prec_label_expr
     prec_embedding
 
+    prec_label_alias_expr
+    prec_disjunction
+
+    prec_bin_expr_hi
+    prec_bin_expr_low
+
     prec_attr_tokens_hi
     prec_attr_tokens_char
     prec_attr_tokens_low
+
+    prec_default @right
 
     unary @right
     prec7 @left
@@ -76,7 +84,7 @@ Embedding       { Comprehension | !prec_embedding AliasExpr }
 Field           { Label ":" ( Label ":" )* AliasExpr ( Attribute )* }
 Label           { ( Identifier "=" )? LabelExpr }
 LabelExpr       { LabelName ( "?" | "!" )? | !prec_label_expr "[" AliasExpr "]" }
-LabelName       { !prec_label_name Identifier | !prec_label_str SimpleStringLit | "(" AliasExpr ")" }
+LabelName       { !prec_label_name Identifier | !prec_label_str SimpleStringLit | "(" AliasExpr !prec_label_alias_expr ")" }
 
 Attribute       { !prec_attr "@" Identifier "(" AttrTokens ")" }
 AttrTokens      { ( !prec_attr_tokens_low attr_token? |
@@ -122,12 +130,25 @@ Arguments      { "(" (Argument ("," Argument)*  ","? )? ")" }
 //     2             &
 //     1             |
 
-Expression { !prec_expr_primay_expr primaryExpr | UnaryExpr | BinExpr }
-BinExpr    { Expression binary_op Expression }
-UnaryExpr  { !unary unary_op UnaryExpr }
+Expression  { !prec_expr_primay_expr primaryExpr | UnaryExpr | BinExpr }
+BinExpr     {
+    !prec_bin_expr_low Expression binary_op Expression |
+    disjunction |
+    !prec_bin_expr_hi "(" Expression binary_op Expression ")" |
+    "(" disjunction !prec_disjunction ")"
+}
+DefaultExpr { !prec_default "*" Expression }
+disjunction {
+    DefaultExpr !prec1 bitwise_or_op Expression |
+    Expression !prec1 bitwise_or_op DefaultExpr |
+    Expression !prec1 bitwise_or_op Expression
+}
+UnaryExpr   {
+    !unary "(" unary_op UnaryExpr ")" |
+    !unary unary_op UnaryExpr
+}
 
 binary_op  {
-    !prec1 bitwise_or_op |
     !prec2 bitwise_and_op |
     !prec3 or_op |
     !prec4 and_op |

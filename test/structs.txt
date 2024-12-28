@@ -1,0 +1,33 @@
+# struct 1
+a: {
+    foo:      string  // foo is a string
+    [=~"^i"]: int     // all other fields starting with i are integers
+    [=~"^b"]: bool    // all other fields starting with b are booleans
+    [>"c"]:   string  // all other fields lexically after c are strings
+
+    ...string         // all other fields must be a string. Note: default constraints are not yet implemented.
+}
+
+b: a & {
+    i3:    3
+    bar:   true
+    other: "a string"
+}
+==>
+SourceFile()
+
+# struct 2
+intMap: [string]: int
+intMap: {
+    t1: 43
+    t2: 2.4  // error: 2.4 is not an integer
+}
+
+nameMap: [string]: {
+    firstName: string
+    nickName:  *firstName | string
+}
+
+nameMap: hank: firstName: "Hank"
+==>
+SourceFile()
