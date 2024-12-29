@@ -20,8 +20,8 @@
 
     prec_attr
 
-    prec_alias_expr
     prec_operand_expr
+    prec_alias_expr
 
     prec_element_list
     prec_list_lit
@@ -92,7 +92,7 @@ ElementList   { Ellipsis | !prec_element_list Embedding ( "," Embedding )* ("," 
 // Predeclared identifiers
 // ...
 
-operand     { !prec_operand_lit Literal | OperandName | !prec_operand_expr "(" Expression ")" }
+operand     { !prec_operand_lit Literal | OperandName | "(" Expression !prec_operand_expr ")" }
 Literal     { BasicLit | ListLit | StructLit }
 BasicLit    { IntLit | FloatLit | StringLit |
               NullLit | BoolLit | BottomLit | Top }

@@ -1,29 +1,27 @@
 # `({a:1} | {b:2}) & {c:3}`
 ({a:1} | {b:2}) & {c:3}
 ==>
-SourceFile(Declaration(Embedding(AliasExpr(Expression(BinExpr(
-    Expression(BinExpr("(",
-        Expression(Literal(StructLit("{",Declaration(Field(Label(LabelExpr(LabelName(Identifier))),AliasExpr(Expression(Literal(BasicLit(IntLit(DecimalLit))))))),"}"))),
-        Expression(Literal(StructLit("{",Declaration(Field(Label(LabelExpr(LabelName(Identifier))),AliasExpr(Expression(Literal(BasicLit(IntLit(DecimalLit))))))),"}"))),")")),
-    Expression(Literal(StructLit("{",Declaration(Field(Label(LabelExpr(LabelName(Identifier))),AliasExpr(Expression(Literal(BasicLit(IntLit(DecimalLit))))))),"}")))))))))
+SourceFile(Declaration(Embedding(AliasExpr(Expression(BinExpr(Expression(PrimaryExpr("(",Expression(BinExpr(Expression(PrimaryExpr(Literal(StructLit("{",Declaration(Field(Label(LabelExpr(LabelName(Identifier))),AliasExpr(Expression(PrimaryExpr(Literal(BasicLit(IntLit(DecimalLit)))))))),"}")))),Expression(PrimaryExpr(Literal(StructLit("{",Declaration(Field(Label(LabelExpr(LabelName(Identifier))),AliasExpr(Expression(PrimaryExpr(Literal(BasicLit(IntLit(DecimalLit)))))))),"}")))))),")")),Expression(PrimaryExpr(Literal(StructLit("{",Declaration(Field(Label(LabelExpr(LabelName(Identifier))),AliasExpr(Expression(PrimaryExpr(Literal(BasicLit(IntLit(DecimalLit)))))))),"}"))))))))))
 
 # `(int | string) & "foo"`
 (int | string) & "foo"
 ==>
 SourceFile(Declaration(Embedding(AliasExpr(Expression(BinExpr(
-    Expression(BinExpr("(",
-        Expression(OperandName(Identifier)),
-        Expression(OperandName(Identifier)),")")),
-    Expression(Literal(BasicLit(StringLit(SimpleStringLit))))))))))
+    Expression(PrimaryExpr("(",
+        Expression(BinExpr(
+            Expression(PrimaryExpr(OperandName(Identifier))),    
+            Expression(PrimaryExpr(OperandName(Identifier))))),")")),
+        Expression(PrimaryExpr(Literal(BasicLit(StringLit(SimpleStringLit)))))))))))
 
 # `("a" | "b") & "c"`
 ("a" | "b") & "c"
 ==>
 SourceFile(Declaration(Embedding(AliasExpr(Expression(BinExpr(
-    Expression(BinExpr("(",
-        Expression(Literal(BasicLit(StringLit(SimpleStringLit)))),
-        Expression(Literal(BasicLit(StringLit(SimpleStringLit)))),")")),
-    Expression(Literal(BasicLit(StringLit(SimpleStringLit))))))))))
+    Expression(PrimaryExpr("(",
+        Expression(BinExpr(
+            Expression(PrimaryExpr(Literal(BasicLit(StringLit(SimpleStringLit))))),
+            Expression(PrimaryExpr(Literal(BasicLit(StringLit(SimpleStringLit))))))),")")),
+    Expression(PrimaryExpr(Literal(BasicLit(StringLit(SimpleStringLit)))))))))))
 
 # `*"tcp" | "udp"`
 *"tcp" | "udp"
@@ -47,32 +45,22 @@ SourceFile(Declaration(Embedding(AliasExpr(Expression(BinExpr(Expression(UnaryEx
 # `(*1|2|3) | (1|*2|3)`
 (*1|2|3) | (1|*2|3)
 ==>
-SourceFile(Declaration(Embedding(AliasExpr(Expression(BinExpr(
-    Expression(BinExpr("(",
-        Expression(BinExpr(
-            DefaultExpr(Expression(Literal(BasicLit(IntLit(DecimalLit))))),
-            Expression(Literal(BasicLit(IntLit(DecimalLit)))))),
-        Expression(Literal(BasicLit(IntLit(DecimalLit)))),")")),
-    Expression(BinExpr("(",
-        Expression(BinExpr(
-            Expression(Literal(BasicLit(IntLit(DecimalLit)))),
-            DefaultExpr(Expression(Literal(BasicLit(IntLit(DecimalLit))))))),
-        Expression(Literal(BasicLit(IntLit(DecimalLit)))),")"))))))))
+SourceFile(Declaration(Embedding(AliasExpr(Expression(BinExpr( Expression(PrimaryExpr("(", Expression(BinExpr(Expression(UnaryExpr(PrimaryExpr(Literal(BasicLit(IntLit(DecimalLit)))))),Expression(BinExpr(Expression(PrimaryExpr(Literal(BasicLit(IntLit(DecimalLit))))),Expression(PrimaryExpr(Literal(BasicLit(IntLit(DecimalLit))))))))),")")),Expression(PrimaryExpr("(",Expression(BinExpr(Expression(PrimaryExpr(Literal(BasicLit(IntLit(DecimalLit))))),Expression(BinExpr(Expression(UnaryExpr(PrimaryExpr(Literal(BasicLit(IntLit(DecimalLit)))))),Expression(PrimaryExpr(Literal(BasicLit(IntLit(DecimalLit))))))))),")"))))))))
 
 # `(*1|2|3) | *(1|*2|3)`
 (*1|2|3) | *(1|*2|3)
 ==>
-SourceFile(Declaration(Embedding(AliasExpr(Expression(BinExpr(Expression(BinExpr("(",Expression(BinExpr(DefaultExpr(Expression(Literal(BasicLit(IntLit(DecimalLit))))),Expression(Literal(BasicLit(IntLit(DecimalLit)))))),Expression(Literal(BasicLit(IntLit(DecimalLit)))),")")),DefaultExpr(Expression(BinExpr("(",Expression(BinExpr(Expression(Literal(BasicLit(IntLit(DecimalLit)))),DefaultExpr(Expression(Literal(BasicLit(IntLit(DecimalLit))))))),Expression(Literal(BasicLit(IntLit(DecimalLit)))),")")))))))))
+SourceFile(Declaration(Embedding(AliasExpr(Expression(BinExpr(Expression(PrimaryExpr("(",Expression(BinExpr(Expression(UnaryExpr(PrimaryExpr(Literal(BasicLit(IntLit(DecimalLit)))))),Expression(BinExpr(Expression(PrimaryExpr(Literal(BasicLit(IntLit(DecimalLit))))),Expression(PrimaryExpr(Literal(BasicLit(IntLit(DecimalLit))))))))),")")),Expression(UnaryExpr(PrimaryExpr("(",Expression(BinExpr(Expression(PrimaryExpr(Literal(BasicLit(IntLit(DecimalLit))))),Expression(BinExpr(Expression(UnaryExpr(PrimaryExpr(Literal(BasicLit(IntLit(DecimalLit)))))),Expression(PrimaryExpr(Literal(BasicLit(IntLit(DecimalLit))))))))),")")))))))))
 
 # `(*1|2|3) | (1|*2|3)&2`
 (*1|2|3) | (1|*2|3)&2
 ==>
-SourceFile(Declaration(Embedding(AliasExpr(Expression(BinExpr(Expression(BinExpr("(",Expression(BinExpr(DefaultExpr(Expression(Literal(BasicLit(IntLit(DecimalLit))))),Expression(Literal(BasicLit(IntLit(DecimalLit)))))),Expression(Literal(BasicLit(IntLit(DecimalLit)))),")")),Expression(BinExpr(Expression(BinExpr("(",Expression(BinExpr(Expression(Literal(BasicLit(IntLit(DecimalLit)))),DefaultExpr(Expression(Literal(BasicLit(IntLit(DecimalLit))))))),Expression(Literal(BasicLit(IntLit(DecimalLit)))),")")),Expression(Literal(BasicLit(IntLit(DecimalLit))))))))))))
+SourceFile(Declaration(Embedding(AliasExpr(Expression(BinExpr(Expression(PrimaryExpr("(",Expression(BinExpr(Expression(UnaryExpr(PrimaryExpr(Literal(BasicLit(IntLit(DecimalLit)))))),Expression(BinExpr(Expression(PrimaryExpr(Literal(BasicLit(IntLit(DecimalLit))))),Expression(PrimaryExpr(Literal(BasicLit(IntLit(DecimalLit))))))))),")")),Expression(BinExpr(Expression(PrimaryExpr("(",Expression(BinExpr(Expression(PrimaryExpr(Literal(BasicLit(IntLit(DecimalLit))))),Expression(BinExpr(Expression(UnaryExpr(PrimaryExpr(Literal(BasicLit(IntLit(DecimalLit)))))),Expression(PrimaryExpr(Literal(BasicLit(IntLit(DecimalLit))))))))),")")),Expression(PrimaryExpr(Literal(BasicLit(IntLit(DecimalLit)))))))))))))
 
 # `(*1|2) & (1|*2)`
 (*1|2) & (1|*2)
 ==>
-SourceFile(Declaration(Embedding(AliasExpr(Expression(BinExpr(Expression(BinExpr("(",DefaultExpr(Expression(Literal(BasicLit(IntLit(DecimalLit))))),Expression(Literal(BasicLit(IntLit(DecimalLit)))),")")),Expression(BinExpr("(",Expression(Literal(BasicLit(IntLit(DecimalLit)))),DefaultExpr(Expression(Literal(BasicLit(IntLit(DecimalLit))))),")"))))))))
+SourceFile(Declaration(Embedding(AliasExpr(Expression(BinExpr(Expression(PrimaryExpr("(",Expression(BinExpr(Expression(UnaryExpr(PrimaryExpr(Literal(BasicLit(IntLit(DecimalLit)))))),Expression(PrimaryExpr(Literal(BasicLit(IntLit(DecimalLit))))))),")")),Expression(PrimaryExpr("(",Expression(BinExpr(Expression(PrimaryExpr(Literal(BasicLit(IntLit(DecimalLit))))),Expression(UnaryExpr(PrimaryExpr(Literal(BasicLit(IntLit(DecimalLit)))))))),")"))))))))
 
 # `*string | 1.0`
 *string | 1.0
@@ -84,47 +72,47 @@ SourceFile(Declaration(Embedding(AliasExpr(Expression(BinExpr(
 # `(*1|2) + (2|*3)`
 (*1|2) + (2|*3)
 ==>
-SourceFile()
+SourceFile(Declaration(Embedding(AliasExpr(Expression(PrimaryExpr("(",Expression(BinExpr(Expression(UnaryExpr(PrimaryExpr(Literal(BasicLit(IntLit(DecimalLit)))))),Expression(PrimaryExpr(Literal(BasicLit(IntLit(DecimalLit))))))),")"))))),Declaration(Embedding(AliasExpr(Expression(UnaryExpr(PrimaryExpr("(",Expression(BinExpr(Expression(PrimaryExpr(Literal(BasicLit(IntLit(DecimalLit))))),Expression(UnaryExpr(PrimaryExpr(Literal(BasicLit(IntLit(DecimalLit)))))))),")")))))))
 
 # `(*1|2|3) | (1|*2|3)`
 (*1|2|3) | (1|*2|3)
 ==>
-SourceFile(Declaration(Embedding(AliasExpr(Expression(BinExpr(Expression(BinExpr("(",Expression(BinExpr(DefaultExpr(Expression(Literal(BasicLit(IntLit(DecimalLit))))),Expression(Literal(BasicLit(IntLit(DecimalLit)))))),Expression(Literal(BasicLit(IntLit(DecimalLit)))),")")),Expression(BinExpr("(",Expression(BinExpr(Expression(Literal(BasicLit(IntLit(DecimalLit)))),DefaultExpr(Expression(Literal(BasicLit(IntLit(DecimalLit))))))),Expression(Literal(BasicLit(IntLit(DecimalLit)))),")"))))))))
+SourceFile(Declaration(Embedding(AliasExpr(Expression(BinExpr(Expression(PrimaryExpr("(",Expression(BinExpr(Expression(UnaryExpr(PrimaryExpr(Literal(BasicLit(IntLit(DecimalLit)))))),Expression(BinExpr(Expression(PrimaryExpr(Literal(BasicLit(IntLit(DecimalLit))))),Expression(PrimaryExpr(Literal(BasicLit(IntLit(DecimalLit))))))))),")")),Expression(PrimaryExpr("(",Expression(BinExpr(Expression(PrimaryExpr(Literal(BasicLit(IntLit(DecimalLit))))),Expression(BinExpr(Expression(UnaryExpr(PrimaryExpr(Literal(BasicLit(IntLit(DecimalLit)))))),Expression(PrimaryExpr(Literal(BasicLit(IntLit(DecimalLit))))))))),")"))))))))
 
 # `(*1|2|3) & (1|*2|3)`
 (*1|2|3) & (1|*2|3)
 ==>
-SourceFile(Declaration(Embedding(AliasExpr(Expression(BinExpr(Expression(BinExpr("(",Expression(BinExpr(DefaultExpr(Expression(Literal(BasicLit(IntLit(DecimalLit))))),Expression(Literal(BasicLit(IntLit(DecimalLit)))))),Expression(Literal(BasicLit(IntLit(DecimalLit)))),")")),Expression(BinExpr("(",Expression(BinExpr(Expression(Literal(BasicLit(IntLit(DecimalLit)))),DefaultExpr(Expression(Literal(BasicLit(IntLit(DecimalLit))))))),Expression(Literal(BasicLit(IntLit(DecimalLit)))),")"))))))))
+SourceFile(Declaration(Embedding(AliasExpr(Expression(BinExpr(Expression(PrimaryExpr("(",Expression(BinExpr(Expression(UnaryExpr(PrimaryExpr(Literal(BasicLit(IntLit(DecimalLit)))))),Expression(BinExpr(Expression(PrimaryExpr(Literal(BasicLit(IntLit(DecimalLit))))),Expression(PrimaryExpr(Literal(BasicLit(IntLit(DecimalLit))))))))),")")),Expression(PrimaryExpr("(",Expression(BinExpr(Expression(PrimaryExpr(Literal(BasicLit(IntLit(DecimalLit))))),Expression(BinExpr(Expression(UnaryExpr(PrimaryExpr(Literal(BasicLit(IntLit(DecimalLit)))))),Expression(PrimaryExpr(Literal(BasicLit(IntLit(DecimalLit))))))))),")"))))))))
 
 # `(* >=5 | int) & (* <=5 | int)`
 (* >=5 | int) & (* <=5 | int)
 ==>
-SourceFile()
+SourceFile(Declaration(Embedding(AliasExpr(Expression(BinExpr(Expression(PrimaryExpr("(",Expression(BinExpr(Expression(UnaryExpr(PrimaryExpr(Literal(BasicLit(IntLit(DecimalLit)))))),Expression(PrimaryExpr(OperandName(Identifier))))),")")),Expression(PrimaryExpr("(",Expression(BinExpr(Expression(UnaryExpr(PrimaryExpr(Literal(BasicLit(IntLit(DecimalLit)))))),Expression(PrimaryExpr(OperandName(Identifier))))),")"))))))))
 
 # `(*"tcp"|"udp") & ("udp"|*"tcp")`
 (*"tcp"|"udp") & ("udp"|*"tcp")
 ==>
-SourceFile(Declaration(Embedding(AliasExpr(Expression(BinExpr(Expression(BinExpr("(",DefaultExpr(Expression(Literal(BasicLit(StringLit(SimpleStringLit))))),Expression(Literal(BasicLit(StringLit(SimpleStringLit)))),")")),Expression(BinExpr("(",Expression(Literal(BasicLit(StringLit(SimpleStringLit)))),DefaultExpr(Expression(Literal(BasicLit(StringLit(SimpleStringLit))))),")"))))))))
+SourceFile(Declaration(Embedding(AliasExpr(Expression(BinExpr(Expression(PrimaryExpr("(",Expression(BinExpr(Expression(UnaryExpr(PrimaryExpr(Literal(BasicLit(StringLit(SimpleStringLit)))))),Expression(PrimaryExpr(Literal(BasicLit(StringLit(SimpleStringLit))))))),")")),Expression(PrimaryExpr("(",Expression(BinExpr(Expression(PrimaryExpr(Literal(BasicLit(StringLit(SimpleStringLit))))),Expression(UnaryExpr(PrimaryExpr(Literal(BasicLit(StringLit(SimpleStringLit)))))))),")"))))))))
 
 # `(*"tcp"|"udp") & "tcp"`
 (*"tcp"|"udp") & "tcp"
 ==>
-SourceFile(Declaration(Embedding(AliasExpr(Expression(BinExpr(Expression(BinExpr("(",DefaultExpr(Expression(Literal(BasicLit(StringLit(SimpleStringLit))))),Expression(Literal(BasicLit(StringLit(SimpleStringLit)))),")")),Expression(Literal(BasicLit(StringLit(SimpleStringLit))))))))))
+SourceFile(Declaration(Embedding(AliasExpr(Expression(BinExpr(Expression(PrimaryExpr("(",Expression(BinExpr(Expression(UnaryExpr(PrimaryExpr(Literal(BasicLit(StringLit(SimpleStringLit)))))),Expression(PrimaryExpr(Literal(BasicLit(StringLit(SimpleStringLit))))))),")")),Expression(PrimaryExpr(Literal(BasicLit(StringLit(SimpleStringLit)))))))))))
 
 # `(*"tcp"|"udp") & (*"udp"|"tcp")`
 (*"tcp"|"udp") & (*"udp"|"tcp")
 ==>
-SourceFile(Declaration(Embedding(AliasExpr(Expression(BinExpr(Expression(BinExpr("(",DefaultExpr(Expression(Literal(BasicLit(StringLit(SimpleStringLit))))),Expression(Literal(BasicLit(StringLit(SimpleStringLit)))),")")),Expression(BinExpr("(",DefaultExpr(Expression(Literal(BasicLit(StringLit(SimpleStringLit))))),Expression(Literal(BasicLit(StringLit(SimpleStringLit)))),")"))))))))
+SourceFile(Declaration(Embedding(AliasExpr(Expression(BinExpr(Expression(PrimaryExpr("(",Expression(BinExpr(Expression(UnaryExpr(PrimaryExpr(Literal(BasicLit(StringLit(SimpleStringLit)))))),Expression(PrimaryExpr(Literal(BasicLit(StringLit(SimpleStringLit))))))),")")),Expression(PrimaryExpr("(",Expression(BinExpr(Expression(UnaryExpr(PrimaryExpr(Literal(BasicLit(StringLit(SimpleStringLit)))))),Expression(PrimaryExpr(Literal(BasicLit(StringLit(SimpleStringLit))))))),")"))))))))
 
 # `(*true | false) & bool`
 (*true | false) & bool
 ==>
-SourceFile(Declaration(Embedding(AliasExpr(Expression(BinExpr(Expression(BinExpr("(",DefaultExpr(Expression(Literal(BasicLit(BoolLit(true))))),Expression(Literal(BasicLit(BoolLit(false)))),")")),Expression(OperandName(Identifier))))))))
+SourceFile(Declaration(Embedding(AliasExpr(Expression(BinExpr(Expression(PrimaryExpr("(",Expression(BinExpr(Expression(UnaryExpr(PrimaryExpr(Literal(BasicLit(BoolLit(true)))))),Expression(PrimaryExpr(Literal(BasicLit(BoolLit(false))))))),")")),Expression(PrimaryExpr(OperandName(Identifier)))))))))
 
 # `(*true | false) & (true | false)`
 (*true | false) & (true | false)
 ==>
-SourceFile(Declaration(Embedding(AliasExpr(Expression(BinExpr(Expression(BinExpr("(",DefaultExpr(Expression(Literal(BasicLit(BoolLit(true))))),Expression(Literal(BasicLit(BoolLit(false)))),")")),Expression(BinExpr("(",Expression(Literal(BasicLit(BoolLit(true)))),Expression(Literal(BasicLit(BoolLit(false)))),")"))))))))
+SourceFile(Declaration(Embedding(AliasExpr(Expression(BinExpr(Expression(PrimaryExpr("(",Expression(BinExpr(Expression(UnaryExpr(PrimaryExpr(Literal(BasicLit(BoolLit(true)))))),Expression(PrimaryExpr(Literal(BasicLit(BoolLit(false))))))),")")),Expression(PrimaryExpr("(",Expression(BinExpr(Expression(PrimaryExpr(Literal(BasicLit(BoolLit(true))))),Expression(PrimaryExpr(Literal(BasicLit(BoolLit(false))))))),")"))))))))
 
 # `{a: 1} | {b: 1}`
 {a: 1} | {b: 1}
@@ -163,12 +151,12 @@ SourceFile(Declaration(Embedding(AliasExpr(Expression(BinExpr(
 # `({a: 1} | {b: 1}) & {a:1}`
 ({a: 1} | {b: 1}) & {a:1}
 ==>
-SourceFile(Declaration(Embedding(AliasExpr(Expression(BinExpr(Expression(BinExpr("(",Expression(Literal(StructLit("{",Declaration(Field(Label(LabelExpr(LabelName(Identifier))),AliasExpr(Expression(Literal(BasicLit(IntLit(DecimalLit))))))),"}"))),Expression(Literal(StructLit("{",Declaration(Field(Label(LabelExpr(LabelName(Identifier))),AliasExpr(Expression(Literal(BasicLit(IntLit(DecimalLit))))))),"}"))),")")),Expression(Literal(StructLit("{",Declaration(Field(Label(LabelExpr(LabelName(Identifier))),AliasExpr(Expression(Literal(BasicLit(IntLit(DecimalLit))))))),"}")))))))))
+SourceFile(Declaration(Embedding(AliasExpr(Expression(BinExpr(Expression(PrimaryExpr("(",Expression(BinExpr(Expression(PrimaryExpr(Literal(StructLit("{",Declaration(Field(Label(LabelExpr(LabelName(Identifier))),AliasExpr(Expression(PrimaryExpr(Literal(BasicLit(IntLit(DecimalLit)))))))),"}")))),Expression(PrimaryExpr(Literal(StructLit("{",Declaration(Field(Label(LabelExpr(LabelName(Identifier))),AliasExpr(Expression(PrimaryExpr(Literal(BasicLit(IntLit(DecimalLit)))))))),"}")))))),")")),Expression(PrimaryExpr(Literal(StructLit("{",Declaration(Field(Label(LabelExpr(LabelName(Identifier))),AliasExpr(Expression(PrimaryExpr(Literal(BasicLit(IntLit(DecimalLit)))))))),"}"))))))))))
 
 # `({a:1}|*{b:1}) & ({a:1}|*{b:1})`
 ({a:1}|*{b:1}) & ({a:1}|*{b:1})
 ==>
-SourceFile(Declaration(Embedding(AliasExpr(Expression(BinExpr(Expression(BinExpr("(",Expression(Literal(StructLit("{",Declaration(Field(Label(LabelExpr(LabelName(Identifier))),AliasExpr(Expression(Literal(BasicLit(IntLit(DecimalLit))))))),"}"))),DefaultExpr(Expression(Literal(StructLit("{",Declaration(Field(Label(LabelExpr(LabelName(Identifier))),AliasExpr(Expression(Literal(BasicLit(IntLit(DecimalLit))))))),"}")))),")")),Expression(BinExpr("(",Expression(Literal(StructLit("{",Declaration(Field(Label(LabelExpr(LabelName(Identifier))),AliasExpr(Expression(Literal(BasicLit(IntLit(DecimalLit))))))),"}"))),DefaultExpr(Expression(Literal(StructLit("{",Declaration(Field(Label(LabelExpr(LabelName(Identifier))),AliasExpr(Expression(Literal(BasicLit(IntLit(DecimalLit))))))),"}")))),")"))))))))
+SourceFile(Declaration(Embedding(AliasExpr(Expression(BinExpr(Expression(PrimaryExpr("(",Expression(BinExpr(Expression(PrimaryExpr(Literal(StructLit("{",Declaration(Field(Label(LabelExpr(LabelName(Identifier))),AliasExpr(Expression(PrimaryExpr(Literal(BasicLit(IntLit(DecimalLit)))))))),"}")))),Expression(UnaryExpr(PrimaryExpr(Literal(StructLit("{",Declaration(Field(Label(LabelExpr(LabelName(Identifier))),AliasExpr(Expression(PrimaryExpr(Literal(BasicLit(IntLit(DecimalLit)))))))),"}"))))))),")")),Expression(PrimaryExpr("(",Expression(BinExpr(Expression(PrimaryExpr(Literal(StructLit("{",Declaration(Field(Label(LabelExpr(LabelName(Identifier))),AliasExpr(Expression(PrimaryExpr(Literal(BasicLit(IntLit(DecimalLit)))))))),"}")))),Expression(UnaryExpr(PrimaryExpr(Literal(StructLit("{",Declaration(Field(Label(LabelExpr(LabelName(Identifier))),AliasExpr(Expression(PrimaryExpr(Literal(BasicLit(IntLit(DecimalLit)))))))),"}"))))))),")"))))))))
 
 # `_ &  5`
 _ &  5
