@@ -124,7 +124,7 @@ Arguments      { "(" (Argument ("," Argument)*  ","? )? ")" }
 
 Expression { !prec_expr_primay_expr PrimaryExpr | UnaryExpr | BinExpr }
 BinExpr    { Expression binary_op Expression }
-UnaryExpr  { !unary unary_op UnaryExpr }
+UnaryExpr  { !unary PrimaryExpr | !unary unary_op UnaryExpr }
 
 binary_op  {
     !prec1 bitwise_or_op |
