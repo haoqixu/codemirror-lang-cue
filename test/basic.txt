@@ -36,3 +36,13 @@ SourceFile(Declaration(Embedding(AliasExpr(Expression(PrimaryExpr(Literal(BasicL
 []
 ==>
 SourceFile(Declaration(Embedding(AliasExpr(Expression(PrimaryExpr(Literal(ListLit("[","]"))))))))
+
+# file attribute
+@protobuf(proto3)
+==>
+SourceFile(Attribute(Identifier,"(",AttrTokens,")"))
+
+# empty attribute
+@tag()
+==>
+SourceFile(Attribute(Identifier,"(",AttrTokens,")"))

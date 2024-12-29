@@ -8,18 +8,15 @@
     prec_operand_name
     prec_label_name
 
-    prec_file_attr
-    prec_decl_attr
-    prec_decl
-
     prec_label_str
     prec_lit_str
 
     prec_import_package_name
     prec_import_path
 
+    prec_file_attr
+    prec_decl_attr
     prec_attr
-
     prec_operand_expr
     prec_alias_expr
 
@@ -28,10 +25,6 @@
 
     prec_label_expr
     prec_embedding
-
-    prec_attr_tokens_hi
-    prec_attr_tokens_char
-    prec_attr_tokens_low
 
     unary @right
     prec7 @left
@@ -44,10 +37,10 @@
 }
 
 @top SourceFile {
-    (Attribute !prec_file_attr ","?)*
+    (!prec_file_attr Attribute ","?)*
     (PackageClause ","?)?
     (ImportDecl ","?)*
-    (Declaration !prec_decl ","?)*
+    (Declaration ","?)*
 }
 
 @skip { space | Comment }
@@ -78,11 +71,10 @@ LabelExpr       { LabelName ( "?" | "!" )? | !prec_label_expr "[" AliasExpr "]" 
 LabelName       { !prec_label_name Identifier | !prec_label_str SimpleStringLit | "(" AliasExpr ")" }
 
 Attribute       { !prec_attr "@" Identifier "(" AttrTokens ")" }
-AttrTokens      { ( !prec_attr_tokens_low attr_token? |
-                    !prec_attr_tokens_hi "(" AttrTokens ")" |
-                    !prec_attr_tokens_hi "[" AttrTokens "]" |
-                    !prec_attr_tokens_hi "{" AttrTokens "}" )* }
-attr_token      { !prec_attr_tokens_char attr_token_char+ }
+AttrTokens      { ( attr_token |
+                    "(" AttrTokens ")" |
+                    "[" AttrTokens "]" |
+                    "{" AttrTokens "}" )* }
 
 AliasExpr  { !prec_alias_expr ( Identifier "=" )? Expression }
 
@@ -172,7 +164,7 @@ kw<word> { @specialize[@name={word}]<Identifier, word> }
   octal_digit   { $[0-7] }
   hex_digit     { $[0-9A-Fa-f] }
 
-  attr_token_char { ![[\](){}] }
+  attr_token { ![[\](){}]+ }
 
   Comment { "//" ![\n]* }
 
@@ -210,7 +202,7 @@ kw<word> { @specialize[@name={word}]<Identifier, word> }
   "[" "]"
 
   @precedence {
-      attr_token_char
+      attr_token
       "/", Comment
       "\n", space
   }
