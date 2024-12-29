@@ -46,3 +46,34 @@ SourceFile(Attribute(Identifier,"(",AttrTokens,")"))
 @tag()
 ==>
 SourceFile(Attribute(Identifier,"(",AttrTokens,")"))
+
+# atrributes in struct
+{
+    @tag()
+}
+{
+    @tag(id="some_id")
+}
+{@tag(id="some_id")
+}
+{
+    @tag(1)
+    @tag(2)
+}
+==>
+SourceFile(
+    Declaration(Embedding(AliasExpr(Expression(PrimaryExpr(Literal(StructLit("{",
+        Declaration(Attribute(Identifier,"(",AttrTokens,")")),"}"))))))),
+    Declaration(Embedding(AliasExpr(Expression(PrimaryExpr(Literal(StructLit("{",
+        Declaration(Attribute(Identifier,"(",AttrTokens,")")),"}"))))))),
+    Declaration(Embedding(AliasExpr(Expression(PrimaryExpr(Literal(StructLit("{",
+        Declaration(Attribute(Identifier,"(",AttrTokens,")")),"}"))))))),
+    Declaration(Embedding(AliasExpr(Expression(PrimaryExpr(Literal(StructLit("{",
+        Declaration(Attribute(Identifier,"(",AttrTokens,")")),
+        Declaration(Attribute(Identifier,"(",AttrTokens,")")),"}"))))))))
+
+# new lines at the beginning
+
+a: str
+==>
+SourceFile(Declaration(Field(Label(LabelExpr(LabelName(Identifier))),AliasExpr(Expression(PrimaryExpr(OperandName(Identifier)))))))

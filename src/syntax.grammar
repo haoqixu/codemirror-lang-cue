@@ -37,10 +37,11 @@
 }
 
 @top SourceFile {
-    (!prec_file_attr Attribute ","?)*
-    (PackageClause ","?)?
-    (ImportDecl ","?)*
-    (Declaration ","?)*
+    "\n"*
+    (!prec_file_attr Attribute ("," | "\n")?)*
+    (PackageClause ("," | "\n")?)?
+    (ImportDecl ("," | "\n")?)*
+    (Declaration ("," | "\n")?)*
 }
 
 @skip { space | Comment }
@@ -61,7 +62,7 @@ BoolLit { kw<"true"> | kw<"false"> }
 
 // Structs
 
-StructLit       { "{" (Declaration (("," | "\n") Declaration)* ","?)? "}" }
+StructLit       { "{" "\n"? (Declaration (("," | "\n") Declaration)* ("," | "\n")?)? "}" }
 Declaration     { Field | Ellipsis | Embedding | LetClause | !prec_decl_attr Attribute }
 Ellipsis        { !prec_ellipsis "..." Expression? }
 Embedding       { Comprehension | !prec_embedding AliasExpr }
