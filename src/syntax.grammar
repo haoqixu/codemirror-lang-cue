@@ -2,7 +2,6 @@
 
     prec_ellipsis
 
-    prec_delc_field
     prec_expr_primay_expr
     prec_operand_lit
     prec_argument
@@ -70,7 +69,7 @@ BoolLit { kw<"true"> | kw<"false"> }
 // Structs
 
 StructLit       { "{" (Declaration (("," | "\n") Declaration)* ","?)? "}" }
-Declaration     { !prec_delc_field Field | Ellipsis | Embedding | LetClause | !prec_decl_attr Attribute }
+Declaration     { Field | Ellipsis | Embedding | LetClause | !prec_decl_attr Attribute }
 Ellipsis        { !prec_ellipsis "..." Expression? }
 Embedding       { Comprehension | !prec_embedding AliasExpr }
 Field           { Label ":" ( Label ":" )* AliasExpr ( Attribute )* }
@@ -124,7 +123,8 @@ Arguments      { "(" (Argument ("," Argument)*  ","? )? ")" }
 
 Expression { !prec_expr_primay_expr PrimaryExpr | UnaryExpr | BinExpr }
 BinExpr    { Expression binary_op Expression }
-UnaryExpr  { !unary PrimaryExpr | !unary unary_op UnaryExpr }
+UnaryExpr  { !unary PrimaryExpr | !unary unary_op _unaryExpr }
+_unaryExpr { !unary PrimaryExpr | unary_op _unaryExpr }
 
 binary_op  {
     !prec1 bitwise_or_op |
