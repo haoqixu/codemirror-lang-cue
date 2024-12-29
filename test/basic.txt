@@ -5,34 +5,34 @@ SourceFile()
 # empty struct
 {}
 ==>
-SourceFile(Declaration(Embedding(AliasExpr(Expression(Literal(StructLit("{","}")))))))
+SourceFile(Declaration(Embedding(AliasExpr(Expression(PrimaryExpr(Literal(StructLit("{","}"))))))))
 
 # null
 null
 ==>
-SourceFile(Declaration(Embedding(AliasExpr(Expression(Literal(BasicLit(NullLit(null))))))))
+SourceFile(Declaration(Embedding(AliasExpr(Expression(PrimaryExpr(Literal(BasicLit(NullLit(null)))))))))
 
 # top
 _
 ==>
-SourceFile(Declaration(Embedding(AliasExpr(Expression(Literal(BasicLit(Top(_))))))))
+SourceFile(Declaration(Embedding(AliasExpr(Expression(PrimaryExpr(Literal(BasicLit(Top(_)))))))))
 
 # bottom
 _|_
 ==>
-SourceFile(Declaration(Embedding(AliasExpr(Expression(Literal(BasicLit(BottomLit)))))))
+SourceFile(Declaration(Embedding(AliasExpr(Expression(PrimaryExpr(Literal(BasicLit(BottomLit))))))))
 
 # true
 true
 ==>
-SourceFile(Declaration(Embedding(AliasExpr(Expression(Literal(BasicLit(BoolLit(true))))))))
+SourceFile(Declaration(Embedding(AliasExpr(Expression(PrimaryExpr(Literal(BasicLit(BoolLit(true)))))))))
 
 # false
 false
 ==>
-SourceFile(Declaration(Embedding(AliasExpr(Expression(Literal(BasicLit(BoolLit(false))))))))
+SourceFile(Declaration(Embedding(AliasExpr(Expression(PrimaryExpr(Literal(BasicLit(BoolLit(false)))))))))
 
 # empty list
 []
 ==>
-SourceFile(Declaration(Embedding(AliasExpr(Expression(Literal(ListLit("[","]")))))))
+SourceFile(Declaration(Embedding(AliasExpr(Expression(PrimaryExpr(Literal(ListLit("[","]"))))))))

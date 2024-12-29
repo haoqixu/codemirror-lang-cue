@@ -1,79 +1,79 @@
 # 42
 42
 ===>
-SourceFile(Declaration(Embedding(AliasExpr(Expression(Literal(BasicLit(IntLit(DecimalLit))))))))
+SourceFile(Declaration(Embedding(AliasExpr(Expression(PrimaryExpr(Literal(BasicLit(IntLit(DecimalLit)))))))))
 
 # 1.5G
 1.5G
 ===>
-SourceFile(Declaration(Embedding(AliasExpr(Expression(Literal(BasicLit(IntLit(SiLit))))))))
+SourceFile(Declaration(Embedding(AliasExpr(Expression(PrimaryExpr(Literal(BasicLit(IntLit(SiLit)))))))))
 
 # 1.3Ki
 1.3Ki
 ===>
-SourceFile(Declaration(Embedding(AliasExpr(Expression(Literal(BasicLit(IntLit(SiLit))))))))
+SourceFile(Declaration(Embedding(AliasExpr(Expression(PrimaryExpr(Literal(BasicLit(IntLit(SiLit)))))))))
 
 # 170_141_183_460_469_231_731_687_303_715_884_105_727
 170_141_183_460_469_231_731_687_303_715_884_105_727
 ===>
-SourceFile(Declaration(Embedding(AliasExpr(Expression(Literal(BasicLit(IntLit(DecimalLit))))))))
+SourceFile(Declaration(Embedding(AliasExpr(Expression(PrimaryExpr(Literal(BasicLit(IntLit(DecimalLit)))))))))
 
 # 0xBad_Face
 0xBad_Face
 ===>
-SourceFile(Declaration(Embedding(AliasExpr(Expression(Literal(BasicLit(IntLit(HexLit))))))))
+SourceFile(Declaration(Embedding(AliasExpr(Expression(PrimaryExpr(Literal(BasicLit(IntLit(HexLit)))))))))
 
 # 0o755
 0o755
 ===>
-SourceFile(Declaration(Embedding(AliasExpr(Expression(Literal(BasicLit(IntLit(OctalLit))))))))
+SourceFile(Declaration(Embedding(AliasExpr(Expression(PrimaryExpr(Literal(BasicLit(IntLit(OctalLit)))))))))
 
 # 0b0101_0001
 0b0101_0001
 ===>
-SourceFile(Declaration(Embedding(AliasExpr(Expression(Literal(BasicLit(IntLit(BinaryLit))))))))
+SourceFile(Declaration(Embedding(AliasExpr(Expression(PrimaryExpr(Literal(BasicLit(IntLit(BinaryLit)))))))))
 
 # 0.
 0.
 ==>
-SourceFile(Declaration(Embedding(AliasExpr(Expression(Literal(BasicLit(FloatLit)))))))
+SourceFile(Declaration(Embedding(AliasExpr(Expression(PrimaryExpr(Literal(BasicLit(FloatLit))))))))
 
 # 72.40
 72.40
 ==>
-SourceFile(Declaration(Embedding(AliasExpr(Expression(Literal(BasicLit(FloatLit)))))))
+SourceFile(Declaration(Embedding(AliasExpr(Expression(PrimaryExpr(Literal(BasicLit(FloatLit))))))))
 
 # 072.40
 072.40
 ==>
-SourceFile(Declaration(Embedding(AliasExpr(Expression(Literal(BasicLit(FloatLit)))))))
+SourceFile(Declaration(Embedding(AliasExpr(Expression(PrimaryExpr(Literal(BasicLit(FloatLit))))))))
 
 # 2.71828
 2.71828
 ==>
-SourceFile(Declaration(Embedding(AliasExpr(Expression(Literal(BasicLit(FloatLit)))))))
+SourceFile(Declaration(Embedding(AliasExpr(Expression(PrimaryExpr(Literal(BasicLit(FloatLit))))))))
 
 # 1.e+0
 1.e+0
 ==>
-SourceFile(Declaration(Embedding(AliasExpr(Expression(Literal(BasicLit(FloatLit)))))))
+SourceFile(Declaration(Embedding(AliasExpr(Expression(PrimaryExpr(Literal(BasicLit(FloatLit))))))))
 
 # 6.67428e-11
 6.67428e-11
 ==>
-SourceFile(Declaration(Embedding(AliasExpr(Expression(Literal(BasicLit(FloatLit)))))))
+SourceFile(Declaration(Embedding(AliasExpr(Expression(PrimaryExpr(Literal(BasicLit(FloatLit))))))))
 
 # 1E6
 1E6
 ==>
-SourceFile(Declaration(Embedding(AliasExpr(Expression(Literal(BasicLit(FloatLit)))))))
+SourceFile(Declaration(Embedding(AliasExpr(Expression(PrimaryExpr(Literal(BasicLit(FloatLit))))))))
 
 # .25
 .25
 ==>
-SourceFile(Declaration(Embedding(AliasExpr(Expression(Literal(BasicLit(FloatLit)))))))
+SourceFile(Declaration(Embedding(AliasExpr(Expression(PrimaryExpr(Literal(BasicLit(FloatLit))))))))
 
 # .12345E+5
 .12345E+5
 ==>
-SourceFile(Declaration(Embedding(AliasExpr(Expression(Literal(BasicLit(FloatLit)))))))
+SourceFile(Declaration(Embedding(AliasExpr(Expression(PrimaryExpr(Literal(BasicLit(FloatLit))))))))
