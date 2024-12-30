@@ -1,8 +1,5 @@
 @precedence {
-
-    prec_ellipsis
-
-    prec_expr_primay_expr
+    prec_label_expr
     prec_operand_lit
     prec_argument
     prec_operand_name
@@ -21,6 +18,8 @@
     prec_alias_expr
 
     prec_embedding
+
+    prec_expr_primay_expr
 
     unary @right
     prec7 @left
@@ -60,11 +59,11 @@ BoolLit { kw<"true"> | kw<"false"> }
 
 StructLit       { "{" "\n"? (Declaration (("," | "\n") Declaration)* ("," | "\n")?)? "}" }
 Declaration     { Field | Ellipsis | Embedding | LetClause | !prec_decl_attr Attribute }
-Ellipsis        { !prec_ellipsis "..." Expression? }
-Embedding       { Comprehension | !prec_embedding AliasExpr }
+Ellipsis        { "..." Expression? }
+Embedding       { !prec_embedding Comprehension | AliasExpr }
 Field           { Label ":" ( Label ":" )* AliasExpr ( Attribute )* }
 Label           { ( Identifier "=" )? LabelExpr }
-LabelExpr       { LabelName ( "?" | "!" )? | "[" AliasExpr "]" }
+LabelExpr       { LabelName ( "?" | "!" )? | "[" AliasExpr !prec_label_expr "]" }
 LabelName       { !prec_label_name Identifier | !prec_label_str SimpleStringLit | "(" AliasExpr ")" }
 
 Attribute       { !prec_attr "@" Identifier "(" AttrTokens ")" }
@@ -73,7 +72,7 @@ AttrTokens      { ( attr_token |
                     "[" AttrTokens "]" |
                     "{" AttrTokens "}" )* }
 
-AliasExpr  { !prec_alias_expr ( Identifier "=" )? Expression }
+AliasExpr  { ( Identifier "=" )? Expression }
 
 ListLit       { "[" "\n"* ( ElementList )? "]" }
 ElementList   { Ellipsis ","? "\n"* | Embedding "\n"* ( "," "\n"* Embedding "\n"* )* ("," "\n"* Ellipsis "\n"*)? ("," "\n"*)* }
@@ -85,7 +84,7 @@ operand     { !prec_operand_lit Literal | OperandName | "(" Expression !prec_ope
 Literal     { BasicLit | ListLit | StructLit }
 BasicLit    { IntLit | FloatLit | StringLit |
               NullLit | BoolLit | BottomLit | Top }
-OperandName { !prec_operand_name Identifier | QualifiedIdent }
+OperandName { Identifier | QualifiedIdent }
 
 QualifiedIdent { PackageName "." Identifier }
 
