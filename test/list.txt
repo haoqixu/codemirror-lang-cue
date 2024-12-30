@@ -51,3 +51,31 @@ SourceFile(Declaration(Embedding(AliasExpr(Expression(PrimaryExpr(Literal(ListLi
     Embedding(AliasExpr(Expression(PrimaryExpr(Literal(BasicLit(IntLit(DecimalLit))))))),
     Embedding(AliasExpr(Expression(PrimaryExpr(Literal(BasicLit(IntLit(DecimalLit)))))))
 ),"]"))))))))
+
+# newlines in array
+[
+]
+[ 1, 2,
+3]
+[
+ 1  ,
+2, 
+3
+,
+]
+[
+...int
+]
+==>
+SourceFile(
+Declaration(Embedding(AliasExpr(Expression(PrimaryExpr(Literal(ListLit("[","]"))))))),
+Declaration(Embedding(AliasExpr(Expression(PrimaryExpr(Literal(ListLit("[",ElementList(
+    Embedding(AliasExpr(Expression(PrimaryExpr(Literal(BasicLit(IntLit(DecimalLit))))))),
+    Embedding(AliasExpr(Expression(PrimaryExpr(Literal(BasicLit(IntLit(DecimalLit))))))),
+    Embedding(AliasExpr(Expression(PrimaryExpr(Literal(BasicLit(IntLit(DecimalLit)))))))),"]"))))))),
+Declaration(Embedding(AliasExpr(Expression(PrimaryExpr(Literal(ListLit("[",ElementList(
+    Embedding(AliasExpr(Expression(PrimaryExpr(Literal(BasicLit(IntLit(DecimalLit))))))),
+    Embedding(AliasExpr(Expression(PrimaryExpr(Literal(BasicLit(IntLit(DecimalLit))))))),
+    Embedding(AliasExpr(Expression(PrimaryExpr(Literal(BasicLit(IntLit(DecimalLit)))))))),"]"))))))),
+Declaration(Embedding(AliasExpr(Expression(PrimaryExpr(Literal(ListLit("[",ElementList(
+    Ellipsis(Expression(PrimaryExpr(OperandName(Identifier))))),"]"))))))))

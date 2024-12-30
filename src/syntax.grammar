@@ -75,8 +75,8 @@ AttrTokens      { ( attr_token |
 
 AliasExpr  { !prec_alias_expr ( Identifier "=" )? Expression }
 
-ListLit       { "[" ( ElementList )? "]" }
-ElementList   { Ellipsis | Embedding ( "," Embedding )* ("," Ellipsis)? ","? }
+ListLit       { "[" "\n"* ( ElementList )? "]" }
+ElementList   { Ellipsis ","? "\n"* | Embedding "\n"* ( "," "\n"* Embedding "\n"* )* ("," "\n"* Ellipsis "\n"*)? ("," "\n"*)* }
 
 // Predeclared identifiers
 // ...
