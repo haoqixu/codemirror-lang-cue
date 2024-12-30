@@ -21,3 +21,57 @@ Declaration(Field(Label(LabelExpr(LabelName(Identifier))),AliasExpr(Expression(P
     Declaration(Field(Label(LabelExpr("[",AliasExpr(Expression(UnaryExpr(PrimaryExpr(Literal(BasicLit(StringLit(SimpleStringLit))))))),"]")),AliasExpr(Expression(PrimaryExpr(OperandName(Identifier)))))),
     Declaration(Field(Label(LabelExpr("[",AliasExpr(Expression(UnaryExpr(PrimaryExpr(Literal(BasicLit(StringLit(SimpleStringLit))))))),"]")),AliasExpr(Expression(PrimaryExpr(OperandName(Identifier)))))),
     Declaration(Ellipsis(Expression(PrimaryExpr(OperandName(Identifier))))),"}"))))))))
+
+# struct 1
+a: {
+    foo:      string  // foo is a string
+    [=~"^i"]: int     // all other fields starting with i are integers
+    [=~"^b"]: bool    // all other fields starting with b are booleans
+    [>"c"]:   string  // all other fields lexically after c are strings
+
+    ...string         // all other fields must be a string. Note: default constraints are not yet implemented.
+}
+
+b: a & {
+    i3:    3
+    bar:   true
+    other: "a string"
+}
+==>
+SourceFile(
+    Declaration(Field(Label(LabelExpr(LabelName(Identifier))),AliasExpr(Expression(PrimaryExpr(Literal(StructLit("{",
+        Declaration(Field(Label(LabelExpr(LabelName(Identifier))),AliasExpr(Expression(PrimaryExpr(OperandName(Identifier)))))),Comment,
+        Declaration(Field(Label(LabelExpr("[",AliasExpr(Expression(UnaryExpr(PrimaryExpr(Literal(BasicLit(StringLit(SimpleStringLit))))))),"]")),AliasExpr(Expression(PrimaryExpr(OperandName(Identifier,Comment)))))),
+        Declaration(Field(Label(LabelExpr("[",AliasExpr(Expression(UnaryExpr(PrimaryExpr(Literal(BasicLit(StringLit(SimpleStringLit))))))),"]")),AliasExpr(Expression(PrimaryExpr(OperandName(Identifier)))))),Comment,
+        Declaration(Field(Label(LabelExpr("[",AliasExpr(Expression(UnaryExpr(PrimaryExpr(Literal(BasicLit(StringLit(SimpleStringLit))))))),"]")),AliasExpr(Expression(PrimaryExpr(OperandName(Identifier)))))),Comment,
+        Declaration(Ellipsis(Expression(PrimaryExpr(OperandName(Identifier))))),Comment,"}"))))))),
+    Declaration(Field(Label(LabelExpr(LabelName(Identifier))),AliasExpr(Expression(BinExpr(
+        Expression(PrimaryExpr(OperandName(Identifier))),
+        Expression(PrimaryExpr(Literal(StructLit("{",
+            Declaration(Field(Label(LabelExpr(LabelName(Identifier))),AliasExpr(Expression(PrimaryExpr(Literal(BasicLit(IntLit(DecimalLit)))))))),
+            Declaration(Field(Label(LabelExpr(LabelName(Identifier))),AliasExpr(Expression(PrimaryExpr(Literal(BasicLit(BoolLit(true)))))))),
+            Declaration(Field(Label(LabelExpr(LabelName(Identifier))),AliasExpr(Expression(PrimaryExpr(Literal(BasicLit(StringLit(SimpleStringLit)))))))),"}"))))))))))
+
+# struct 2
+intMap: [string]: int
+intMap: {
+    t1: 43
+    t2: 2.4  // error: 2.4 is not an integer
+}
+
+nameMap: [string]: {
+    firstName: string
+    nickName:  *firstName | string
+}
+
+nameMap: hank: firstName: "Hank"
+==>
+SourceFile(
+    Declaration(Field(Label(LabelExpr(LabelName(Identifier))),Label(LabelExpr("[",AliasExpr(Expression(PrimaryExpr(OperandName(Identifier)))),"]")),AliasExpr(Expression(PrimaryExpr(OperandName(Identifier)))))),
+    Declaration(Field(Label(LabelExpr(LabelName(Identifier))),AliasExpr(Expression(PrimaryExpr(Literal(StructLit("{",
+        Declaration(Field(Label(LabelExpr(LabelName(Identifier))),AliasExpr(Expression(PrimaryExpr(Literal(BasicLit(IntLit(DecimalLit)))))))),
+        Declaration(Field(Label(LabelExpr(LabelName(Identifier))),AliasExpr(Expression(PrimaryExpr(Literal(BasicLit(FloatLit)))),Comment))),"}"))))))),
+    Declaration(Field(Label(LabelExpr(LabelName(Identifier))),Label(LabelExpr("[",AliasExpr(Expression(PrimaryExpr(OperandName(Identifier)))),"]")),AliasExpr(Expression(PrimaryExpr(Literal(StructLit("{",
+        Declaration(Field(Label(LabelExpr(LabelName(Identifier))),AliasExpr(Expression(PrimaryExpr(OperandName(Identifier)))))),
+        Declaration(Field(Label(LabelExpr(LabelName(Identifier))),AliasExpr(Expression(BinExpr(Expression(UnaryExpr(PrimaryExpr(OperandName(Identifier)))),Expression(PrimaryExpr(OperandName(Identifier)))))))),"}"))))))),
+    Declaration(Field(Label(LabelExpr(LabelName(Identifier))),Label(LabelExpr(LabelName(Identifier))),Label(LabelExpr(LabelName(Identifier))),AliasExpr(Expression(PrimaryExpr(Literal(BasicLit(StringLit(SimpleStringLit)))))))))

@@ -197,7 +197,7 @@ kw<word> { @specialize[@name={word}]<Identifier, word> }
 
   @precedence {
       attr_token
-      "/", Comment
+      Comment, "/"
       "\n", space
   }
   

@@ -77,3 +77,11 @@ SourceFile(
 a: str
 ==>
 SourceFile(Declaration(Field(Label(LabelExpr(LabelName(Identifier))),AliasExpr(Expression(PrimaryExpr(OperandName(Identifier)))))))
+
+# Comments
+// Docs
+a: string // a is string
+// comments
+==>
+SourceFile(Comment,
+    Declaration(Field(Label(LabelExpr(LabelName(Identifier))),AliasExpr(Expression(PrimaryExpr(OperandName(Identifier)))))),Comment,Comment)
