@@ -1,0 +1,23 @@
+# struct with whitespaces
+
+
+a: {      
+    foo:      string
+    [=~"^i"]: int
+    [=~"^b"]: bool 
+    [>"c"]:   string   
+   
+
+          
+    ...string    
+
+            
+}     
+==>
+SourceFile(
+Declaration(Field(Label(LabelExpr(LabelName(Identifier))),AliasExpr(Expression(PrimaryExpr(Literal(StructLit("{",
+    Declaration(Field(Label(LabelExpr(LabelName(Identifier))),AliasExpr(Expression(PrimaryExpr(OperandName(Identifier)))))),
+    Declaration(Field(Label(LabelExpr("[",AliasExpr(Expression(UnaryExpr(PrimaryExpr(Literal(BasicLit(StringLit(SimpleStringLit))))))),"]")),AliasExpr(Expression(PrimaryExpr(OperandName(Identifier)))))),
+    Declaration(Field(Label(LabelExpr("[",AliasExpr(Expression(UnaryExpr(PrimaryExpr(Literal(BasicLit(StringLit(SimpleStringLit))))))),"]")),AliasExpr(Expression(PrimaryExpr(OperandName(Identifier)))))),
+    Declaration(Field(Label(LabelExpr("[",AliasExpr(Expression(UnaryExpr(PrimaryExpr(Literal(BasicLit(StringLit(SimpleStringLit))))))),"]")),AliasExpr(Expression(PrimaryExpr(OperandName(Identifier)))))),
+    Declaration(Ellipsis(Expression(PrimaryExpr(OperandName(Identifier))))),"}"))))))))

@@ -2,7 +2,6 @@
     prec_label_expr
     prec_operand_lit
     prec_argument
-    prec_operand_name
     prec_label_name
 
     prec_label_str
@@ -15,7 +14,6 @@
     prec_decl_attr
     prec_attr
     prec_operand_expr
-    prec_alias_expr
 
     prec_embedding
 
@@ -33,10 +31,10 @@
 
 @top SourceFile {
     "\n"*
-    (!prec_file_attr Attribute ("," | "\n")?)*
-    (PackageClause ("," | "\n")?)?
-    (ImportDecl ("," | "\n")?)*
-    (Declaration ("," | "\n")?)*
+    (!prec_file_attr Attribute ("," | "\n"*)?)*
+    (PackageClause ("," | "\n"*)?)?
+    (ImportDecl ("," | "\n"*)?)*
+    (Declaration ("," | "\n"*)?)*
 }
 
 @skip { space | Comment }
@@ -57,7 +55,7 @@ BoolLit { kw<"true"> | kw<"false"> }
 
 // Structs
 
-StructLit       { "{" "\n"? (Declaration (("," | "\n") Declaration)* ("," | "\n")?)? "}" }
+StructLit       { "{" "\n"*? (Declaration (("," | "\n"*) Declaration)* ("," | "\n"*)?)? "}" }
 Declaration     { Field | Ellipsis | Embedding | LetClause | !prec_decl_attr Attribute }
 Ellipsis        { "..." Expression? }
 Embedding       { !prec_embedding Comprehension | AliasExpr }
@@ -192,7 +190,7 @@ kw<word> { @specialize[@name={word}]<Identifier, word> }
       SiLit, FloatLit, ".", HexLit, BinaryLit, OctalLit, DecimalLit
   }
 
-  space { $[ \t\n\r]+ }
+  space { $[ \t\r]+ }
   "(" ")"
   "{" "}"
   "[" "]"
