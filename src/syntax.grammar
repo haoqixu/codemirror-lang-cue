@@ -20,8 +20,6 @@
     prec_operand_expr
     prec_alias_expr
 
-    prec_element_list
-
     prec_embedding
 
     unary @right
@@ -77,8 +75,8 @@ AttrTokens      { ( attr_token |
 
 AliasExpr  { !prec_alias_expr ( Identifier "=" )? Expression }
 
-ListLit       { "[" ( ElementList ","? )? "]" }
-ElementList   { Ellipsis | !prec_element_list Embedding ( "," Embedding )* ("," Ellipsis)? }
+ListLit       { "[" ( ElementList )? "]" }
+ElementList   { Ellipsis | Embedding ( "," Embedding )* ("," Ellipsis)? ","? }
 
 // Predeclared identifiers
 // ...
