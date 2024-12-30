@@ -1,6 +1,5 @@
 @precedence {
     prec_label_expr
-    prec_operand_lit
     prec_argument
     prec_label_name
 
@@ -14,8 +13,6 @@
     prec_decl_attr
     prec_attr
     prec_operand_expr
-
-    prec_embedding
 
     prec_expr_primay_expr
 
@@ -58,7 +55,7 @@ BoolLit { kw<"true"> | kw<"false"> }
 StructLit       { "{" "\n"*? (Declaration (("," | "\n"*) Declaration)* ("," | "\n"*)?)? "}" }
 Declaration     { Field | Ellipsis | Embedding | LetClause | !prec_decl_attr Attribute }
 Ellipsis        { "..." Expression? }
-Embedding       { !prec_embedding Comprehension | AliasExpr }
+Embedding       { Comprehension | AliasExpr }
 Field           { Label ":" ( Label ":" )* AliasExpr ( Attribute )* }
 Label           { ( Identifier "=" )? LabelExpr }
 LabelExpr       { LabelName ( "?" | "!" )? | "[" AliasExpr !prec_label_expr "]" }
@@ -78,7 +75,7 @@ ElementList   { Ellipsis ","? "\n"* | Embedding "\n"* ( "," "\n"* Embedding "\n"
 // Predeclared identifiers
 // ...
 
-operand     { !prec_operand_lit Literal | OperandName | "(" Expression !prec_operand_expr ")" }
+operand     { Literal | OperandName | "(" Expression !prec_operand_expr ")" }
 Literal     { BasicLit | ListLit | StructLit }
 BasicLit    { IntLit | FloatLit | StringLit |
               NullLit | BoolLit | BottomLit | Top }
@@ -87,10 +84,10 @@ OperandName { Identifier | QualifiedIdent }
 QualifiedIdent { PackageName "." Identifier }
 
 PrimaryExpr {
-	operand |
-	PrimaryExpr Selector |
-	PrimaryExpr Index |
-	PrimaryExpr Arguments }
+    operand |
+    PrimaryExpr Selector |
+    PrimaryExpr Index |
+    PrimaryExpr Arguments }
 
 Selector       { "." (Identifier | SimpleStringLit) }
 Index          { "[" Expression "]" }
