@@ -41,10 +41,10 @@ b: a & {
 SourceFile(
     Declaration(Field(Label(LabelExpr(LabelName(Identifier))),AliasExpr(Expression(PrimaryExpr(Literal(StructLit("{",
         Declaration(Field(Label(LabelExpr(LabelName(Identifier))),AliasExpr(Expression(PrimaryExpr(OperandName(Identifier)))))),Comment,
-        Declaration(Field(Label(LabelExpr("[",AliasExpr(Expression(UnaryExpr(PrimaryExpr(Literal(BasicLit(StringLit(SimpleStringLit))))))),"]")),AliasExpr(Expression(PrimaryExpr(OperandName(Identifier,Comment)))))),
         Declaration(Field(Label(LabelExpr("[",AliasExpr(Expression(UnaryExpr(PrimaryExpr(Literal(BasicLit(StringLit(SimpleStringLit))))))),"]")),AliasExpr(Expression(PrimaryExpr(OperandName(Identifier)))))),Comment,
         Declaration(Field(Label(LabelExpr("[",AliasExpr(Expression(UnaryExpr(PrimaryExpr(Literal(BasicLit(StringLit(SimpleStringLit))))))),"]")),AliasExpr(Expression(PrimaryExpr(OperandName(Identifier)))))),Comment,
-        Declaration(Ellipsis(Expression(PrimaryExpr(OperandName(Identifier))))),Comment,"}"))))))),
+        Declaration(Field(Label(LabelExpr("[",AliasExpr(Expression(UnaryExpr(PrimaryExpr(Literal(BasicLit(StringLit(SimpleStringLit))))))),"]")),AliasExpr(Expression(PrimaryExpr(OperandName(Identifier)))))),Comment,
+        Declaration(Ellipsis(Expression(PrimaryExpr(OperandName(Identifier))))), Comment, "}")))))))
     Declaration(Field(Label(LabelExpr(LabelName(Identifier))),AliasExpr(Expression(BinExpr(
         Expression(PrimaryExpr(OperandName(Identifier))),
         Expression(PrimaryExpr(Literal(StructLit("{",
@@ -70,7 +70,7 @@ SourceFile(
     Declaration(Field(Label(LabelExpr(LabelName(Identifier))),Label(LabelExpr("[",AliasExpr(Expression(PrimaryExpr(OperandName(Identifier)))),"]")),AliasExpr(Expression(PrimaryExpr(OperandName(Identifier)))))),
     Declaration(Field(Label(LabelExpr(LabelName(Identifier))),AliasExpr(Expression(PrimaryExpr(Literal(StructLit("{",
         Declaration(Field(Label(LabelExpr(LabelName(Identifier))),AliasExpr(Expression(PrimaryExpr(Literal(BasicLit(IntLit(DecimalLit)))))))),
-        Declaration(Field(Label(LabelExpr(LabelName(Identifier))),AliasExpr(Expression(PrimaryExpr(Literal(BasicLit(FloatLit))),Comment)))),"}"))))))),
+        Declaration(Field(Label(LabelExpr(LabelName(Identifier))),AliasExpr(Expression(PrimaryExpr(Literal(BasicLit(FloatLit))))))),Comment,"}"))))))),
     Declaration(Field(Label(LabelExpr(LabelName(Identifier))),Label(LabelExpr("[",AliasExpr(Expression(PrimaryExpr(OperandName(Identifier)))),"]")),AliasExpr(Expression(PrimaryExpr(Literal(StructLit("{",
         Declaration(Field(Label(LabelExpr(LabelName(Identifier))),AliasExpr(Expression(PrimaryExpr(OperandName(Identifier)))))),
         Declaration(Field(Label(LabelExpr(LabelName(Identifier))),AliasExpr(Expression(BinExpr(Expression(UnaryExpr(PrimaryExpr(OperandName(Identifier)))),Expression(PrimaryExpr(OperandName(Identifier)))))))),"}"))))))),

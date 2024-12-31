@@ -1,10 +1,7 @@
 @precedence {
     prec_file_attr
     prec_decl_attr
-    prec_attr
     prec_operand_expr
-
-    prec_expr_primay_expr
 
     unary @right
     prec7 @left
@@ -17,11 +14,10 @@
 }
 
 @top SourceFile {
-    "\n"*
-    (!prec_file_attr Attribute ("," | "\n"*)?)*
-    (PackageClause ("," | "\n"*)?)?
-    (ImportDecl ("," | "\n"*)?)*
-    (Declaration ("," | "\n"*)?)*
+    (Attribute !prec_file_attr comma)*
+    (PackageClause comma)?
+    (ImportDecl comma)*
+    (Declaration comma)*
 }
 
 @skip { space | Comment }
@@ -34,15 +30,12 @@ IntLit     { DecimalLit | SiLit | OctalLit | BinaryLit | HexLit }
 StringLit       { SimpleBytesLit | SimpleStringLit ~strlit }
 
 // Values
-
-BottomLit { "_|_" }
-Top { kw<"_"> }
 NullLit { kw<"null"> }
 BoolLit { kw<"true"> | kw<"false"> }
 
 // Structs
 
-StructLit       { "{" "\n"*? (Declaration (("," | "\n"*) Declaration)* ("," | "\n"*)?)? "}" }
+StructLit       { "{" (Declaration comma)* "}" }
 Declaration     { Field | Ellipsis | Embedding | LetClause | !prec_decl_attr Attribute }
 Ellipsis        { "..." Expression? }
 Embedding       { Comprehension | AliasExpr ~aliasexpr }
@@ -51,7 +44,7 @@ Label           { ( Identifier "=" )? LabelExpr }
 LabelExpr       { LabelName ( "?" | "!" )? | "[" AliasExpr ~aliasexpr "]" }
 LabelName       { Identifier ~label-operand | SimpleStringLit ~strlit | "(" AliasExpr ")" }
 
-Attribute       { !prec_attr "@" Identifier "(" AttrTokens ")" }
+Attribute       { "@" Identifier "(" AttrTokens ")" }
 AttrTokens      { ( attr_token |
                     "(" AttrTokens ")" |
                     "[" AttrTokens "]" |
@@ -59,8 +52,8 @@ AttrTokens      { ( attr_token |
 
 AliasExpr  { ( Identifier "=" )? Expression }
 
-ListLit       { "[" "\n"* ( ElementList )? "]" }
-ElementList   { Ellipsis ","? "\n"* | Embedding "\n"* ( "," "\n"* Embedding "\n"* )* ("," "\n"* Ellipsis "\n"*)? ("," "\n"*)* }
+ListLit       { "[" ( ElementList )? "]" }
+ElementList   { Ellipsis comma? | Embedding ( comma Embedding )* ( comma Ellipsis )? comma* }
 
 // Predeclared identifiers
 // ...
@@ -68,7 +61,7 @@ ElementList   { Ellipsis ","? "\n"* | Embedding "\n"* ( "," "\n"* Embedding "\n"
 operand     { Literal | OperandName | "(" Expression !prec_operand_expr ")" }
 Literal     { BasicLit | ListLit | StructLit }
 BasicLit    { IntLit | FloatLit | StringLit |
-              NullLit | BoolLit | BottomLit | Top }
+              NullLit | BoolLit | BottomLit | @specialize[@name=Top]<Identifier, "_"> }
 OperandName { Identifier ~label-operand }
 // QualifiedIdent { PackageName "." Identifier }
 
@@ -93,9 +86,9 @@ Arguments      { "(" (Argument ("," Argument)*  ","? )? ")" }
 //     2             &
 //     1             |
 
-Expression { !prec_expr_primay_expr PrimaryExpr | UnaryExpr | BinExpr }
+Expression { PrimaryExpr | UnaryExpr | BinExpr }
 BinExpr    { Expression binary_op Expression }
-UnaryExpr  { !unary PrimaryExpr | !unary unary_op _unaryExpr }
+UnaryExpr  { !unary unary_op _unaryExpr }
 _unaryExpr { !unary PrimaryExpr | unary_op _unaryExpr }
 
 binary_op  {
@@ -136,6 +129,11 @@ ImportPath       { '"' ImportLocation (":" Identifier)? '"' }
 
 kw<word> { @specialize[@name={word}]<Identifier, word> }
 
+@external tokens insertComma from "./tokens" { insertedComma }
+@context trackTokens from "./tokens"
+
+comma { "," | insertedComma }
+
 @tokens {
   letter        { $[_a-zA-Z\u{a1}-\u{10ffff}] | "$" }
   digit         { $[0-9] }
@@ -152,9 +150,10 @@ kw<word> { @specialize[@name={word}]<Identifier, word> }
   SimpleBytesLit { "'" ![']* "'" }
 
   Identifier { ("#" | "_#")? letter (letter | digit)* }
+  BottomLit { "_|_" }
 
   @precedence {
-      "_|_", Identifier
+      BottomLit, Identifier
   }
 
   DecimalLit { "0" | $[1-9] ("_"? decimal_digit)* }
@@ -176,15 +175,15 @@ kw<word> { @specialize[@name={word}]<Identifier, word> }
       SiLit, FloatLit, ".", HexLit, BinaryLit, OctalLit, DecimalLit
   }
 
-  space { $[ \t\r]+ }
-  "(" ")"
-  "{" "}"
-  "[" "]"
+  space[@export] { $[ \t\n\r]+ }
+  "(" ")"[@export=closeParen]
+  "{" "}"[@export=closeBrace]
+  "[" "]"[@export=closeBracket]
 
   @precedence {
       attr_token
       Comment, "/"
-      "\n", space
+      space
   }
   
 }

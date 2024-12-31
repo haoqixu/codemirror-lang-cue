@@ -168,14 +168,14 @@ SourceFile(Declaration(Embedding(AliasExpr(Expression(BinExpr(Expression(Primary
 # `_ &  5`
 _ &  5
 ==>
-SourceFile(Declaration(Embedding(AliasExpr(Expression(BinExpr(Expression(PrimaryExpr(Literal(BasicLit(Top(_))))),Expression(PrimaryExpr(Literal(BasicLit(IntLit(DecimalLit)))))))))))
+SourceFile(Declaration(Embedding(AliasExpr(Expression(BinExpr(Expression(PrimaryExpr(Literal(BasicLit(Top)))),Expression(PrimaryExpr(Literal(BasicLit(IntLit(DecimalLit)))))))))))
 
 # `_ &  _`
 _ &  _
 ==>
-SourceFile(Declaration(Embedding(AliasExpr(Expression(BinExpr(Expression(PrimaryExpr(Literal(BasicLit(Top(_))))),Expression(PrimaryExpr(Literal(BasicLit(Top(_)))))))))))
+SourceFile(Declaration(Embedding(AliasExpr(Expression(BinExpr(Expression(PrimaryExpr(Literal(BasicLit(Top)))),Expression(PrimaryExpr(Literal(BasicLit(Top))))))))))
 
 # `_ & _|_`
 _ & _|_
 ==>
-SourceFile(Declaration(Embedding(AliasExpr(Expression(BinExpr(Expression(PrimaryExpr(Literal(BasicLit(Top(_))))),Expression(PrimaryExpr(Literal(BasicLit(BottomLit))))))))))
+SourceFile(Declaration(Embedding(AliasExpr(Expression(BinExpr(Expression(PrimaryExpr(Literal(BasicLit(Top)))),Expression(PrimaryExpr(Literal(BasicLit(BottomLit))))))))))
