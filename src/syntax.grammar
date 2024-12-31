@@ -1,7 +1,4 @@
 @precedence {
-    prec_label_expr
-    prec_argument
-
     prec_file_attr
     prec_decl_attr
     prec_attr
@@ -48,10 +45,10 @@ BoolLit { kw<"true"> | kw<"false"> }
 StructLit       { "{" "\n"*? (Declaration (("," | "\n"*) Declaration)* ("," | "\n"*)?)? "}" }
 Declaration     { Field | Ellipsis | Embedding | LetClause | !prec_decl_attr Attribute }
 Ellipsis        { "..." Expression? }
-Embedding       { Comprehension | AliasExpr }
+Embedding       { Comprehension | AliasExpr ~aliasexpr }
 Field           { Label ":" ( Label ":" )* AliasExpr ( Attribute )* }
 Label           { ( Identifier "=" )? LabelExpr }
-LabelExpr       { LabelName ( "?" | "!" )? | "[" AliasExpr !prec_label_expr "]" }
+LabelExpr       { LabelName ( "?" | "!" )? | "[" AliasExpr ~aliasexpr "]" }
 LabelName       { Identifier ~label-operand | SimpleStringLit ~strlit | "(" AliasExpr ")" }
 
 Attribute       { !prec_attr "@" Identifier "(" AttrTokens ")" }
@@ -83,7 +80,7 @@ PrimaryExpr {
 
 Selector       { "." (Identifier | SimpleStringLit) }
 Index          { "[" Expression "]" }
-Argument       { !prec_argument Expression }
+Argument       { Expression }
 Arguments      { "(" (Argument ("," Argument)*  ","? )? ")" }
 
 // https://cuelang.org/docs/reference/spec/#operator-precedence

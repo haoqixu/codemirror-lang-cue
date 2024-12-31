@@ -89,7 +89,9 @@ SourceFile(Comment,
 # Selectors
 A.a
 a: A.a
+a: A.b.c
 ==>
 SourceFile(
 Declaration(Embedding(AliasExpr(Expression(PrimaryExpr(PrimaryExpr(OperandName(Identifier)),Selector(Identifier)))))),
-Declaration(Field(Label(LabelExpr(LabelName(Identifier))),AliasExpr(Expression(PrimaryExpr(PrimaryExpr(OperandName(Identifier)),Selector(Identifier)))))))
+Declaration(Field(Label(LabelExpr(LabelName(Identifier))),AliasExpr(Expression(PrimaryExpr(PrimaryExpr(OperandName(Identifier)),Selector(Identifier))))))
+Declaration(Field(Label(LabelExpr(LabelName(Identifier))),AliasExpr(Expression(PrimaryExpr(PrimaryExpr(PrimaryExpr(OperandName(Identifier)),Selector(Identifier)),Selector(Identifier)))))))
