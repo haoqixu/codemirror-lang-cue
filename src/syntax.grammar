@@ -6,9 +6,6 @@
     prec_label_str
     prec_lit_str
 
-    prec_import_package_name
-    prec_import_path
-
     prec_file_attr
     prec_decl_attr
     prec_attr
@@ -79,9 +76,8 @@ operand     { Literal | OperandName | "(" Expression !prec_operand_expr ")" }
 Literal     { BasicLit | ListLit | StructLit }
 BasicLit    { IntLit | FloatLit | StringLit |
               NullLit | BoolLit | BottomLit | Top }
-OperandName { Identifier | QualifiedIdent }
-
-QualifiedIdent { PackageName "." Identifier }
+OperandName { Identifier }
+// QualifiedIdent { PackageName "." Identifier }
 
 PrimaryExpr {
     operand |
@@ -138,12 +134,12 @@ GuardClause         { kw<"if"> Expression }
 LetClause           { kw<"let"> Identifier "=" Expression }
 
 PackageClause  { kw<"package"> PackageName }
-PackageName    { !prec_import_package_name ~Identifier }
+PackageName    { Identifier }
 
 ImportDecl       { kw<"import"> ( ImportSpec | "(" (ImportSpec ",")* ")" ) }
 ImportSpec       { PackageName? ImportPath }
 ImportLocation   { letter*  }
-ImportPath       { !prec_import_path '"' ImportLocation (":" Identifier)? '"' }
+ImportPath       { '"' ImportLocation (":" Identifier)? '"' }
 
 kw<word> { @specialize[@name={word}]<Identifier, word> }
 

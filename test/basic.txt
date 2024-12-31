@@ -85,3 +85,11 @@ a: string // a is string
 ==>
 SourceFile(Comment,
     Declaration(Field(Label(LabelExpr(LabelName(Identifier))),AliasExpr(Expression(PrimaryExpr(OperandName(Identifier)))))),Comment,Comment)
+
+# Selectors
+A.a
+a: A.a
+==>
+SourceFile(
+Declaration(Embedding(AliasExpr(Expression(PrimaryExpr(PrimaryExpr(OperandName(Identifier)),Selector(Identifier)))))),
+Declaration(Field(Label(LabelExpr(LabelName(Identifier))),AliasExpr(Expression(PrimaryExpr(PrimaryExpr(OperandName(Identifier)),Selector(Identifier)))))))
