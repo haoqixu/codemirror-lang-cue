@@ -1,10 +1,6 @@
 @precedence {
     prec_label_expr
     prec_argument
-    prec_label_name
-
-    prec_label_str
-    prec_lit_str
 
     prec_file_attr
     prec_decl_attr
@@ -38,7 +34,7 @@ IntLit     { DecimalLit | SiLit | OctalLit | BinaryLit | HexLit }
 
 // String and byte sequence literals
 // TODO: to be completed
-StringLit       { SimpleBytesLit | !prec_lit_str SimpleStringLit }
+StringLit       { SimpleBytesLit | SimpleStringLit ~strlit }
 
 // Values
 
@@ -56,7 +52,7 @@ Embedding       { Comprehension | AliasExpr }
 Field           { Label ":" ( Label ":" )* AliasExpr ( Attribute )* }
 Label           { ( Identifier "=" )? LabelExpr }
 LabelExpr       { LabelName ( "?" | "!" )? | "[" AliasExpr !prec_label_expr "]" }
-LabelName       { !prec_label_name Identifier | !prec_label_str SimpleStringLit | "(" AliasExpr ")" }
+LabelName       { Identifier ~label-operand | SimpleStringLit ~strlit | "(" AliasExpr ")" }
 
 Attribute       { !prec_attr "@" Identifier "(" AttrTokens ")" }
 AttrTokens      { ( attr_token |
@@ -76,7 +72,7 @@ operand     { Literal | OperandName | "(" Expression !prec_operand_expr ")" }
 Literal     { BasicLit | ListLit | StructLit }
 BasicLit    { IntLit | FloatLit | StringLit |
               NullLit | BoolLit | BottomLit | Top }
-OperandName { Identifier }
+OperandName { Identifier ~label-operand }
 // QualifiedIdent { PackageName "." Identifier }
 
 PrimaryExpr {

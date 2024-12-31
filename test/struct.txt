@@ -75,3 +75,15 @@ SourceFile(
         Declaration(Field(Label(LabelExpr(LabelName(Identifier))),AliasExpr(Expression(PrimaryExpr(OperandName(Identifier)))))),
         Declaration(Field(Label(LabelExpr(LabelName(Identifier))),AliasExpr(Expression(BinExpr(Expression(UnaryExpr(PrimaryExpr(OperandName(Identifier)))),Expression(PrimaryExpr(OperandName(Identifier)))))))),"}"))))))),
     Declaration(Field(Label(LabelExpr(LabelName(Identifier))),Label(LabelExpr(LabelName(Identifier))),Label(LabelExpr(LabelName(Identifier))),AliasExpr(Expression(PrimaryExpr(Literal(BasicLit(StringLit(SimpleStringLit)))))))))
+
+# required or optional fields
+a?: 1
+a?: int
+b!: int
+b!: 1
+==>
+SourceFile(
+Declaration(Field(Label(LabelExpr(LabelName(Identifier))),AliasExpr(Expression(PrimaryExpr(Literal(BasicLit(IntLit(DecimalLit)))))))),
+Declaration(Field(Label(LabelExpr(LabelName(Identifier))),AliasExpr(Expression(PrimaryExpr(OperandName(Identifier)))))),
+Declaration(Field(Label(LabelExpr(LabelName(Identifier))),AliasExpr(Expression(PrimaryExpr(OperandName(Identifier)))))),
+Declaration(Field(Label(LabelExpr(LabelName(Identifier))),AliasExpr(Expression(PrimaryExpr(Literal(BasicLit(IntLit(DecimalLit)))))))))
