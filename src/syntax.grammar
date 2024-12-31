@@ -124,8 +124,6 @@ PackageName    { Identifier }
 
 ImportDecl       { kw<"import"> ( ImportSpec | "(" (ImportSpec ",")* ")" ) }
 ImportSpec       { PackageName? ImportPath }
-ImportLocation   { letter*  }
-ImportPath       { '"' ImportLocation (":" Identifier)? '"' }
 
 kw<word> { @specialize[@name={word}]<Identifier, word> }
 
@@ -148,6 +146,9 @@ comma { "," | insertedComma }
 
   SimpleStringLit { '"' !["]* '"'}
   SimpleBytesLit { "'" ![']* "'" }
+
+  ImportLocation   { letter+  }
+  ImportPath       { '"' ImportLocation (":" Identifier)? '"' }
 
   Identifier { ("#" | "_#")? letter (letter | digit)* }
   BottomLit { "_|_" }

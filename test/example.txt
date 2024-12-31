@@ -1,0 +1,191 @@
+# Welcome to CUE!
+// Welcome to CUE!
+//
+// Play around with CUE by typing directly into this window,
+// or use the Examples menu to load some CUE.
+//
+// There are many examples of how to use the language on the CUE
+// documentation site, https://cuelang.org/docs/, with the language
+// tour being a great place to start: https://cuelang.org/docs/tour/.
+//
+// You can safely delete the text in this editor window - simply
+// reload the page to see this message again. Happy CUEing!
+
+// This is a comment
+_greeting: "Welcome" // Hidden fields start with "_"
+#project:  "CUE"     // Definitions start with "#"
+
+message: "\(_greeting) to \(#project)!" // Regular fields are exported
+==>
+SourceFile(Comment,Comment,Comment,Comment,Comment,Comment,Comment,Comment,Comment,Comment,Comment,Comment,
+Declaration(Field(Label(LabelExpr(LabelName(Identifier))),AliasExpr(Expression(PrimaryExpr(Literal(BasicLit(StringLit(SimpleStringLit)))))))),Comment,
+Declaration(Field(Label(LabelExpr(LabelName(Identifier))),AliasExpr(Expression(PrimaryExpr(Literal(BasicLit(StringLit(SimpleStringLit)))))))),Comment,
+Declaration(Field(Label(LabelExpr(LabelName(Identifier))),AliasExpr(Expression(PrimaryExpr(Literal(BasicLit(StringLit(SimpleStringLit)))))))),Comment)
+
+# Basic types
+// CUE has several basic types:
+
+a: int
+b: float
+c: string
+d: bool
+e: null
+f: bytes
+g: number
+
+// Each type has a literal form:
+
+a: 42
+b: 42.0
+c: "42"
+d: true
+e: null
+f: '42'
+g: 42 | 42.0 // number is compatible with int or float
+==>
+SourceFile(Comment,
+Declaration(Field(Label(LabelExpr(LabelName(Identifier))),AliasExpr(Expression(PrimaryExpr(OperandName(Identifier)))))),
+Declaration(Field(Label(LabelExpr(LabelName(Identifier))),AliasExpr(Expression(PrimaryExpr(OperandName(Identifier)))))),
+Declaration(Field(Label(LabelExpr(LabelName(Identifier))),AliasExpr(Expression(PrimaryExpr(OperandName(Identifier)))))),
+Declaration(Field(Label(LabelExpr(LabelName(Identifier))),AliasExpr(Expression(PrimaryExpr(OperandName(Identifier)))))),
+Declaration(Field(Label(LabelExpr(LabelName(Identifier))),AliasExpr(Expression(PrimaryExpr(Literal(BasicLit(NullLit(null)))))))),
+Declaration(Field(Label(LabelExpr(LabelName(Identifier))),AliasExpr(Expression(PrimaryExpr(OperandName(Identifier)))))),
+Declaration(Field(Label(LabelExpr(LabelName(Identifier))),AliasExpr(Expression(PrimaryExpr(OperandName(Identifier)))))),Comment,
+Declaration(Field(Label(LabelExpr(LabelName(Identifier))),AliasExpr(Expression(PrimaryExpr(Literal(BasicLit(IntLit(DecimalLit)))))))),
+Declaration(Field(Label(LabelExpr(LabelName(Identifier))),AliasExpr(Expression(PrimaryExpr(Literal(BasicLit(FloatLit))))))),
+Declaration(Field(Label(LabelExpr(LabelName(Identifier))),AliasExpr(Expression(PrimaryExpr(Literal(BasicLit(StringLit(SimpleStringLit)))))))),
+Declaration(Field(Label(LabelExpr(LabelName(Identifier))),AliasExpr(Expression(PrimaryExpr(Literal(BasicLit(BoolLit(true)))))))),
+Declaration(Field(Label(LabelExpr(LabelName(Identifier))),AliasExpr(Expression(PrimaryExpr(Literal(BasicLit(NullLit(null)))))))),
+Declaration(Field(Label(LabelExpr(LabelName(Identifier))),AliasExpr(Expression(PrimaryExpr(Literal(BasicLit(StringLit(SimpleBytesLit)))))))),
+Declaration(Field(Label(LabelExpr(LabelName(Identifier))),AliasExpr(Expression(BinExpr(Expression(PrimaryExpr(Literal(BasicLit(IntLit(DecimalLit))))),Expression(PrimaryExpr(Literal(BasicLit(FloatLit))))))))),Comment)
+
+#  Structs and Lists
+// Structs and lists are composite types, composed of
+// "fields" (structs) and "elements" (lists).
+// Structs are indicated by { and }, and lists by [ and ].
+
+// aStruct is a struct.
+aStruct: {
+	a: 1
+	b: 2.0
+	c: "3"
+	d: {
+		e: 4 + 4
+		f: 5 * 5.0
+	}
+	g: false
+}
+
+// aList is a list.
+aList: [
+	1,
+	2.0,
+	"3",
+	{
+		e: 4 + 4
+		f: 5 * 5.0
+	},
+	false,
+]
+==>
+SourceFile(Comment,Comment,Comment,Comment,
+Declaration(Field(Label(LabelExpr(LabelName(Identifier))),AliasExpr(Expression(PrimaryExpr(Literal(StructLit("{",
+    Declaration(Field(Label(LabelExpr(LabelName(Identifier))),AliasExpr(Expression(PrimaryExpr(Literal(BasicLit(IntLit(DecimalLit)))))))),
+    Declaration(Field(Label(LabelExpr(LabelName(Identifier))),AliasExpr(Expression(PrimaryExpr(Literal(BasicLit(FloatLit))))))),
+    Declaration(Field(Label(LabelExpr(LabelName(Identifier))),AliasExpr(Expression(PrimaryExpr(Literal(BasicLit(StringLit(SimpleStringLit)))))))),
+    Declaration(Field(Label(LabelExpr(LabelName(Identifier))),AliasExpr(Expression(PrimaryExpr(Literal(StructLit("{",
+        Declaration(Field(Label(LabelExpr(LabelName(Identifier))),AliasExpr(Expression(BinExpr(Expression(PrimaryExpr(Literal(BasicLit(IntLit(DecimalLit))))),Expression(PrimaryExpr(Literal(BasicLit(IntLit(DecimalLit)))))))))),
+        Declaration(Field(Label(LabelExpr(LabelName(Identifier))),AliasExpr(Expression(BinExpr(Expression(PrimaryExpr(Literal(BasicLit(IntLit(DecimalLit))))),Expression(PrimaryExpr(Literal(BasicLit(FloatLit))))))))),"}"))))))),
+    Declaration(Field(Label(LabelExpr(LabelName(Identifier))),AliasExpr(Expression(PrimaryExpr(Literal(BasicLit(BoolLit(false)))))))),"}"))))))),
+    Comment,
+    Declaration(Field(Label(LabelExpr(LabelName(Identifier))),AliasExpr(Expression(PrimaryExpr(Literal(ListLit("[",ElementList(
+        Embedding(AliasExpr(Expression(PrimaryExpr(Literal(BasicLit(IntLit(DecimalLit))))))),
+        Embedding(AliasExpr(Expression(PrimaryExpr(Literal(BasicLit(FloatLit)))))),
+        Embedding(AliasExpr(Expression(PrimaryExpr(Literal(BasicLit(StringLit(SimpleStringLit))))))),
+        Embedding(AliasExpr(Expression(PrimaryExpr(Literal(StructLit("{",
+            Declaration(Field(Label(LabelExpr(LabelName(Identifier))),AliasExpr(Expression(BinExpr(Expression(PrimaryExpr(Literal(BasicLit(IntLit(DecimalLit))))),Expression(PrimaryExpr(Literal(BasicLit(IntLit(DecimalLit)))))))))),
+            Declaration(Field(Label(LabelExpr(LabelName(Identifier))),AliasExpr(Expression(BinExpr(Expression(PrimaryExpr(Literal(BasicLit(IntLit(DecimalLit))))),Expression(PrimaryExpr(Literal(BasicLit(FloatLit))))))))),"}")))))),
+        Embedding(AliasExpr(Expression(PrimaryExpr(Literal(BasicLit(BoolLit(false)))))))),"]"))))))))
+
+#  basic: JSON superset
+// This example is explained at
+// https://cuelang.org/docs/tour/basics/json-superset/
+
+import "math"
+
+// Simple labels don't
+// need to be quoted.
+one:       1
+two:       2
+piPlusOne: math.Pi + 1
+
+// Field names must be quoted if they contain
+// special characters, such as hyphen and space.
+"quoted field names": {
+	"two-and-a-half":    2.5
+	"three point three": 3.3
+	"four^four":         math.Pow(4, 4)
+}
+
+aList: [
+	1,
+	2,
+	3,
+]
+==>
+SourceFile(Comment,Comment,
+    ImportDecl(import,ImportSpec(ImportPath)),
+    Comment,Comment,
+    Declaration(Field(Label(LabelExpr(LabelName(Identifier))),AliasExpr(Expression(PrimaryExpr(Literal(BasicLit(IntLit(DecimalLit)))))))),
+    Declaration(Field(Label(LabelExpr(LabelName(Identifier))),AliasExpr(Expression(PrimaryExpr(Literal(BasicLit(IntLit(DecimalLit)))))))),
+    Declaration(Field(Label(LabelExpr(LabelName(Identifier))),AliasExpr(Expression(BinExpr(Expression(PrimaryExpr(PrimaryExpr(OperandName(Identifier)),Selector(Identifier))),Expression(PrimaryExpr(Literal(BasicLit(IntLit(DecimalLit)))))))))),
+    Comment,Comment,
+    Declaration(Field(Label(LabelExpr(LabelName(SimpleStringLit))),AliasExpr(Expression(PrimaryExpr(Literal(StructLit("{",
+        Declaration(Field(Label(LabelExpr(LabelName(SimpleStringLit))),AliasExpr(Expression(PrimaryExpr(Literal(BasicLit(FloatLit))))))),
+        Declaration(Field(Label(LabelExpr(LabelName(SimpleStringLit))),AliasExpr(Expression(PrimaryExpr(Literal(BasicLit(FloatLit))))))),
+        Declaration(Field(Label(LabelExpr(LabelName(SimpleStringLit))),AliasExpr(Expression(PrimaryExpr(PrimaryExpr(PrimaryExpr(OperandName(Identifier)),Selector(Identifier)),Arguments("(",Argument(Expression(PrimaryExpr(Literal(BasicLit(IntLit(DecimalLit)))))),Argument(Expression(PrimaryExpr(Literal(BasicLit(IntLit(DecimalLit)))))),")")))))),"}"))))))),
+    Declaration(Field(Label(LabelExpr(LabelName(Identifier))),AliasExpr(Expression(PrimaryExpr(Literal(ListLit("[",ElementList(
+        Embedding(AliasExpr(Expression(PrimaryExpr(Literal(BasicLit(IntLit(DecimalLit))))))),
+        Embedding(AliasExpr(Expression(PrimaryExpr(Literal(BasicLit(IntLit(DecimalLit))))))),
+        Embedding(AliasExpr(Expression(PrimaryExpr(Literal(BasicLit(IntLit(DecimalLit)))))))),"]"))))))))
+
+# Types and values
+// This example is explained at
+// https://cuelang.org/docs/tour/basics/types-are-values/
+
+municipality: {
+	name:    string
+	pop:     int
+	capital: bool
+}
+
+largeCapital: {
+	name:    string
+	pop:     >5M
+	capital: true
+}
+
+kinshasa: {
+	name:    "Kinshasa"
+	pop:     16.32M
+	capital: true
+}
+
+largeCapital: municipality
+kinshasa:     largeCapital
+==>
+SourceFile(Comment,Comment,
+    Declaration(Field(Label(LabelExpr(LabelName(Identifier))),AliasExpr(Expression(PrimaryExpr(Literal(StructLit("{",
+        Declaration(Field(Label(LabelExpr(LabelName(Identifier))),AliasExpr(Expression(PrimaryExpr(OperandName(Identifier)))))),
+        Declaration(Field(Label(LabelExpr(LabelName(Identifier))),AliasExpr(Expression(PrimaryExpr(OperandName(Identifier)))))),
+        Declaration(Field(Label(LabelExpr(LabelName(Identifier))),AliasExpr(Expression(PrimaryExpr(OperandName(Identifier)))))),"}"))))))),
+    Declaration(Field(Label(LabelExpr(LabelName(Identifier))),AliasExpr(Expression(PrimaryExpr(Literal(StructLit("{",
+        Declaration(Field(Label(LabelExpr(LabelName(Identifier))),AliasExpr(Expression(PrimaryExpr(OperandName(Identifier)))))),
+        Declaration(Field(Label(LabelExpr(LabelName(Identifier))),AliasExpr(Expression(UnaryExpr(PrimaryExpr(Literal(BasicLit(IntLit(SiLit))))))))),
+        Declaration(Field(Label(LabelExpr(LabelName(Identifier))),AliasExpr(Expression(PrimaryExpr(Literal(BasicLit(BoolLit(true)))))))),"}"))))))),
+    Declaration(Field(Label(LabelExpr(LabelName(Identifier))),AliasExpr(Expression(PrimaryExpr(Literal(StructLit("{",
+        Declaration(Field(Label(LabelExpr(LabelName(Identifier))),AliasExpr(Expression(PrimaryExpr(Literal(BasicLit(StringLit(SimpleStringLit)))))))),
+        Declaration(Field(Label(LabelExpr(LabelName(Identifier))),AliasExpr(Expression(PrimaryExpr(Literal(BasicLit(IntLit(SiLit)))))))),
+        Declaration(Field(Label(LabelExpr(LabelName(Identifier))),AliasExpr(Expression(PrimaryExpr(Literal(BasicLit(BoolLit(true)))))))),"}"))))))),
+    Declaration(Field(Label(LabelExpr(LabelName(Identifier))),AliasExpr(Expression(PrimaryExpr(OperandName(Identifier)))))),
+    Declaration(Field(Label(LabelExpr(LabelName(Identifier))),AliasExpr(Expression(PrimaryExpr(OperandName(Identifier)))))))
