@@ -13,6 +13,8 @@
     prec1 @left
 }
 
+@external propSource cueHighlighting from "./highlight"
+
 @top SourceFile {
     (Attribute !prec_file_attr comma)*
     (PackageClause comma)?
