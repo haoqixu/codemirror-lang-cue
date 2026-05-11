@@ -44,7 +44,7 @@ Embedding       { Comprehension | AliasExpr ~aliasexpr }
 Field           { Label ":" ( Label ":" )* AliasExpr ( Attribute )* }
 Label           { ( Identifier "=" )? LabelExpr }
 LabelExpr       { LabelName ( "?" | "!" )? | "[" AliasExpr ~aliasexpr "]" }
-LabelName       { Identifier ~label-operand | SimpleStringLit ~strlit | "(" AliasExpr ")" }
+LabelName       { Identifier ~label-operand | SimpleStringLit ~strlit | "(" ( Identifier "=" )? Expression ")" ~paren }
 
 Attribute       { "@" Identifier "(" AttrTokens ")" }
 AttrTokens      { ( attr_token |
@@ -60,7 +60,7 @@ ElementList   { Ellipsis comma? | Embedding ( comma Embedding )* ( comma Ellipsi
 // Predeclared identifiers
 // ...
 
-operand     { Literal | OperandName | "(" Expression !prec_operand_expr ")" }
+operand     { Literal | OperandName | "(" Expression !prec_operand_expr ")" ~paren }
 Literal     { BasicLit | ListLit | StructLit }
 BasicLit    { IntLit | FloatLit | StringLit |
               NullLit | BoolLit | BottomLit | @specialize[@name=Top]<Identifier, "_"> }
@@ -124,7 +124,7 @@ LetClause           { kw<"let"> Identifier "=" Expression }
 PackageClause  { kw<"package"> PackageName }
 PackageName    { Identifier }
 
-ImportDecl       { kw<"import"> ( ImportSpec | "(" (ImportSpec ",")* ")" ) }
+ImportDecl       { kw<"import"> ( ImportSpec | "(" (ImportSpec comma)* ")" ) }
 ImportSpec       { PackageName? ImportPath }
 
 kw<word> { @specialize[@name={word}]<Identifier, word> }
@@ -149,7 +149,7 @@ comma { "," | insertedComma }
   SimpleStringLit { '"' !["]* '"'}
   SimpleBytesLit { "'" ![']* "'" }
 
-  ImportLocation   { letter+  }
+  ImportLocation   { (letter | digit | "/" | "." | "-" | "@" | "~")+  }
   ImportPath       { '"' ImportLocation (":" Identifier)? '"' }
 
   Identifier { ("#" | "_#")? letter (letter | digit)* }
