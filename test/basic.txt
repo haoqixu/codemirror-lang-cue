@@ -1,51 +1,122 @@
 # empty
 ==>
-SourceFile()
+SourceFile
 
 # empty struct
 {}
 ==>
-SourceFile(Declaration(Embedding(AliasExpr(Expression(PrimaryExpr(Literal(StructLit("{","}"))))))))
+SourceFile(
+  Declaration(
+    Embedding(
+      AliasExpr(
+        Expression(
+          PrimaryExpr(
+            Literal(
+              StructLit(
+                "{",
+                "}"))))))))
 
 # null
 null
 ==>
-SourceFile(Declaration(Embedding(AliasExpr(Expression(PrimaryExpr(Literal(BasicLit(NullLit(null)))))))))
+SourceFile(
+  Declaration(
+    Embedding(
+      AliasExpr(
+        Expression(
+          PrimaryExpr(
+            Literal(
+              BasicLit(
+                NullLit(
+                  null)))))))))
 
 # top
 _
 ==>
-SourceFile(Declaration(Embedding(AliasExpr(Expression(PrimaryExpr(Literal(BasicLit(Top))))))))
+SourceFile(
+  Declaration(
+    Embedding(
+      AliasExpr(
+        Expression(
+          PrimaryExpr(
+            Literal(
+              BasicLit(
+                Top))))))))
 
 # bottom
 _|_
 ==>
-SourceFile(Declaration(Embedding(AliasExpr(Expression(PrimaryExpr(Literal(BasicLit(BottomLit))))))))
+SourceFile(
+  Declaration(
+    Embedding(
+      AliasExpr(
+        Expression(
+          PrimaryExpr(
+            Literal(
+              BasicLit(
+                BottomLit))))))))
 
 # true
 true
 ==>
-SourceFile(Declaration(Embedding(AliasExpr(Expression(PrimaryExpr(Literal(BasicLit(BoolLit(true)))))))))
+SourceFile(
+  Declaration(
+    Embedding(
+      AliasExpr(
+        Expression(
+          PrimaryExpr(
+            Literal(
+              BasicLit(
+                BoolLit(
+                  true)))))))))
 
 # false
 false
 ==>
-SourceFile(Declaration(Embedding(AliasExpr(Expression(PrimaryExpr(Literal(BasicLit(BoolLit(false)))))))))
+SourceFile(
+  Declaration(
+    Embedding(
+      AliasExpr(
+        Expression(
+          PrimaryExpr(
+            Literal(
+              BasicLit(
+                BoolLit(
+                  false)))))))))
 
 # empty list
 []
 ==>
-SourceFile(Declaration(Embedding(AliasExpr(Expression(PrimaryExpr(Literal(ListLit("[","]"))))))))
+SourceFile(
+  Declaration(
+    Embedding(
+      AliasExpr(
+        Expression(
+          PrimaryExpr(
+            Literal(
+              ListLit(
+                "[",
+                "]"))))))))
 
 # file attribute
 @protobuf(proto3)
 ==>
-SourceFile(Attribute(Identifier,"(",AttrTokens,")"))
+SourceFile(
+  Attribute(
+    Identifier,
+    "(",
+    AttrTokens,
+    ")"))
 
 # empty attribute
 @tag()
 ==>
-SourceFile(Attribute(Identifier,"(",AttrTokens,")"))
+SourceFile(
+  Attribute(
+    Identifier,
+    "(",
+    AttrTokens,
+    ")"))
 
 # atrributes in struct
 {
@@ -62,29 +133,110 @@ SourceFile(Attribute(Identifier,"(",AttrTokens,")"))
 }
 ==>
 SourceFile(
-    Declaration(Embedding(AliasExpr(Expression(PrimaryExpr(Literal(StructLit("{",
-        Declaration(Attribute(Identifier,"(",AttrTokens,")")),"}"))))))),
-    Declaration(Embedding(AliasExpr(Expression(PrimaryExpr(Literal(StructLit("{",
-        Declaration(Attribute(Identifier,"(",AttrTokens,")")),"}"))))))),
-    Declaration(Embedding(AliasExpr(Expression(PrimaryExpr(Literal(StructLit("{",
-        Declaration(Attribute(Identifier,"(",AttrTokens,")")),"}"))))))),
-    Declaration(Embedding(AliasExpr(Expression(PrimaryExpr(Literal(StructLit("{",
-        Declaration(Attribute(Identifier,"(",AttrTokens,")")),
-        Declaration(Attribute(Identifier,"(",AttrTokens,")")),"}"))))))))
+  Declaration(
+    Embedding(
+      AliasExpr(
+        Expression(
+          PrimaryExpr(
+            Literal(
+              StructLit(
+                "{",
+                Declaration(
+                  Attribute(
+                    Identifier,
+                    "(",
+                    AttrTokens,
+                    ")")),
+                "}"))))))),
+  Declaration(
+    Embedding(
+      AliasExpr(
+        Expression(
+          PrimaryExpr(
+            Literal(
+              StructLit(
+                "{",
+                Declaration(
+                  Attribute(
+                    Identifier,
+                    "(",
+                    AttrTokens,
+                    ")")),
+                "}"))))))),
+  Declaration(
+    Embedding(
+      AliasExpr(
+        Expression(
+          PrimaryExpr(
+            Literal(
+              StructLit(
+                "{",
+                Declaration(
+                  Attribute(
+                    Identifier,
+                    "(",
+                    AttrTokens,
+                    ")")),
+                "}"))))))),
+  Declaration(
+    Embedding(
+      AliasExpr(
+        Expression(
+          PrimaryExpr(
+            Literal(
+              StructLit(
+                "{",
+                Declaration(
+                  Attribute(
+                    Identifier,
+                    "(",
+                    AttrTokens,
+                    ")")),
+                Declaration(
+                  Attribute(
+                    Identifier,
+                    "(",
+                    AttrTokens,
+                    ")")),
+                "}"))))))))
 
 # new lines at the beginning
 
 a: str
 ==>
-SourceFile(Declaration(Field(Label(LabelExpr(LabelName(Identifier))),AliasExpr(Expression(PrimaryExpr(OperandName(Identifier)))))))
+SourceFile(
+  Declaration(
+    Field(
+      Label(
+        LabelExpr(
+          LabelName(
+            Identifier))),
+      AliasExpr(
+        Expression(
+          PrimaryExpr(
+            OperandName(
+              Identifier)))))))
 
 # Comments
 // Docs
 a: string // a is string
 // comments
 ==>
-SourceFile(Comment,
-    Declaration(Field(Label(LabelExpr(LabelName(Identifier))),AliasExpr(Expression(PrimaryExpr(OperandName(Identifier)))))),Comment,Comment)
+SourceFile(
+  Comment,
+  Declaration(
+    Field(
+      Label(
+        LabelExpr(
+          LabelName(
+            Identifier))),
+      AliasExpr(
+        Expression(
+          PrimaryExpr(
+            OperandName(
+              Identifier)))))),
+  Comment,
+  Comment)
 
 # Selectors
 A.a
@@ -92,9 +244,47 @@ a: A.a
 a: A.b.c
 ==>
 SourceFile(
-Declaration(Embedding(AliasExpr(Expression(PrimaryExpr(PrimaryExpr(OperandName(Identifier)),Selector(Identifier)))))),
-Declaration(Field(Label(LabelExpr(LabelName(Identifier))),AliasExpr(Expression(PrimaryExpr(PrimaryExpr(OperandName(Identifier)),Selector(Identifier))))))
-Declaration(Field(Label(LabelExpr(LabelName(Identifier))),AliasExpr(Expression(PrimaryExpr(PrimaryExpr(PrimaryExpr(OperandName(Identifier)),Selector(Identifier)),Selector(Identifier)))))))
+  Declaration(
+    Embedding(
+      AliasExpr(
+        Expression(
+          PrimaryExpr(
+            PrimaryExpr(
+              OperandName(
+                Identifier)),
+            Selector(
+              Identifier)))))),
+  Declaration(
+    Field(
+      Label(
+        LabelExpr(
+          LabelName(
+            Identifier))),
+      AliasExpr(
+        Expression(
+          PrimaryExpr(
+            PrimaryExpr(
+              OperandName(
+                Identifier)),
+            Selector(
+              Identifier)))))),
+  Declaration(
+    Field(
+      Label(
+        LabelExpr(
+          LabelName(
+            Identifier))),
+      AliasExpr(
+        Expression(
+          PrimaryExpr(
+            PrimaryExpr(
+              PrimaryExpr(
+                OperandName(
+                  Identifier)),
+              Selector(
+                Identifier)),
+            Selector(
+              Identifier)))))))
 
 # Index
 A["1"]
@@ -102,9 +292,73 @@ B[1+2]
 B[B[1]]
 ==>
 SourceFile(
-    Declaration(Embedding(AliasExpr(Expression(PrimaryExpr(PrimaryExpr(OperandName(Identifier)),Index("[",Expression(PrimaryExpr(Literal(BasicLit(StringLit(SimpleStringLit))))),"]")))))),
-    Declaration(Embedding(AliasExpr(Expression(PrimaryExpr(PrimaryExpr(OperandName(Identifier)),Index("[",Expression(BinExpr(Expression(PrimaryExpr(Literal(BasicLit(IntLit(DecimalLit))))),Expression(PrimaryExpr(Literal(BasicLit(IntLit(DecimalLit))))))),"]")))))),
-    Declaration(Embedding(AliasExpr(Expression(PrimaryExpr(PrimaryExpr(OperandName(Identifier)),Index("[",Expression(PrimaryExpr(PrimaryExpr(OperandName(Identifier)),Index("[",Expression(PrimaryExpr(Literal(BasicLit(IntLit(DecimalLit))))),"]"))),"]")))))))
+  Declaration(
+    Embedding(
+      AliasExpr(
+        Expression(
+          PrimaryExpr(
+            PrimaryExpr(
+              OperandName(
+                Identifier)),
+            Index(
+              "[",
+              Expression(
+                PrimaryExpr(
+                  Literal(
+                    BasicLit(
+                      StringLit(
+                        SimpleStringLit))))),
+              "]")))))),
+  Declaration(
+    Embedding(
+      AliasExpr(
+        Expression(
+          PrimaryExpr(
+            PrimaryExpr(
+              OperandName(
+                Identifier)),
+            Index(
+              "[",
+              Expression(
+                BinExpr(
+                  Expression(
+                    PrimaryExpr(
+                      Literal(
+                        BasicLit(
+                          IntLit(
+                            DecimalLit))))),
+                  Expression(
+                    PrimaryExpr(
+                      Literal(
+                        BasicLit(
+                          IntLit(
+                            DecimalLit))))))),
+              "]")))))),
+  Declaration(
+    Embedding(
+      AliasExpr(
+        Expression(
+          PrimaryExpr(
+            PrimaryExpr(
+              OperandName(
+                Identifier)),
+            Index(
+              "[",
+              Expression(
+                PrimaryExpr(
+                  PrimaryExpr(
+                    OperandName(
+                      Identifier)),
+                  Index(
+                    "[",
+                    Expression(
+                      PrimaryExpr(
+                        Literal(
+                          BasicLit(
+                            IntLit(
+                              DecimalLit))))),
+                    "]"))),
+              "]")))))))
 
 # field alias
 // A field alias
@@ -119,4 +373,151 @@ bar: foo & {a: 1}  // {a: 1, x: 1}
 [Y=string]: { name: Y }
 foo: { value: 1 } // outputs: foo: { name: "foo", value: 1 }
 ==>
-SourceFile(Comment,Declaration(Field(Label(LabelExpr(LabelName(Identifier))),AliasExpr(Expression(PrimaryExpr(OperandName(Identifier)))))),Comment,Declaration(Field(Label(Identifier,LabelExpr(LabelName(SimpleStringLit))),AliasExpr(Expression(PrimaryExpr(Literal(BasicLit(IntLit(DecimalLit)))))))),Comment,Declaration(Field(Label(LabelExpr(LabelName(Identifier))),AliasExpr(Identifier,Expression(PrimaryExpr(Literal(StructLit("{",Declaration(Field(Label(LabelExpr(LabelName(Identifier))),AliasExpr(Expression(PrimaryExpr(PrimaryExpr(OperandName(Identifier)),Selector(Identifier)))))),"}"))))))),Declaration(Field(Label(LabelExpr(LabelName(Identifier))),AliasExpr(Expression(BinExpr(Expression(PrimaryExpr(OperandName(Identifier))),Expression(PrimaryExpr(Literal(StructLit("{",Declaration(Field(Label(LabelExpr(LabelName(Identifier))),AliasExpr(Expression(PrimaryExpr(Literal(BasicLit(IntLit(DecimalLit)))))))),"}"))))))))),Comment,Comment,Declaration(Field(Label(LabelExpr("[",AliasExpr(Identifier,Expression(PrimaryExpr(OperandName(Identifier)))),"]")),AliasExpr(Expression(PrimaryExpr(Literal(StructLit("{",Declaration(Field(Label(LabelExpr(LabelName(Identifier))),AliasExpr(Expression(PrimaryExpr(OperandName(Identifier)))))),"}"))))))),Declaration(Field(Label(LabelExpr(LabelName(Identifier))),AliasExpr(Expression(PrimaryExpr(Literal(StructLit("{",Declaration(Field(Label(LabelExpr(LabelName(Identifier))),AliasExpr(Expression(PrimaryExpr(Literal(BasicLit(IntLit(DecimalLit)))))))),"}"))))))),Comment)
+SourceFile(
+  Comment,
+  Declaration(
+    Field(
+      Label(
+        LabelExpr(
+          LabelName(
+            Identifier))),
+      AliasExpr(
+        Expression(
+          PrimaryExpr(
+            OperandName(
+              Identifier)))))),
+  Comment,
+  Declaration(
+    Field(
+      Label(
+        Identifier,
+        LabelExpr(
+          LabelName(
+            SimpleStringLit))),
+      AliasExpr(
+        Expression(
+          PrimaryExpr(
+            Literal(
+              BasicLit(
+                IntLit(
+                  DecimalLit)))))))),
+  Comment,
+  Declaration(
+    Field(
+      Label(
+        LabelExpr(
+          LabelName(
+            Identifier))),
+      AliasExpr(
+        Identifier,
+        Expression(
+          PrimaryExpr(
+            Literal(
+              StructLit(
+                "{",
+                Declaration(
+                  Field(
+                    Label(
+                      LabelExpr(
+                        LabelName(
+                          Identifier))),
+                    AliasExpr(
+                      Expression(
+                        PrimaryExpr(
+                          PrimaryExpr(
+                            OperandName(
+                              Identifier)),
+                          Selector(
+                            Identifier)))))),
+                "}"))))))),
+  Declaration(
+    Field(
+      Label(
+        LabelExpr(
+          LabelName(
+            Identifier))),
+      AliasExpr(
+        Expression(
+          BinExpr(
+            Expression(
+              PrimaryExpr(
+                OperandName(
+                  Identifier))),
+            Expression(
+              PrimaryExpr(
+                Literal(
+                  StructLit(
+                    "{",
+                    Declaration(
+                      Field(
+                        Label(
+                          LabelExpr(
+                            LabelName(
+                              Identifier))),
+                        AliasExpr(
+                          Expression(
+                            PrimaryExpr(
+                              Literal(
+                                BasicLit(
+                                  IntLit(
+                                    DecimalLit)))))))),
+                    "}"))))))))),
+  Comment,
+  Comment,
+  Declaration(
+    Field(
+      Label(
+        LabelExpr(
+          "[",
+          AliasExpr(
+            Identifier,
+            Expression(
+              PrimaryExpr(
+                OperandName(
+                  Identifier)))),
+          "]")),
+      AliasExpr(
+        Expression(
+          PrimaryExpr(
+            Literal(
+              StructLit(
+                "{",
+                Declaration(
+                  Field(
+                    Label(
+                      LabelExpr(
+                        LabelName(
+                          Identifier))),
+                    AliasExpr(
+                      Expression(
+                        PrimaryExpr(
+                          OperandName(
+                            Identifier)))))),
+                "}"))))))),
+  Declaration(
+    Field(
+      Label(
+        LabelExpr(
+          LabelName(
+            Identifier))),
+      AliasExpr(
+        Expression(
+          PrimaryExpr(
+            Literal(
+              StructLit(
+                "{",
+                Declaration(
+                  Field(
+                    Label(
+                      LabelExpr(
+                        LabelName(
+                          Identifier))),
+                    AliasExpr(
+                      Expression(
+                        PrimaryExpr(
+                          Literal(
+                            BasicLit(
+                              IntLit(
+                                DecimalLit)))))))),
+                "}"))))))),
+  Comment)

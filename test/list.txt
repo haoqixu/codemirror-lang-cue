@@ -1,56 +1,236 @@
 # [1,2]
 [1,2]
 ==>
-SourceFile(Declaration(Embedding(AliasExpr(Expression(PrimaryExpr(Literal(ListLit("[",ElementList(
-    Embedding(AliasExpr(Expression(PrimaryExpr(Literal(BasicLit(IntLit(DecimalLit))))))),
-    Embedding(AliasExpr(Expression(PrimaryExpr(Literal(BasicLit(IntLit(DecimalLit)))))))
-),"]"))))))))
+SourceFile(
+  Declaration(
+    Embedding(
+      AliasExpr(
+        Expression(
+          PrimaryExpr(
+            Literal(
+              ListLit(
+                "[",
+                ElementList(
+                  Embedding(
+                    AliasExpr(
+                      Expression(
+                        PrimaryExpr(
+                          Literal(
+                            BasicLit(
+                              IntLit(
+                                DecimalLit))))))),
+                  Embedding(
+                    AliasExpr(
+                      Expression(
+                        PrimaryExpr(
+                          Literal(
+                            BasicLit(
+                              IntLit(
+                                DecimalLit)))))))),
+                "]"))))))))
 
 # trailing comma in list
 [1,2,]
 ==>
-SourceFile(Declaration(Embedding(AliasExpr(Expression(PrimaryExpr(Literal(ListLit("[",ElementList(
-    Embedding(AliasExpr(Expression(PrimaryExpr(Literal(BasicLit(IntLit(DecimalLit))))))),
-    Embedding(AliasExpr(Expression(PrimaryExpr(Literal(BasicLit(IntLit(DecimalLit)))))))
-),"]"))))))))
+SourceFile(
+  Declaration(
+    Embedding(
+      AliasExpr(
+        Expression(
+          PrimaryExpr(
+            Literal(
+              ListLit(
+                "[",
+                ElementList(
+                  Embedding(
+                    AliasExpr(
+                      Expression(
+                        PrimaryExpr(
+                          Literal(
+                            BasicLit(
+                              IntLit(
+                                DecimalLit))))))),
+                  Embedding(
+                    AliasExpr(
+                      Expression(
+                        PrimaryExpr(
+                          Literal(
+                            BasicLit(
+                              IntLit(
+                                DecimalLit)))))))),
+                "]"))))))))
 
 # [1,2,3]
 [1,2,3]
 ==>
-SourceFile(Declaration(Embedding(AliasExpr(Expression(PrimaryExpr(Literal(ListLit("[",ElementList(
-    Embedding(AliasExpr(Expression(PrimaryExpr(Literal(BasicLit(IntLit(DecimalLit))))))),
-    Embedding(AliasExpr(Expression(PrimaryExpr(Literal(BasicLit(IntLit(DecimalLit))))))),
-    Embedding(AliasExpr(Expression(PrimaryExpr(Literal(BasicLit(IntLit(DecimalLit)))))))
-),"]"))))))))
+SourceFile(
+  Declaration(
+    Embedding(
+      AliasExpr(
+        Expression(
+          PrimaryExpr(
+            Literal(
+              ListLit(
+                "[",
+                ElementList(
+                  Embedding(
+                    AliasExpr(
+                      Expression(
+                        PrimaryExpr(
+                          Literal(
+                            BasicLit(
+                              IntLit(
+                                DecimalLit))))))),
+                  Embedding(
+                    AliasExpr(
+                      Expression(
+                        PrimaryExpr(
+                          Literal(
+                            BasicLit(
+                              IntLit(
+                                DecimalLit))))))),
+                  Embedding(
+                    AliasExpr(
+                      Expression(
+                        PrimaryExpr(
+                          Literal(
+                            BasicLit(
+                              IntLit(
+                                DecimalLit)))))))),
+                "]"))))))))
 
 # [1,2,3,]
 [1,2,3,]
 ==>
-SourceFile(Declaration(Embedding(AliasExpr(Expression(PrimaryExpr(Literal(ListLit("[",ElementList(
-    Embedding(AliasExpr(Expression(PrimaryExpr(Literal(BasicLit(IntLit(DecimalLit))))))),
-    Embedding(AliasExpr(Expression(PrimaryExpr(Literal(BasicLit(IntLit(DecimalLit))))))),
-    Embedding(AliasExpr(Expression(PrimaryExpr(Literal(BasicLit(IntLit(DecimalLit)))))))
-),"]"))))))))
+SourceFile(
+  Declaration(
+    Embedding(
+      AliasExpr(
+        Expression(
+          PrimaryExpr(
+            Literal(
+              ListLit(
+                "[",
+                ElementList(
+                  Embedding(
+                    AliasExpr(
+                      Expression(
+                        PrimaryExpr(
+                          Literal(
+                            BasicLit(
+                              IntLit(
+                                DecimalLit))))))),
+                  Embedding(
+                    AliasExpr(
+                      Expression(
+                        PrimaryExpr(
+                          Literal(
+                            BasicLit(
+                              IntLit(
+                                DecimalLit))))))),
+                  Embedding(
+                    AliasExpr(
+                      Expression(
+                        PrimaryExpr(
+                          Literal(
+                            BasicLit(
+                              IntLit(
+                                DecimalLit)))))))),
+                "]"))))))))
 
 # [1,2,3,4]
 [1,2,3,4]
 ==>
-SourceFile(Declaration(Embedding(AliasExpr(Expression(PrimaryExpr(Literal(ListLit("[",ElementList(
-    Embedding(AliasExpr(Expression(PrimaryExpr(Literal(BasicLit(IntLit(DecimalLit))))))),
-    Embedding(AliasExpr(Expression(PrimaryExpr(Literal(BasicLit(IntLit(DecimalLit))))))),
-    Embedding(AliasExpr(Expression(PrimaryExpr(Literal(BasicLit(IntLit(DecimalLit))))))),
-    Embedding(AliasExpr(Expression(PrimaryExpr(Literal(BasicLit(IntLit(DecimalLit)))))))
-),"]"))))))))
+SourceFile(
+  Declaration(
+    Embedding(
+      AliasExpr(
+        Expression(
+          PrimaryExpr(
+            Literal(
+              ListLit(
+                "[",
+                ElementList(
+                  Embedding(
+                    AliasExpr(
+                      Expression(
+                        PrimaryExpr(
+                          Literal(
+                            BasicLit(
+                              IntLit(
+                                DecimalLit))))))),
+                  Embedding(
+                    AliasExpr(
+                      Expression(
+                        PrimaryExpr(
+                          Literal(
+                            BasicLit(
+                              IntLit(
+                                DecimalLit))))))),
+                  Embedding(
+                    AliasExpr(
+                      Expression(
+                        PrimaryExpr(
+                          Literal(
+                            BasicLit(
+                              IntLit(
+                                DecimalLit))))))),
+                  Embedding(
+                    AliasExpr(
+                      Expression(
+                        PrimaryExpr(
+                          Literal(
+                            BasicLit(
+                              IntLit(
+                                DecimalLit)))))))),
+                "]"))))))))
 
 # [1,2,3,4,]
 [1,2,3,4,]
 ==>
-SourceFile(Declaration(Embedding(AliasExpr(Expression(PrimaryExpr(Literal(ListLit("[",ElementList(
-    Embedding(AliasExpr(Expression(PrimaryExpr(Literal(BasicLit(IntLit(DecimalLit))))))),
-    Embedding(AliasExpr(Expression(PrimaryExpr(Literal(BasicLit(IntLit(DecimalLit))))))),
-    Embedding(AliasExpr(Expression(PrimaryExpr(Literal(BasicLit(IntLit(DecimalLit))))))),
-    Embedding(AliasExpr(Expression(PrimaryExpr(Literal(BasicLit(IntLit(DecimalLit)))))))
-),"]"))))))))
+SourceFile(
+  Declaration(
+    Embedding(
+      AliasExpr(
+        Expression(
+          PrimaryExpr(
+            Literal(
+              ListLit(
+                "[",
+                ElementList(
+                  Embedding(
+                    AliasExpr(
+                      Expression(
+                        PrimaryExpr(
+                          Literal(
+                            BasicLit(
+                              IntLit(
+                                DecimalLit))))))),
+                  Embedding(
+                    AliasExpr(
+                      Expression(
+                        PrimaryExpr(
+                          Literal(
+                            BasicLit(
+                              IntLit(
+                                DecimalLit))))))),
+                  Embedding(
+                    AliasExpr(
+                      Expression(
+                        PrimaryExpr(
+                          Literal(
+                            BasicLit(
+                              IntLit(
+                                DecimalLit))))))),
+                  Embedding(
+                    AliasExpr(
+                      Expression(
+                        PrimaryExpr(
+                          Literal(
+                            BasicLit(
+                              IntLit(
+                                DecimalLit)))))))),
+                "]"))))))))
 
 # newlines in array
 [
@@ -68,14 +248,95 @@ SourceFile(Declaration(Embedding(AliasExpr(Expression(PrimaryExpr(Literal(ListLi
 ]
 ==>
 SourceFile(
-Declaration(Embedding(AliasExpr(Expression(PrimaryExpr(Literal(ListLit("[","]"))))))),
-Declaration(Embedding(AliasExpr(Expression(PrimaryExpr(Literal(ListLit("[",ElementList(
-    Embedding(AliasExpr(Expression(PrimaryExpr(Literal(BasicLit(IntLit(DecimalLit))))))),
-    Embedding(AliasExpr(Expression(PrimaryExpr(Literal(BasicLit(IntLit(DecimalLit))))))),
-    Embedding(AliasExpr(Expression(PrimaryExpr(Literal(BasicLit(IntLit(DecimalLit)))))))),"]"))))))),
-Declaration(Embedding(AliasExpr(Expression(PrimaryExpr(Literal(ListLit("[",ElementList(
-    Embedding(AliasExpr(Expression(PrimaryExpr(Literal(BasicLit(IntLit(DecimalLit))))))),
-    Embedding(AliasExpr(Expression(PrimaryExpr(Literal(BasicLit(IntLit(DecimalLit))))))),
-    Embedding(AliasExpr(Expression(PrimaryExpr(Literal(BasicLit(IntLit(DecimalLit)))))))),"]"))))))),
-Declaration(Embedding(AliasExpr(Expression(PrimaryExpr(Literal(ListLit("[",ElementList(
-    Ellipsis(Expression(PrimaryExpr(OperandName(Identifier))))),"]"))))))))
+  Declaration(
+    Embedding(
+      AliasExpr(
+        Expression(
+          PrimaryExpr(
+            Literal(
+              ListLit(
+                "[",
+                "]"))))))),
+  Declaration(
+    Embedding(
+      AliasExpr(
+        Expression(
+          PrimaryExpr(
+            Literal(
+              ListLit(
+                "[",
+                ElementList(
+                  Embedding(
+                    AliasExpr(
+                      Expression(
+                        PrimaryExpr(
+                          Literal(
+                            BasicLit(
+                              IntLit(
+                                DecimalLit))))))),
+                  Embedding(
+                    AliasExpr(
+                      Expression(
+                        PrimaryExpr(
+                          Literal(
+                            BasicLit(
+                              IntLit(
+                                DecimalLit))))))),
+                  Embedding(
+                    AliasExpr(
+                      Expression(
+                        PrimaryExpr(
+                          Literal(
+                            BasicLit(
+                              IntLit(
+                                DecimalLit)))))))),
+                "]"))))))),
+  Declaration(
+    Embedding(
+      AliasExpr(
+        Expression(
+          PrimaryExpr(
+            Literal(
+              ListLit(
+                "[",
+                ElementList(
+                  Embedding(
+                    AliasExpr(
+                      Expression(
+                        PrimaryExpr(
+                          Literal(
+                            BasicLit(
+                              IntLit(
+                                DecimalLit))))))),
+                  Embedding(
+                    AliasExpr(
+                      Expression(
+                        PrimaryExpr(
+                          Literal(
+                            BasicLit(
+                              IntLit(
+                                DecimalLit))))))),
+                  Embedding(
+                    AliasExpr(
+                      Expression(
+                        PrimaryExpr(
+                          Literal(
+                            BasicLit(
+                              IntLit(
+                                DecimalLit)))))))),
+                "]"))))))),
+  Declaration(
+    Embedding(
+      AliasExpr(
+        Expression(
+          PrimaryExpr(
+            Literal(
+              ListLit(
+                "[",
+                ElementList(
+                  Ellipsis(
+                    Expression(
+                      PrimaryExpr(
+                        OperandName(
+                          Identifier))))),
+                "]"))))))))
