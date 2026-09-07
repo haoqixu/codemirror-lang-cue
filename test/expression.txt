@@ -189,26 +189,26 @@ SourceFile(
         Expression(
           BinExpr(
             Expression(
-              UnaryExpr(
-                PrimaryExpr(
-                  Literal(
-                    BasicLit(
-                      IntLit(
-                        DecimalLit)))))),
-            Expression(
               BinExpr(
                 Expression(
-                  PrimaryExpr(
-                    Literal(
-                      BasicLit(
-                        IntLit(
-                          DecimalLit))))),
+                  UnaryExpr(
+                    PrimaryExpr(
+                      Literal(
+                        BasicLit(
+                          IntLit(
+                            DecimalLit)))))),
                 Expression(
                   PrimaryExpr(
                     Literal(
                       BasicLit(
                         IntLit(
-                          DecimalLit)))))))))))))
+                          DecimalLit))))))),
+            Expression(
+              PrimaryExpr(
+                Literal(
+                  BasicLit(
+                    IntLit(
+                      DecimalLit)))))))))))
 
 # `(*1|2|3) | (1|*2|3)`
 (*1|2|3) | (1|*2|3)
@@ -225,39 +225,6 @@ SourceFile(
                 Expression(
                   BinExpr(
                     Expression(
-                      UnaryExpr(
-                        PrimaryExpr(
-                          Literal(
-                            BasicLit(
-                              IntLit(
-                                DecimalLit)))))),
-                    Expression(
-                      BinExpr(
-                        Expression(
-                          PrimaryExpr(
-                            Literal(
-                              BasicLit(
-                                IntLit(
-                                  DecimalLit))))),
-                        Expression(
-                          PrimaryExpr(
-                            Literal(
-                              BasicLit(
-                                IntLit(
-                                  DecimalLit))))))))),
-                ")")),
-            Expression(
-              PrimaryExpr(
-                "(",
-                Expression(
-                  BinExpr(
-                    Expression(
-                      PrimaryExpr(
-                        Literal(
-                          BasicLit(
-                            IntLit(
-                              DecimalLit))))),
-                    Expression(
                       BinExpr(
                         Expression(
                           UnaryExpr(
@@ -271,7 +238,40 @@ SourceFile(
                             Literal(
                               BasicLit(
                                 IntLit(
-                                  DecimalLit))))))))),
+                                  DecimalLit))))))),
+                    Expression(
+                      PrimaryExpr(
+                        Literal(
+                          BasicLit(
+                            IntLit(
+                              DecimalLit))))))),
+                ")")),
+            Expression(
+              PrimaryExpr(
+                "(",
+                Expression(
+                  BinExpr(
+                    Expression(
+                      BinExpr(
+                        Expression(
+                          PrimaryExpr(
+                            Literal(
+                              BasicLit(
+                                IntLit(
+                                  DecimalLit))))),
+                        Expression(
+                          UnaryExpr(
+                            PrimaryExpr(
+                              Literal(
+                                BasicLit(
+                                  IntLit(
+                                    DecimalLit)))))))),
+                    Expression(
+                      PrimaryExpr(
+                        Literal(
+                          BasicLit(
+                            IntLit(
+                              DecimalLit))))))),
                 ")"))))))))
 
 # `(*1|2|3) | *(1|*2|3)`
@@ -289,26 +289,26 @@ SourceFile(
                 Expression(
                   BinExpr(
                     Expression(
-                      UnaryExpr(
-                        PrimaryExpr(
-                          Literal(
-                            BasicLit(
-                              IntLit(
-                                DecimalLit)))))),
-                    Expression(
                       BinExpr(
                         Expression(
-                          PrimaryExpr(
-                            Literal(
-                              BasicLit(
-                                IntLit(
-                                  DecimalLit))))),
+                          UnaryExpr(
+                            PrimaryExpr(
+                              Literal(
+                                BasicLit(
+                                  IntLit(
+                                    DecimalLit)))))),
                         Expression(
                           PrimaryExpr(
                             Literal(
                               BasicLit(
                                 IntLit(
-                                  DecimalLit))))))))),
+                                  DecimalLit))))))),
+                    Expression(
+                      PrimaryExpr(
+                        Literal(
+                          BasicLit(
+                            IntLit(
+                              DecimalLit))))))),
                 ")")),
             Expression(
               UnaryExpr(
@@ -317,26 +317,26 @@ SourceFile(
                   Expression(
                     BinExpr(
                       Expression(
-                        PrimaryExpr(
-                          Literal(
-                            BasicLit(
-                              IntLit(
-                                DecimalLit))))),
-                      Expression(
                         BinExpr(
+                          Expression(
+                            PrimaryExpr(
+                              Literal(
+                                BasicLit(
+                                  IntLit(
+                                    DecimalLit))))),
                           Expression(
                             UnaryExpr(
                               PrimaryExpr(
                                 Literal(
                                   BasicLit(
                                     IntLit(
-                                      DecimalLit)))))),
-                          Expression(
-                            PrimaryExpr(
-                              Literal(
-                                BasicLit(
-                                  IntLit(
-                                    DecimalLit))))))))),
+                                      DecimalLit)))))))),
+                      Expression(
+                        PrimaryExpr(
+                          Literal(
+                            BasicLit(
+                              IntLit(
+                                DecimalLit))))))),
                   ")")))))))))
 
 # `(*1|2|3) | (1|*2|3)&2`
@@ -354,26 +354,26 @@ SourceFile(
                 Expression(
                   BinExpr(
                     Expression(
-                      UnaryExpr(
-                        PrimaryExpr(
-                          Literal(
-                            BasicLit(
-                              IntLit(
-                                DecimalLit)))))),
-                    Expression(
                       BinExpr(
                         Expression(
-                          PrimaryExpr(
-                            Literal(
-                              BasicLit(
-                                IntLit(
-                                  DecimalLit))))),
+                          UnaryExpr(
+                            PrimaryExpr(
+                              Literal(
+                                BasicLit(
+                                  IntLit(
+                                    DecimalLit)))))),
                         Expression(
                           PrimaryExpr(
                             Literal(
                               BasicLit(
                                 IntLit(
-                                  DecimalLit))))))))),
+                                  DecimalLit))))))),
+                    Expression(
+                      PrimaryExpr(
+                        Literal(
+                          BasicLit(
+                            IntLit(
+                              DecimalLit))))))),
                 ")")),
             Expression(
               BinExpr(
@@ -383,26 +383,26 @@ SourceFile(
                     Expression(
                       BinExpr(
                         Expression(
-                          PrimaryExpr(
-                            Literal(
-                              BasicLit(
-                                IntLit(
-                                  DecimalLit))))),
-                        Expression(
                           BinExpr(
+                            Expression(
+                              PrimaryExpr(
+                                Literal(
+                                  BasicLit(
+                                    IntLit(
+                                      DecimalLit))))),
                             Expression(
                               UnaryExpr(
                                 PrimaryExpr(
                                   Literal(
                                     BasicLit(
                                       IntLit(
-                                        DecimalLit)))))),
-                            Expression(
-                              PrimaryExpr(
-                                Literal(
-                                  BasicLit(
-                                    IntLit(
-                                      DecimalLit))))))))),
+                                        DecimalLit)))))))),
+                        Expression(
+                          PrimaryExpr(
+                            Literal(
+                              BasicLit(
+                                IntLit(
+                                  DecimalLit))))))),
                     ")")),
                 Expression(
                   PrimaryExpr(
@@ -543,39 +543,6 @@ SourceFile(
                 Expression(
                   BinExpr(
                     Expression(
-                      UnaryExpr(
-                        PrimaryExpr(
-                          Literal(
-                            BasicLit(
-                              IntLit(
-                                DecimalLit)))))),
-                    Expression(
-                      BinExpr(
-                        Expression(
-                          PrimaryExpr(
-                            Literal(
-                              BasicLit(
-                                IntLit(
-                                  DecimalLit))))),
-                        Expression(
-                          PrimaryExpr(
-                            Literal(
-                              BasicLit(
-                                IntLit(
-                                  DecimalLit))))))))),
-                ")")),
-            Expression(
-              PrimaryExpr(
-                "(",
-                Expression(
-                  BinExpr(
-                    Expression(
-                      PrimaryExpr(
-                        Literal(
-                          BasicLit(
-                            IntLit(
-                              DecimalLit))))),
-                    Expression(
                       BinExpr(
                         Expression(
                           UnaryExpr(
@@ -589,7 +556,40 @@ SourceFile(
                             Literal(
                               BasicLit(
                                 IntLit(
-                                  DecimalLit))))))))),
+                                  DecimalLit))))))),
+                    Expression(
+                      PrimaryExpr(
+                        Literal(
+                          BasicLit(
+                            IntLit(
+                              DecimalLit))))))),
+                ")")),
+            Expression(
+              PrimaryExpr(
+                "(",
+                Expression(
+                  BinExpr(
+                    Expression(
+                      BinExpr(
+                        Expression(
+                          PrimaryExpr(
+                            Literal(
+                              BasicLit(
+                                IntLit(
+                                  DecimalLit))))),
+                        Expression(
+                          UnaryExpr(
+                            PrimaryExpr(
+                              Literal(
+                                BasicLit(
+                                  IntLit(
+                                    DecimalLit)))))))),
+                    Expression(
+                      PrimaryExpr(
+                        Literal(
+                          BasicLit(
+                            IntLit(
+                              DecimalLit))))))),
                 ")"))))))))
 
 # `(*1|2|3) & (1|*2|3)`
@@ -607,39 +607,6 @@ SourceFile(
                 Expression(
                   BinExpr(
                     Expression(
-                      UnaryExpr(
-                        PrimaryExpr(
-                          Literal(
-                            BasicLit(
-                              IntLit(
-                                DecimalLit)))))),
-                    Expression(
-                      BinExpr(
-                        Expression(
-                          PrimaryExpr(
-                            Literal(
-                              BasicLit(
-                                IntLit(
-                                  DecimalLit))))),
-                        Expression(
-                          PrimaryExpr(
-                            Literal(
-                              BasicLit(
-                                IntLit(
-                                  DecimalLit))))))))),
-                ")")),
-            Expression(
-              PrimaryExpr(
-                "(",
-                Expression(
-                  BinExpr(
-                    Expression(
-                      PrimaryExpr(
-                        Literal(
-                          BasicLit(
-                            IntLit(
-                              DecimalLit))))),
-                    Expression(
                       BinExpr(
                         Expression(
                           UnaryExpr(
@@ -653,7 +620,40 @@ SourceFile(
                             Literal(
                               BasicLit(
                                 IntLit(
-                                  DecimalLit))))))))),
+                                  DecimalLit))))))),
+                    Expression(
+                      PrimaryExpr(
+                        Literal(
+                          BasicLit(
+                            IntLit(
+                              DecimalLit))))))),
+                ")")),
+            Expression(
+              PrimaryExpr(
+                "(",
+                Expression(
+                  BinExpr(
+                    Expression(
+                      BinExpr(
+                        Expression(
+                          PrimaryExpr(
+                            Literal(
+                              BasicLit(
+                                IntLit(
+                                  DecimalLit))))),
+                        Expression(
+                          UnaryExpr(
+                            PrimaryExpr(
+                              Literal(
+                                BasicLit(
+                                  IntLit(
+                                    DecimalLit)))))))),
+                    Expression(
+                      PrimaryExpr(
+                        Literal(
+                          BasicLit(
+                            IntLit(
+                              DecimalLit))))))),
                 ")"))))))))
 
 # `(* >=5 | int) & (* <=5 | int)`

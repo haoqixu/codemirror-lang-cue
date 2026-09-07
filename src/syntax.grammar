@@ -89,19 +89,18 @@ Arguments      { "(" (Argument ("," Argument)*  ","? )? ")" }
 //     1             |
 
 Expression { PrimaryExpr | UnaryExpr | BinExpr }
-BinExpr    { Expression binary_op Expression }
+// Precedence must apply to the recursive expressions, not the operator helpers.
+BinExpr {
+    Expression !prec1 bitwise_or_op Expression |
+    Expression !prec2 bitwise_and_op Expression |
+    Expression !prec3 or_op Expression |
+    Expression !prec4 and_op Expression |
+    Expression !prec5 rel_op Expression |
+    Expression !prec6 add_op Expression |
+    Expression !prec7 mul_op Expression
+}
 UnaryExpr  { !unary unary_op _unaryExpr }
 _unaryExpr { !unary PrimaryExpr | unary_op _unaryExpr }
-
-binary_op  {
-    !prec1 bitwise_or_op |
-    !prec2 bitwise_and_op |
-    !prec3 or_op |
-    !prec4 and_op |
-    !prec5 rel_op |
-    !prec6 add_op |
-    !prec7 mul_op
-}
 
 bitwise_or_op  { "|" }
 bitwise_and_op { "&" }
