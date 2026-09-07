@@ -1,0 +1,212 @@
+# cue/format/testdata/comments.txtar / empty.input (adapted to Lezer)
+==>
+SourceFile
+
+# cue/format/testdata/comments.txtar / comment_alone.input (adapted to Lezer)
+// Just one comment on its own.
+==>
+SourceFile(
+  Comment)
+
+# cue/format/testdata/comments.txtar / comment_field.input (adapted to Lezer)
+// Just one comment on a field.
+foo: string
+==>
+SourceFile(
+  Comment,
+  Declaration(
+    Field(
+      Label(
+        LabelExpr(
+          LabelName(
+            Identifier))),
+      AliasExpr(
+        Expression(
+          PrimaryExpr(
+            OperandName(
+              Identifier)))))))
+
+# cue/format/testdata/comments.txtar / comments_alone.input (adapted to Lezer)
+// Just a few comments
+// on their own.
+==>
+SourceFile(
+  Comment,
+  Comment)
+
+# cue/format/testdata/comments.txtar / comments_field.input (adapted to Lezer)
+// Just a few comments
+// on a field.
+foo: string
+==>
+SourceFile(
+  Comment,
+  Comment,
+  Declaration(
+    Field(
+      Label(
+        LabelExpr(
+          LabelName(
+            Identifier))),
+      AliasExpr(
+        Expression(
+          PrimaryExpr(
+            OperandName(
+              Identifier)))))))
+
+# cue/format/testdata/comments.txtar / issue4404.input (adapted to Lezer)
+// A file with a single comment block
+// and no empty line afterwards.
+==>
+SourceFile(
+  Comment,
+  Comment)
+
+# cue/format/testdata/comments.txtar / issue1006.input (adapted to Lezer)
+// issue #1006: comments should not be aligned across the opening
+// or closing token of a multi-line struct, list, or func call.
+
+very_long_to_push_out_the_comment: { // comment
+	a: string // comment
+
+	b: string // comment
+} | "very_long_to_push_out_the_comment" // comment
+
+very_long_to_push_out_the_comment: [ // comment
+	a, // comment
+
+	b, // comment
+] | "very_long_to_push_out_the_comment" // comment
+
+very_long_to_push_out_the_comment: f( // comment
+	a, // comment
+
+	b, // comment
+) | "very_long_to_push_out_the_comment" // comment
+
+==>
+SourceFile(
+  Comment,
+  Comment,
+  Declaration(
+    Field(
+      Label(
+        LabelExpr(
+          LabelName(
+            Identifier))),
+      AliasExpr(
+        Expression(
+          BinExpr(
+            Expression(
+              PrimaryExpr(
+                Literal(
+                  StructLit(
+                    "{",
+                    Comment,
+                    Declaration(
+                      Field(
+                        Label(
+                          LabelExpr(
+                            LabelName(
+                              Identifier))),
+                        AliasExpr(
+                          Expression(
+                            PrimaryExpr(
+                              OperandName(
+                                Identifier)))))),
+                    Comment,
+                    Declaration(
+                      Field(
+                        Label(
+                          LabelExpr(
+                            LabelName(
+                              Identifier))),
+                        AliasExpr(
+                          Expression(
+                            PrimaryExpr(
+                              OperandName(
+                                Identifier)))))),
+                    Comment,
+                    "}")))),
+            Expression(
+              PrimaryExpr(
+                Literal(
+                  BasicLit(
+                    StringLit(
+                      SimpleStringLit)))))))))),
+  Comment,
+  Declaration(
+    Field(
+      Label(
+        LabelExpr(
+          LabelName(
+            Identifier))),
+      AliasExpr(
+        Expression(
+          BinExpr(
+            Expression(
+              PrimaryExpr(
+                Literal(
+                  ListLit(
+                    "[",
+                    Comment,
+                    ElementList(
+                      Embedding(
+                        AliasExpr(
+                          Expression(
+                            PrimaryExpr(
+                              OperandName(
+                                Identifier))))),
+                      Comment,
+                      Embedding(
+                        AliasExpr(
+                          Expression(
+                            PrimaryExpr(
+                              OperandName(
+                                Identifier)))))),
+                    Comment,
+                    "]")))),
+            Expression(
+              PrimaryExpr(
+                Literal(
+                  BasicLit(
+                    StringLit(
+                      SimpleStringLit)))))))))),
+  Comment,
+  Declaration(
+    Field(
+      Label(
+        LabelExpr(
+          LabelName(
+            Identifier))),
+      AliasExpr(
+        Expression(
+          BinExpr(
+            Expression(
+              PrimaryExpr(
+                PrimaryExpr(
+                  OperandName(
+                    Identifier)),
+                Arguments(
+                  "(",
+                  Comment,
+                  Argument(
+                    Expression(
+                      PrimaryExpr(
+                        OperandName(
+                          Identifier)))),
+                  Comment,
+                  Argument(
+                    Expression(
+                      PrimaryExpr(
+                        OperandName(
+                          Identifier)))),
+                  Comment,
+                  ")"))),
+            Expression(
+              PrimaryExpr(
+                Literal(
+                  BasicLit(
+                    StringLit(
+                      SimpleStringLit)))))))))),
+  Comment)

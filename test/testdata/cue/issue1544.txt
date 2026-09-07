@@ -1,0 +1,119 @@
+# cue/format/testdata/issue1544.txtar / if.input (adapted to Lezer)
+if true {
+	x: 5
+}
+==>
+SourceFile(
+  Declaration(
+    Embedding(
+      Comprehension(
+        Clauses(
+          StartClause(
+            GuardClause(
+              if,
+              Expression(
+                PrimaryExpr(
+                  Literal(
+                    BasicLit(
+                      BoolLit(
+                        true)))))))),
+        StructLit(
+          "{",
+          Declaration(
+            Field(
+              Label(
+                LabelExpr(
+                  LabelName(
+                    Identifier))),
+              AliasExpr(
+                Expression(
+                  PrimaryExpr(
+                    Literal(
+                      BasicLit(
+                        IntLit(
+                          DecimalLit)))))))),
+          "}")))))
+
+# cue/format/testdata/issue1544.txtar / let.input (adapted to Lezer)
+let x = 5
+y: x
+==>
+SourceFile(
+  Declaration(
+    LetClause(
+      let,
+      Identifier,
+      Expression(
+        PrimaryExpr(
+          Literal(
+            BasicLit(
+              IntLit(
+                DecimalLit))))))),
+  Declaration(
+    Field(
+      Label(
+        LabelExpr(
+          LabelName(
+            Identifier))),
+      AliasExpr(
+        Expression(
+          PrimaryExpr(
+            OperandName(
+              Identifier)))))))
+
+# cue/format/testdata/issue1544.txtar / for.input (adapted to Lezer)
+for v in ["a", "b"] {
+	(v): v
+}
+==>
+SourceFile(
+  Declaration(
+    Embedding(
+      Comprehension(
+        Clauses(
+          StartClause(
+            ForClause(
+              for,
+              Identifier,
+              Expression(
+                PrimaryExpr(
+                  Literal(
+                    ListLit(
+                      "[",
+                      ElementList(
+                        Embedding(
+                          AliasExpr(
+                            Expression(
+                              PrimaryExpr(
+                                Literal(
+                                  BasicLit(
+                                    StringLit(
+                                      SimpleStringLit))))))),
+                        Embedding(
+                          AliasExpr(
+                            Expression(
+                              PrimaryExpr(
+                                Literal(
+                                  BasicLit(
+                                    StringLit(
+                                      SimpleStringLit)))))))),
+                      "]"))))))),
+        StructLit(
+          "{",
+          Declaration(
+            Field(
+              Label(
+                LabelExpr(
+                  LabelName(
+                    "(",
+                    Expression(
+                      PrimaryExpr(
+                        OperandName(
+                          Identifier))),
+                    ")"))),
+              AliasExpr(
+                Expression(
+                  PrimaryExpr(
+                    OperandName(
+                      Identifier)))))),
+          "}")))))

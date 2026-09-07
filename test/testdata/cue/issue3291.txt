@@ -1,0 +1,89 @@
+# cue/format/testdata/issue3291.txtar / file.input (adapted to Lezer)
+A: true
+B: [
+	1, // this comment is fine
+	2, // this comment is fine
+	if A {
+		3 // this comment ends up touching its element
+	},
+	4, // this comment is fine
+]
+==>
+SourceFile(
+  Declaration(
+    Field(
+      Label(
+        LabelExpr(
+          LabelName(
+            Identifier))),
+      AliasExpr(
+        Expression(
+          PrimaryExpr(
+            Literal(
+              BasicLit(
+                BoolLit(
+                  true)))))))),
+  Declaration(
+    Field(
+      Label(
+        LabelExpr(
+          LabelName(
+            Identifier))),
+      AliasExpr(
+        Expression(
+          PrimaryExpr(
+            Literal(
+              ListLit(
+                "[",
+                ElementList(
+                  Embedding(
+                    AliasExpr(
+                      Expression(
+                        PrimaryExpr(
+                          Literal(
+                            BasicLit(
+                              IntLit(
+                                DecimalLit))))))),
+                  Comment,
+                  Embedding(
+                    AliasExpr(
+                      Expression(
+                        PrimaryExpr(
+                          Literal(
+                            BasicLit(
+                              IntLit(
+                                DecimalLit))))))),
+                  Comment,
+                  Embedding(
+                    Comprehension(
+                      Clauses(
+                        StartClause(
+                          GuardClause(
+                            if,
+                            Expression(
+                              PrimaryExpr(
+                                OperandName(
+                                  Identifier)))))),
+                      StructLit(
+                        "{",
+                        Declaration(
+                          Embedding(
+                            AliasExpr(
+                              Expression(
+                                PrimaryExpr(
+                                  Literal(
+                                    BasicLit(
+                                      IntLit(
+                                        DecimalLit)))))))),
+                        Comment,
+                        "}"))),
+                  Embedding(
+                    AliasExpr(
+                      Expression(
+                        PrimaryExpr(
+                          Literal(
+                            BasicLit(
+                              IntLit(
+                                DecimalLit)))))))),
+                Comment,
+                "]"))))))))

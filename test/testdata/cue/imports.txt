@@ -1,0 +1,289 @@
+# cue/format/testdata/imports.txtar / pkgonly.input (adapted to Lezer)
+package foo
+==>
+SourceFile(
+  PackageClause(
+    package,
+    PackageName(
+      Identifier)))
+
+# cue/format/testdata/imports.txtar / attronly.input (adapted to Lezer)
+@attr(foo)
+==>
+SourceFile(
+  Attribute(
+    Identifier,
+    "(",
+    AttrTokens,
+    ")"))
+
+# cue/format/testdata/imports.txtar / importonly.input (adapted to Lezer)
+import "foo"
+==>
+SourceFile(
+  ImportDecl(
+    import,
+    ImportSpec(
+      ImportPath)))
+
+# cue/format/testdata/imports.txtar / imports.input (adapted to Lezer)
+package foo
+
+import (
+    "cuelang.org/go/foo"
+    "cuelang.org/go/bar"
+    "time"
+)
+
+import (
+    time1 "time"
+
+    // comment f2
+    f2 "cuelang.org/go/foo"
+    f1 "cuelang.org/go/foo"
+)
+
+import (
+    time2 "time"
+
+    same "cuelang.org/go/foo" // comment 1
+    same2 "cuelang.org/go/foo" // comment 2
+)
+
+
+a: time.time
+b: foo.foo
+c: bar.Bar
+==>
+SourceFile(
+  PackageClause(
+    package,
+    PackageName(
+      Identifier)),
+  ImportDecl(
+    import,
+    "(",
+    ImportSpec(
+      ImportPath),
+    ImportSpec(
+      ImportPath),
+    ImportSpec(
+      ImportPath),
+    ")"),
+  ImportDecl(
+    import,
+    "(",
+    ImportSpec(
+      PackageName(
+        Identifier),
+      ImportPath),
+    Comment,
+    ImportSpec(
+      PackageName(
+        Identifier),
+      ImportPath),
+    ImportSpec(
+      PackageName(
+        Identifier),
+      ImportPath),
+    ")"),
+  ImportDecl(
+    import,
+    "(",
+    ImportSpec(
+      PackageName(
+        Identifier),
+      ImportPath),
+    ImportSpec(
+      PackageName(
+        Identifier),
+      ImportPath),
+    Comment,
+    ImportSpec(
+      PackageName(
+        Identifier),
+      ImportPath),
+    Comment,
+    ")"),
+  Declaration(
+    Field(
+      Label(
+        LabelExpr(
+          LabelName(
+            Identifier))),
+      AliasExpr(
+        Expression(
+          PrimaryExpr(
+            PrimaryExpr(
+              OperandName(
+                Identifier)),
+            Selector(
+              Identifier)))))),
+  Declaration(
+    Field(
+      Label(
+        LabelExpr(
+          LabelName(
+            Identifier))),
+      AliasExpr(
+        Expression(
+          PrimaryExpr(
+            PrimaryExpr(
+              OperandName(
+                Identifier)),
+            Selector(
+              Identifier)))))),
+  Declaration(
+    Field(
+      Label(
+        LabelExpr(
+          LabelName(
+            Identifier))),
+      AliasExpr(
+        Expression(
+          PrimaryExpr(
+            PrimaryExpr(
+              OperandName(
+                Identifier)),
+            Selector(
+              Identifier)))))))
+
+# cue/format/testdata/imports.txtar / lparen-comment.input (adapted to Lezer)
+package foo
+
+import ( // c
+	"cuelang.org/go/foo"
+	"time"
+)
+
+a: time.time
+b: foo.foo
+==>
+SourceFile(
+  PackageClause(
+    package,
+    PackageName(
+      Identifier)),
+  ImportDecl(
+    import,
+    "(",
+    Comment,
+    ImportSpec(
+      ImportPath),
+    ImportSpec(
+      ImportPath),
+    ")"),
+  Declaration(
+    Field(
+      Label(
+        LabelExpr(
+          LabelName(
+            Identifier))),
+      AliasExpr(
+        Expression(
+          PrimaryExpr(
+            PrimaryExpr(
+              OperandName(
+                Identifier)),
+            Selector(
+              Identifier)))))),
+  Declaration(
+    Field(
+      Label(
+        LabelExpr(
+          LabelName(
+            Identifier))),
+      AliasExpr(
+        Expression(
+          PrimaryExpr(
+            PrimaryExpr(
+              OperandName(
+                Identifier)),
+            Selector(
+              Identifier)))))))
+
+# cue/format/testdata/imports.txtar / lparen-rparen-comments.input (adapted to Lezer)
+package foo
+
+import ( // a
+	"time"
+) // b
+
+x: time.time
+==>
+SourceFile(
+  PackageClause(
+    package,
+    PackageName(
+      Identifier)),
+  ImportDecl(
+    import,
+    "(",
+    Comment,
+    ImportSpec(
+      ImportPath),
+    ")"),
+  Comment,
+  Declaration(
+    Field(
+      Label(
+        LabelExpr(
+          LabelName(
+            Identifier))),
+      AliasExpr(
+        Expression(
+          PrimaryExpr(
+            PrimaryExpr(
+              OperandName(
+                Identifier)),
+            Selector(
+              Identifier)))))))
+
+# cue/format/testdata/imports.txtar / issue1447.input (adapted to Lezer)
+import "strings"
+
+// comment
+
+s: string
+u: strings.ToUpper(s)
+==>
+SourceFile(
+  ImportDecl(
+    import,
+    ImportSpec(
+      ImportPath)),
+  Comment,
+  Declaration(
+    Field(
+      Label(
+        LabelExpr(
+          LabelName(
+            Identifier))),
+      AliasExpr(
+        Expression(
+          PrimaryExpr(
+            OperandName(
+              Identifier)))))),
+  Declaration(
+    Field(
+      Label(
+        LabelExpr(
+          LabelName(
+            Identifier))),
+      AliasExpr(
+        Expression(
+          PrimaryExpr(
+            PrimaryExpr(
+              PrimaryExpr(
+                OperandName(
+                  Identifier)),
+              Selector(
+                Identifier)),
+            Arguments(
+              "(",
+              Argument(
+                Expression(
+                  PrimaryExpr(
+                    OperandName(
+                      Identifier)))),
+              ")")))))))

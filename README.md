@@ -32,6 +32,17 @@ const view = new EditorView({
 });
 ```
 
+## Testing
+
+```sh
+pnpm prepare
+pnpm test
+```
+
+Tests include vendored [upstream CUE fixtures](test/testdata/cue/README.md),
+with a pinned source revision and a reproducible importer. No network is needed
+to run them.
+
 ## Example
 
 TODO:
