@@ -2,6 +2,7 @@ import {cueLanguage} from "../dist/index.js"
 import {fileTests} from "@lezer/generator/dist/test"
 import {printTree} from "./tree.js"
 import "./precedence.js"
+import "./strings.js"
 
 import * as fs from "fs"
 import * as path from "path"

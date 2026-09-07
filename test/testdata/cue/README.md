@@ -13,9 +13,10 @@ and the formatted results to parse. Archive comments and `.golden` outputs are
 not imported. This avoids mixing parser tests with evaluation results or
 intentional syntax errors from other upstream suites.
 
-The initial corpus includes 25 cases covering packages, imports, attributes,
-comments, lists, comprehensions, let declarations, and dynamic labels.
-Seven inputs needing unsupported syntax are explicitly excluded, with reasons
+The corpus includes 26 cases covering packages, imports, attributes,
+comments, lists, comprehensions, let declarations, dynamic labels, and string
+interpolation (including multiline strings).
+Six inputs needing unsupported syntax are explicitly excluded, with reasons
 in `upstream.json`. This is a regression corpus, not full CUE conformance coverage.
 
 Modifications: txtar inputs are converted to Lezer's test format and expected

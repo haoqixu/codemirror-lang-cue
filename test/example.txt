@@ -70,7 +70,21 @@ SourceFile(
             Literal(
               BasicLit(
                 StringLit(
-                  SimpleStringLit)))))))),
+                  SimpleStringLit(
+                    Interpolation(
+                      InterpolationStart,
+                      Expression(
+                        PrimaryExpr(
+                          OperandName(
+                            Identifier))),
+                      InterpolationEnd),
+                    Interpolation(
+                      InterpolationStart,
+                      Expression(
+                        PrimaryExpr(
+                          OperandName(
+                            Identifier))),
+                      InterpolationEnd)))))))))),
   Comment)
 
 # Basic types

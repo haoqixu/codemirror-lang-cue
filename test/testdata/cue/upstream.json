@@ -3,12 +3,11 @@
   "revision": "eb886ed07a0864cc6bbc081bb8f1efa9fb834944",
   "directory": "cue/format/testdata",
   "exclude": {
-    "comments.txtar/comments.input": "Slice expressions and newlines in call arguments/comprehension clauses are not fully supported.",
-    "expressions.txtar/expressions.input": "Postfix aliases, string interpolation, slices, and trailing commas in indices are not fully supported.",
+    "comments.txtar/comments.input": "Slice expressions and comma elision between call arguments are not supported.",
+    "expressions.txtar/expressions.input": "Postfix aliases, slices, and trailing commas in indices are not supported.",
     "functions.txtar/functions.input": "Experimental function syntax is not supported.",
-    "interpolation.txtar/interpolation.input": "String interpolation and multiline strings are not fully supported.",
-    "simplify.txtar/simplify.input": "String interpolation in labels and postfix aliases are not supported.",
+    "simplify.txtar/simplify.input": "Postfix aliases are not supported.",
     "try.txtar/try.input": "Experimental try/else/fallback comprehension syntax is not supported.",
-    "values.txtar/values.input": "SI literals such as 3.T and multiline strings are not supported."
+    "values.txtar/values.input": "SI literals such as 3.T are not supported."
   }
 }

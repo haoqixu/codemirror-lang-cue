@@ -2,8 +2,11 @@ import {styleTags, tags as t} from "@lezer/highlight"
 
 export const cueHighlighting = styleTags({
   "import package": t.moduleKeyword,
-  "Literal/...": t.literal,
-  "StringLit/...": t.string,
+  Literal: t.literal,
+  "SimpleStringLit SimpleBytesLit MultilineStringLit MultilineBytesLit AttributeString ImportPath": t.string,
+  Escape: t.escape,
+  Interpolation: [],
+  "InterpolationStart InterpolationEnd": t.special(t.brace),
   "IntLit/...": t.number,
   "BoolLit/...": t.bool,
   FloatLit: t.float,

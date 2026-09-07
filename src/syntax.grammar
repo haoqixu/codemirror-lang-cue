@@ -27,9 +27,26 @@
 // Numeric literals
 IntLit     { DecimalLit | SiLit | OctalLit | BinaryLit | HexLit }
 
-// String and byte sequence literals
-// TODO: to be completed
-StringLit       { SimpleBytesLit | SimpleStringLit ~strlit }
+// String delimiters and contents are context-sensitive (hashes, multiline
+// indentation, and nested interpolations). Whitespace inside them is content.
+StringLit { SimpleBytesLit | SimpleStringLit ~strlit | MultilineStringLit | MultilineBytesLit }
+
+@skip {} {
+    SimpleStringLit    { simpleStringStart stringPart* stringEnd }
+    SimpleBytesLit     { simpleBytesStart stringPart* stringEnd }
+    MultilineStringLit { multilineStringStart stringPart* stringEnd }
+    MultilineBytesLit  { multilineBytesStart stringPart* stringEnd }
+    stringPart        { stringContent | Escape | Interpolation }
+
+    // Selectors, imports, and attributes do not allow interpolation.
+    SelectorString[@name=SimpleStringLit] { selectorStringStart plainStringPart* stringEnd }
+    ImportPath      { importStringStart plainStringPart* stringEnd }
+    AttributeString { (simpleStringStart | simpleBytesStart | multilineStringStart | multilineBytesStart)
+                      plainStringPart* stringEnd }
+    plainStringPart { stringContent | Escape }
+}
+
+Interpolation { InterpolationStart Expression InterpolationEnd }
 
 // Values
 NullLit { kw<"null"> }
@@ -47,7 +64,7 @@ LabelExpr       { LabelName ( "?" | "!" )? | "[" AliasExpr ~aliasexpr "]" }
 LabelName       { Identifier ~label-operand | SimpleStringLit ~strlit | "(" ( Identifier "=" )? Expression ")" ~paren }
 
 Attribute       { "@" Identifier "(" AttrTokens ")" }
-AttrTokens      { ( attr_token |
+AttrTokens      { ( attr_token | AttributeString |
                     "(" AttrTokens ")" |
                     "[" AttrTokens "]" |
                     "{" AttrTokens "}" )* }
@@ -73,7 +90,7 @@ PrimaryExpr {
     PrimaryExpr Index |
     PrimaryExpr Arguments }
 
-Selector       { "." (Identifier | SimpleStringLit) }
+Selector       { "." (Identifier | SelectorString) }
 Index          { "[" Expression "]" }
 Argument       { Expression }
 Arguments      { "(" (Argument ("," Argument)*  ","? )? ")" }
@@ -128,6 +145,10 @@ ImportSpec       { PackageName? ImportPath }
 
 kw<word> { @specialize[@name={word}]<Identifier, word> }
 
+@external tokens strings from "./tokens" {
+    simpleStringStart, simpleBytesStart, multilineStringStart, multilineBytesStart,
+    importStringStart, selectorStringStart, stringContent, stringEnd, Escape, InterpolationStart, InterpolationEnd
+}
 @external tokens insertComma from "./tokens" { insertedComma }
 @context trackTokens from "./tokens"
 
@@ -141,15 +162,9 @@ comma { "," | insertedComma }
   octal_digit   { $[0-7] }
   hex_digit     { $[0-9A-Fa-f] }
 
-  attr_token { ![[\](){}]+ }
+  attr_token { ![[\](){}"'#]+ | "#" }
 
   Comment { "//" ![\n]* }
-
-  SimpleStringLit { '"' !["]* '"'}
-  SimpleBytesLit { "'" ![']* "'" }
-
-  ImportLocation   { (letter | digit | "/" | "." | "-" | "@" | "~")+  }
-  ImportPath       { '"' ImportLocation (":" Identifier)? '"' }
 
   Identifier { ("#" | "_#")? letter (letter | digit)* }
   BottomLit { "_|_" }
