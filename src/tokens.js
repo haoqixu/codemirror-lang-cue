@@ -235,7 +235,7 @@ function commonPrefix(a, b) {
 }
 
 function textContext(frame, text, escaped) {
-  let {lineStart, indent, minIndent, path, pendingSurrogate} = frame
+  let {lineStart, indent, minIndent, path, pathHash, pathHashPower, pendingSurrogate} = frame
   if (frame.multiline) for (const ch of text) {
     if (ch === "\r") { if (lineStart) indent += ch; continue }
     if (lineStart) {
@@ -246,20 +246,28 @@ function textContext(frame, text, escaped) {
     if (lineStart) indent = ""
   }
   if (path != null) {
+    let value
     if (escaped?.byte) {
-      path += utf8(pendingSurrogate) + escaped.value
+      value = utf8(pendingSurrogate) + escaped.value
       pendingSurrogate = ""
     } else {
       // Adjacent \\u escapes may form a surrogate pair. Do not encode the high
       // surrogate separately, which would prematurely replace it with U+FFFD.
-      let value = pendingSurrogate + (escaped ? escaped.value : text.replace(/\r/g, ""))
+      value = pendingSurrogate + (escaped ? escaped.value : text.replace(/\r/g, ""))
       const last = value.charCodeAt(value.length - 1)
       pendingSurrogate = last >= 0xd800 && last <= 0xdbff ? value.slice(-1) : ""
       if (pendingSurrogate) value = value.slice(0, -1)
-      path += utf8(value)
+      value = utf8(value)
+    }
+    path += value
+    // Keep the polynomial hash and its multiplier in step with the path. This
+    // lets contextHash compose the accumulated path in constant time.
+    for (let i = 0; i < value.length; i++) {
+      pathHash = (Math.imul(pathHash, 31) + value.charCodeAt(i)) | 0
+      pathHashPower = Math.imul(pathHashPower, 31)
     }
   }
-  return {...frame, lineStart, indent, minIndent, path, pendingSurrogate}
+  return {...frame, lineStart, indent, minIndent, path, pathHash, pathHashPower, pendingSurrogate}
 }
 
 function validImport(frame) {
@@ -285,7 +293,13 @@ function contextHash(context) {
   }
   for (let frame = context.string; frame; frame = frame.parent) {
     add(frame.quote); add(frame.hashes); add(+frame.multiline); add(+frame.expression); add(+frame.lineStart)
-    text(frame.indent); text(frame.minIndent); text(frame.path); text(frame.pendingSurrogate)
+    text(frame.indent); text(frame.minIndent)
+    if (frame.path == null) add(-1)
+    else {
+      add(frame.path.length)
+      hash = (Math.imul(hash, frame.pathHashPower) + frame.pathHash) | 0
+    }
+    text(frame.pendingSurrogate)
   }
   return hash
 }
@@ -343,7 +357,8 @@ export const trackTokens = new ContextTracker({
         start: input.pos, quote: open?.quote ?? 34, hashes: open?.hashes ?? 0,
         multiline: open?.multiline ?? false, expression: false,
         lineStart: open?.multiline ?? false, indent: "", minIndent: null,
-        path: term === importStringStart ? "" : null, pendingSurrogate: "", parent: frame
+        path: term === importStringStart ? "" : null, pathHash: 0, pathHashPower: 1,
+        pendingSurrogate: "", parent: frame
       }}
     }
     if (term === stringEnd) return {comma: true, string: frame?.parent ?? null}
