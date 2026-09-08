@@ -2,6 +2,7 @@
     prec_file_attr
     prec_decl_attr
     prec_operand_expr
+    prec_clause
 
     unary @right
     prec7 @left
@@ -17,7 +18,7 @@
 
 @top SourceFile {
     (Attribute !prec_file_attr comma)*
-    (PackageClause comma)?
+    (PackageClause comma (Attribute !prec_file_attr comma)*)?
     (ImportDecl comma)*
     (Declaration comma)*
 }
@@ -46,7 +47,7 @@ StringLit { SimpleBytesLit | SimpleStringLit ~strlit | MultilineStringLit | Mult
     plainStringPart { stringContent | Escape }
 }
 
-Interpolation { InterpolationStart Expression InterpolationEnd }
+Interpolation { InterpolationStart Expression insertedComma? InterpolationEnd }
 
 // Values
 NullLit { kw<"null"> }
@@ -54,25 +55,35 @@ BoolLit { kw<"true"> | kw<"false"> }
 
 // Structs
 
-StructLit       { "{" (Declaration comma)* "}" }
+StructLit       { "{" (Declaration (comma Declaration)* comma?)? "}" }
 Declaration     { Field | Ellipsis | Embedding | LetClause | !prec_decl_attr Attribute }
 Ellipsis        { "..." Expression? }
 Embedding       { Comprehension | AliasExpr ~aliasexpr }
 Field           { Label ":" ( Label ":" )* AliasExpr ( Attribute )* }
-Label           { ( Identifier "=" )? LabelExpr }
-LabelExpr       { LabelName ( "?" | "!" )? | "[" AliasExpr ~aliasexpr "]" }
-LabelName       { Identifier ~label-operand | SimpleStringLit ~strlit | "(" ( Identifier "=" )? Expression ")" ~paren }
+Label           { ( aliasIdentifier "=" )? LabelExpr }
+LabelExpr       { LabelName ( "?" | "!" )? | "[" AliasExpr ~aliasexpr comma? "]" }
+LabelName       { fieldIdentifier ~label-operand | SimpleStringLit ~strlit | "(" ( aliasIdentifier "=" )? Expression ")" ~paren }
 
-Attribute       { "@" Identifier "(" AttrTokens ")" }
-AttrTokens      { ( attr_token | AttributeString |
+// Reserved words can name fields/selectors and some can be references or aliases,
+// but they are not ordinary binding identifiers (for/let/package/import names).
+identifier      { Identifier | BlankIdentifier }
+aliasIdentifier { identifier | KeywordIdentifier }
+fieldIdentifier { aliasIdentifier | ValueIdentifier }
+KeywordIdentifier[@name=Identifier] { kw<"for"> | kw<"if"> | kw<"let"> | kw<"in"> }
+ValueIdentifier[@name=Identifier] { kw<"true"> | kw<"false"> | kw<"null"> }
+BlankIdentifier[@name=Identifier] { top }
+top { @specialize[@name=Top]<Identifier, "_"> }
+
+Attribute       { "@" fieldIdentifier "(" AttrTokens ")" }
+AttrTokens      { ( attr_token | AttributeString | insertedComma |
                     "(" AttrTokens ")" |
                     "[" AttrTokens "]" |
                     "{" AttrTokens "}" )* }
 
-AliasExpr  { ( Identifier "=" )? Expression }
+AliasExpr  { ( aliasIdentifier "=" )? Expression }
 
 ListLit       { "[" ( ElementList )? "]" }
-ElementList   { Ellipsis comma? | Embedding ( comma Embedding )* ( comma Ellipsis )? comma* }
+ElementList   { Ellipsis comma? | Embedding ( comma Embedding )* ( comma Ellipsis )? comma? }
 
 // Predeclared identifiers
 // ...
@@ -80,20 +91,22 @@ ElementList   { Ellipsis comma? | Embedding ( comma Embedding )* ( comma Ellipsi
 operand     { Literal | OperandName | "(" Expression !prec_operand_expr ")" ~paren }
 Literal     { BasicLit | ListLit | StructLit }
 BasicLit    { IntLit | FloatLit | StringLit |
-              NullLit | BoolLit | BottomLit | @specialize[@name=Top]<Identifier, "_"> }
-OperandName { Identifier ~label-operand }
+              NullLit | BoolLit | BottomLit | top }
+OperandName { (Identifier | KeywordIdentifier) ~label-operand }
 // QualifiedIdent { PackageName "." Identifier }
 
 PrimaryExpr {
     operand |
     PrimaryExpr Selector |
     PrimaryExpr Index |
+    PrimaryExpr Slice |
     PrimaryExpr Arguments }
 
-Selector       { "." (Identifier | SelectorString) }
-Index          { "[" Expression "]" }
+Selector       { "." (fieldIdentifier | SelectorString) }
+Index          { "[" Expression comma? "]" }
+Slice          { "[" Expression? ":" Expression? "]" }
 Argument       { Expression }
-Arguments      { "(" (Argument ("," Argument)*  ","? )? ")" }
+Arguments      { "(" (Argument (comma Argument)* comma?)? ")" }
 
 // https://cuelang.org/docs/reference/spec/#operator-precedence
 // Precedence    Operator
@@ -130,26 +143,32 @@ unary_op       { "+" | "-" | "!" | "*" | rel_op }
 
 Comprehension       { Clauses StructLit }
 
-Clauses             { StartClause (","? Clause)* }
+Clauses             { StartClause (comma? Clause)* comma? }
 StartClause         { ForClause | GuardClause }
 Clause              { StartClause | LetClause }
-ForClause           { kw<"for"> Identifier ("," Identifier)? "in" Expression }
-GuardClause         { kw<"if"> Expression }
-LetClause           { kw<"let"> Identifier "=" Expression }
+ForClause           { forStart identifier ("," identifier)? kw<"in"> Expression }
+GuardClause         { ifStart Expression }
+LetClause           { kw<"let"> !prec_clause identifier "=" Expression }
 
-PackageClause  { kw<"package"> PackageName }
-PackageName    { Identifier }
+PackageClause  { package PackageName }
+PackageName    { identifier }
 
-ImportDecl       { kw<"import"> ( ImportSpec | "(" (ImportSpec comma)* ")" ) }
+ImportDecl       { import ( ImportSpec | "(" (ImportSpec (comma ImportSpec)* comma?)? ")" ) }
 ImportSpec       { PackageName? ImportPath }
 
 kw<word> { @specialize[@name={word}]<Identifier, word> }
+
+// Unlike other keywords, package/import are ordinary identifiers outside the preamble.
+@external specialize {Identifier} preambleKeyword from "./tokens" { package[@name=package], import[@name=import] }
 
 @external tokens strings from "./tokens" {
     simpleStringStart, simpleBytesStart, multilineStringStart, multilineBytesStart,
     importStringStart, selectorStringStart, stringContent, stringEnd, Escape, InterpolationStart, InterpolationEnd
 }
-@external tokens insertComma from "./tokens" { insertedComma }
+@external tokens clauseKeywords from "./tokens" { forStart[@name=for], ifStart[@name=if] }
+// Scan whitespace together with commas so a required comma cannot disappear
+// just because the current grammar position does not accept it.
+@external tokens layout from "./tokens" { insertedComma, space, Comment }
 @context trackTokens from "./tokens"
 
 comma { "," | insertedComma }
@@ -164,8 +183,6 @@ comma { "," | insertedComma }
 
   attr_token { ![[\](){}"'#]+ | "#" }
 
-  Comment { "//" ![\n]* }
-
   Identifier { ("#" | "_#")? letter (letter | digit)* }
   BottomLit { "_|_" }
 
@@ -175,11 +192,11 @@ comma { "," | insertedComma }
 
   DecimalLit { "0" | $[1-9] ("_"? decimal_digit)* }
   decimals   { decimal_digit ("_"? decimal_digit)* }
-  SiLit       { decimals ("." decimals)? multiplier |
+  SiLit       { decimals ("." decimals?)? multiplier |
                 "." decimals  multiplier }
-  BinaryLit  { "0b" binary_digit ("_"?  binary_digit)* }
-  HexLit     { "0" ( "x" | "X" ) hex_digit ( "_"? hex_digit )* }
-  OctalLit   { "0o" octal_digit ( "_"? octal_digit )* }
+  BinaryLit  { "0b" "_"? binary_digit ("_"? binary_digit)* }
+  HexLit     { "0" ( "x" | "X" ) "_"? hex_digit ( "_"? hex_digit )* }
+  OctalLit   { "0o" "_"? octal_digit ( "_"? octal_digit )* }
   multiplier { ( "K" | "M" | "G" | "T" | "P" ) "i"? }
 
   FloatLit   {
@@ -192,15 +209,14 @@ comma { "," | insertedComma }
       SiLit, FloatLit, ".", HexLit, BinaryLit, OctalLit, DecimalLit
   }
 
-  space[@export] { $[ \t\n\r]+ }
+  "..."[@export=ellipsisToken]
+  "?"[@export=optionalMarker]
   "(" ")"[@export=closeParen]
   "{" "}"[@export=closeBrace]
   "[" "]"[@export=closeBracket]
 
   @precedence {
       attr_token
-      Comment, "/"
-      space
   }
   
 }

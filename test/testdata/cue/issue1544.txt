@@ -75,6 +75,7 @@ SourceFile(
             ForClause(
               for,
               Identifier,
+              in,
               Expression(
                 PrimaryExpr(
                   Literal(

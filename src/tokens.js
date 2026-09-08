@@ -6,21 +6,32 @@ import {
   simpleStringStart, simpleBytesStart, multilineStringStart, multilineBytesStart,
   importStringStart, selectorStringStart, stringContent, stringEnd, Escape, InterpolationStart, InterpolationEnd,
   _null, BottomLit, _true, _false, Top, FloatLit,
-  insertedComma, space as spaceToken, Identifier, Comment,
+  _for, _if, _let, _in, _package, _import, forStart, ifStart, ellipsisToken, optionalMarker,
+  insertedComma, space as spaceToken, Identifier, Comment, SourceFile, Clauses, AttrTokens,
   closeBracket, closeParen as closeParenToken, closeBrace as closeBraceToken,
 } from "./syntax.grammar.terms"
 
 const newline = 10, carriageReturn = 13, space = 32, tab = 9, slash = 47,
-  closeParen = 41, closeBrace = 125, comma = 44, colon = 58, hash = 35, backslash = 92
+  closeParen = 41, comma = 44, colon = 58, hash = 35, backslash = 92
 const starts = new Set([simpleStringStart, simpleBytesStart, multilineStringStart,
   multilineBytesStart, importStringStart, selectorStringStart])
 const literals = new Set([SimpleStringLit, SimpleBytesLit, MultilineStringLit,
   MultilineBytesLit, SelectorString, AttributeString, ImportPath])
+// These wrappers, like anonymous repetitions, may consume a trailing separator
+// that is not represented by a named syntax-tree node.
+const separatorLists = new Set([SourceFile, Clauses, AttrTokens])
 const trackedTokens = new Set([
   Identifier, DecimalLit, SiLit, OctalLit, BinaryLit, HexLit,
   _null, BottomLit, _true, _false, Top, FloatLit, stringEnd,
-  closeParenToken, closeBracket, closeBraceToken
+  closeParenToken, closeBracket, closeBraceToken,
+  _for, _if, _let, _in, _package, _import, forStart, ifStart, ellipsisToken, optionalMarker
 ])
+
+export function preambleKeyword(word, stack) {
+  const term = word === "package" ? _package : word === "import" ? _import : -1
+  return term >= 0 && stack.canShift(term) ? term : -1
+}
+
 // Keep a decoded BOM visible to import-path validation. Invalid UTF-8 becomes
 // U+FFFD, which is forbidden in the path (as in the upstream parser).
 const encoder = new TextEncoder(), decoder = new TextDecoder("utf-8", {ignoreBOM: true})
@@ -138,21 +149,66 @@ export const strings = new ExternalTokenizer((input, stack) => {
   input.acceptToken(term)
 }, {contextual: true})
 
-export const insertComma = new ExternalTokenizer((input, stack) => {
+// At declaration/list-element boundaries, for/if introduce a comprehension
+// unless followed by a label/alias marker or a separator. Commit to that choice:
+// an incomplete `if(x)` must not silently turn into a call of a field named if.
+export const clauseKeywords = new ExternalTokenizer((input, stack) => {
   if (stack.context.string && !stack.context.string.expression) return
-  for (let scan = 0, next = input.next;;) {
-    if (stack.context.comma && (next < 0 || next === newline || next === carriageReturn ||
-                              next === slash && input.peek(scan + 1) === slash) ||
-        next === closeParen || next === closeBrace) {
-      let peek = scan, ch = next
-      if (ch === newline || ch === carriageReturn) {
-        ch = input.peek(++peek)
-        while (ch === space || ch === tab || ch === newline || ch === carriageReturn) ch = input.peek(++peek)
-      }
-      if (ch !== comma && ch !== colon) input.acceptToken(insertedComma)
+  const word = input.next === 102 ? "for" : input.next === 105 ? "if" : null
+  if (!word) return
+  const term = word === "for" ? forStart : ifStart
+  if (!stack.canShift(term)) return
+  for (let i = 0; i < word.length; i++) if (input.peek(i) !== word.charCodeAt(i)) return
+  let offset = word.length, ch = input.peek(offset)
+  // Match the same identifier boundary as the grammar, not just a word prefix.
+  if (ch >= 48 && ch <= 57 || ch >= 65 && ch <= 90 || ch >= 97 && ch <= 122 ||
+      ch === 95 || ch === 36 || ch >= 0xa1) return
+  while (ch === space || ch === tab || ch === carriageReturn) ch = input.peek(++offset)
+  if (ch === newline) {
+    do { ch = input.peek(++offset) }
+    while (ch === space || ch === tab || ch === newline || ch === carriageReturn)
+    if (ch !== comma && ch !== colon) ch = comma // an automatically inserted comma
+  } else if (ch === slash && input.peek(offset + 1) === slash) ch = comma
+  if (ch < 0 || ch === comma || ch === colon || ch === 63 ||
+      ch === 61 && input.peek(offset + 1) !== 61 && input.peek(offset + 1) !== 126) return
+  if (ch === 33 && input.peek(offset + 1) !== 61 && input.peek(offset + 1) !== 126) {
+    if (word === "for") return
+    // The upstream parser distinguishes `if!: ...` from `if !condition {...}`
+    // by peeking past whitespace (but not comments) for the following colon.
+    do { ch = input.peek(++offset) }
+    while (ch === space || ch === tab || ch === newline || ch === carriageReturn)
+    if (ch === colon) return
+  }
+  input.advance(word.length)
+  input.acceptToken(term)
+}, {contextual: true})
+
+export const layout = new ExternalTokenizer((input, stack) => {
+  if (stack.context.string && !stack.context.string.expression) return
+  let scan = 0, ch = input.next
+  while (ch === space || ch === tab || ch === carriageReturn) ch = input.peek(++scan)
+  if (stack.context.comma) {
+    let next = ch
+    if (ch === newline) {
+      let peek = scan
+      do { next = input.peek(++peek) }
+      while (next === space || next === tab || next === newline || next === carriageReturn)
     }
-    if (next !== space && next !== tab) break
-    next = input.peek(++scan)
+    if (ch < 0 || ch === slash && input.peek(scan + 1) === slash ||
+        ch === newline && next !== comma && next !== colon) {
+      return input.acceptToken(insertedComma)
+    }
+  }
+  // Whitespace is emitted by this same tokenizer even in contexts where comma
+  // insertion is illegal (e.g. a parenthesized expression or a slice bound).
+  if (input.next === space || input.next === tab || input.next === carriageReturn || input.next === newline) {
+    do { input.advance() }
+    while (input.next === space || input.next === tab || input.next === carriageReturn || input.next === newline)
+    return input.acceptToken(spaceToken)
+  }
+  if (input.next === slash && input.peek(1) === slash) {
+    do { input.advance() } while (input.next >= 0 && input.next !== newline)
+    input.acceptToken(Comment)
   }
 }, {contextual: true})
 
@@ -260,7 +316,11 @@ function reuse(context, node, stack, input) {
   }
   const cursor = node.cursor()
   while (!literals.has(cursor.type.id) && cursor.lastChild()) {}
-  return {comma: cursor.type.id !== Comment && stack.canShift(insertedComma) &&
+  // Repetitions and separator lists may already include an invisible trailing
+  // comma. Other named expressions must retain their lexical comma state even
+  // where the grammar cannot accept a comma (e.g. a slice's upper bound).
+  return {comma: cursor.type.id !== Comment &&
+    (!node.type.isAnonymous && !separatorLists.has(node.type.id) || stack.canShift(insertedComma)) &&
     (literals.has(cursor.type.id) || trackedTokens.has(cursor.type.id)), string: frame}
 }
 

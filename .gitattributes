@@ -1,0 +1,2 @@
+# Imported formatter fixtures must preserve upstream whitespace verbatim.
+test/testdata/cue/*.txt -whitespace

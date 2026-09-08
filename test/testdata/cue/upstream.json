@@ -3,11 +3,9 @@
   "revision": "eb886ed07a0864cc6bbc081bb8f1efa9fb834944",
   "directory": "cue/format/testdata",
   "exclude": {
-    "comments.txtar/comments.input": "Slice expressions and comma elision between call arguments are not supported.",
-    "expressions.txtar/expressions.input": "Postfix aliases, slices, and trailing commas in indices are not supported.",
+    "expressions.txtar/expressions.input": "Postfix aliases are not supported.",
     "functions.txtar/functions.input": "Experimental function syntax is not supported.",
     "simplify.txtar/simplify.input": "Postfix aliases are not supported.",
-    "try.txtar/try.input": "Experimental try/else/fallback comprehension syntax is not supported.",
-    "values.txtar/values.input": "SI literals such as 3.T are not supported."
+    "try.txtar/try.input": "Experimental try/else/fallback comprehension syntax is not supported."
   }
 }
