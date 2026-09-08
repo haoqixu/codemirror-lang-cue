@@ -7,7 +7,7 @@ import {
   importStringStart, selectorStringStart, stringContent, stringEnd, Escape, InterpolationStart, InterpolationEnd,
   _null, BottomLit, _true, _false, Top, FloatLit,
   _for, _if, _let, _in, _package, _import, forStart, ifStart, ellipsisToken, optionalMarker,
-  insertedComma, space as spaceToken, Identifier, Comment, SourceFile, Clauses, AttrTokens,
+  insertedComma, space as spaceToken, Identifier, Comment, bom, SourceFile, Clauses, AttrTokens,
   closeBracket, closeParen as closeParenToken, closeBrace as closeBraceToken,
 } from "./syntax.grammar.terms"
 
@@ -26,6 +26,58 @@ const trackedTokens = new Set([
   closeParenToken, closeBracket, closeBraceToken,
   _for, _if, _let, _in, _package, _import, forStart, ifStart, ellipsisToken, optionalMarker
 ])
+
+export const fileStart = new ExternalTokenizer(input => {
+  if (input.pos !== 0 || input.next !== 0xfeff) return
+  input.advance()
+  input.acceptToken(bom)
+})
+
+const unicodeLetter = /^\p{L}$/u, unicodeDigit = /^\p{Nd}$/u
+
+// Lezer exposes UTF-16 code units, so combine surrogate pairs before applying
+// Unicode category tests.
+function codePointAt(input, offset) {
+  const first = input.peek(offset)
+  if (first >= 0xd800 && first <= 0xdbff) {
+    const second = input.peek(offset + 1)
+    if (second >= 0xdc00 && second <= 0xdfff)
+      return (first - 0xd800) * 0x400 + second - 0xdc00 + 0x10000
+  }
+  return first
+}
+
+function isIdentifierLetter(ch) {
+  return ch === 36 || ch === 95 ||
+    ch >= 65 && ch <= 90 || ch >= 97 && ch <= 122 ||
+    ch >= 0x80 && unicodeLetter.test(String.fromCodePoint(ch))
+}
+
+function isIdentifierDigit(ch) {
+  return ch >= 48 && ch <= 57 ||
+    ch >= 0x80 && unicodeDigit.test(String.fromCodePoint(ch))
+}
+
+function isIdentifierContinue(ch) {
+  return isIdentifierLetter(ch) || isIdentifierDigit(ch)
+}
+
+export const identifiers = new ExternalTokenizer(input => {
+  // Leave bottom to the generated tokenizer, rather than accepting its leading
+  // underscore as an identifier.
+  if (input.next === 95 && input.peek(1) === 124 && input.peek(2) === 95) return
+
+  let offset = input.next === hash ? 1
+    : input.next === 95 && input.peek(1) === hash ? 2 : 0
+  let ch = codePointAt(input, offset)
+  if (!isIdentifierLetter(ch)) return
+  do {
+    offset += ch > 0xffff ? 2 : 1
+    ch = codePointAt(input, offset)
+  } while (isIdentifierContinue(ch))
+  input.advance(offset)
+  input.acceptToken(Identifier)
+})
 
 export function preambleKeyword(word, stack) {
   const term = word === "package" ? _package : word === "import" ? _import : -1
@@ -159,10 +211,11 @@ export const clauseKeywords = new ExternalTokenizer((input, stack) => {
   const term = word === "for" ? forStart : ifStart
   if (!stack.canShift(term)) return
   for (let i = 0; i < word.length; i++) if (input.peek(i) !== word.charCodeAt(i)) return
-  let offset = word.length, ch = input.peek(offset)
-  // Match the same identifier boundary as the grammar, not just a word prefix.
-  if (ch >= 48 && ch <= 57 || ch >= 65 && ch <= 90 || ch >= 97 && ch <= 122 ||
-      ch === 95 || ch === 36 || ch >= 0xa1) return
+  let offset = word.length
+  // Match the same Unicode identifier boundary as the identifier tokenizer,
+  // not just an ASCII word prefix.
+  if (isIdentifierContinue(codePointAt(input, offset))) return
+  let ch = input.peek(offset)
   while (ch === space || ch === tab || ch === carriageReturn) ch = input.peek(++offset)
   if (ch === newline) {
     do { ch = input.peek(++offset) }
@@ -207,7 +260,8 @@ export const layout = new ExternalTokenizer((input, stack) => {
     return input.acceptToken(spaceToken)
   }
   if (input.next === slash && input.peek(1) === slash) {
-    do { input.advance() } while (input.next >= 0 && input.next !== newline)
+    do { input.advance() }
+    while (input.next >= 0 && input.next !== newline && input.next !== 0xfeff)
     input.acceptToken(Comment)
   }
 }, {contextual: true})

@@ -102,6 +102,24 @@ describe("contextual keywords", () => {
     rejects(source)
 })
 
+describe("Unicode identifiers and BOM", () => {
+  accepts("\ufeffpackage p", tree => strictEqual(nodes(tree, "PackageClause").length, 1))
+  accepts("\ufeff// header\npackage p")
+
+  for (const name of ["αβ", "界١", "𐐀𝟘", "#界２", "_#δ३"])
+    accepts(`${name}: 1`, tree => deepStrictEqual(texts(tree, `${name}: 1`, "Identifier"), [name]))
+
+  for (const name of [
+    "١x", "𝟘x", "#١x", "_#١x", // Unicode digits cannot start identifiers.
+    "x😀", "x\u200b", "x\u200c", "e\u0301", "x\ufeff"
+  ]) rejects(`${name}: 1`)
+
+  for (const source of [
+    "\ufeff\ufeffpackage p", " \ufeffpackage p", "x: 1\n\ufeffy: 2",
+    "//\ufeff\nx: 1", "@foo(\ufeff)"
+  ]) rejects(source)
+})
+
 describe("commas and ellipses", () => {
   for (const newline of ["\n", "\r\n"]) {
     const source = `x: f(${newline}1${newline}2${newline})`

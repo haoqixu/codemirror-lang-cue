@@ -15,8 +15,11 @@
 }
 
 @external propSource cueHighlighting from "./highlight"
+// The tokenizer only accepts this at absolute source position zero.
+@external tokens fileStart from "./tokens" { bom }
 
 @top SourceFile {
+    bom?
     (Attribute !prec_file_attr comma)*
     (PackageClause comma (Attribute !prec_file_attr comma)*)?
     (ImportDecl comma)*
@@ -169,26 +172,22 @@ kw<word> { @specialize[@name={word}]<Identifier, word> }
 // Scan whitespace together with commas so a required comma cannot disappear
 // just because the current grammar position does not accept it.
 @external tokens layout from "./tokens" { insertedComma, space, Comment }
+// Unicode category checks and surrogate-pair decoding require an external scanner.
+@external tokens identifiers from "./tokens" { Identifier }
 @context trackTokens from "./tokens"
 
 comma { "," | insertedComma }
 
 @tokens {
-  letter        { $[_a-zA-Z\u{a1}-\u{10ffff}] | "$" }
   digit         { $[0-9] }
   decimal_digit { digit }
   binary_digit  { $[0-1] }
   octal_digit   { $[0-7] }
   hex_digit     { $[0-9A-Fa-f] }
 
-  attr_token { ![[\](){}"'#]+ | "#" }
+  attr_token { ![[\](){}"'#\u{feff}]+ | "#" }
 
-  Identifier { ("#" | "_#")? letter (letter | digit)* }
   BottomLit { "_|_" }
-
-  @precedence {
-      BottomLit, Identifier
-  }
 
   DecimalLit { "0" | $[1-9] ("_"? decimal_digit)* }
   decimals   { decimal_digit ("_"? decimal_digit)* }
