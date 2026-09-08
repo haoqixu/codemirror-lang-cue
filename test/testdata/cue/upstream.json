@@ -3,9 +3,7 @@
   "revision": "eb886ed07a0864cc6bbc081bb8f1efa9fb834944",
   "directory": "cue/format/testdata",
   "exclude": {
-    "expressions.txtar/expressions.input": "Postfix aliases are not supported.",
     "functions.txtar/functions.input": "Experimental function syntax is not supported.",
-    "simplify.txtar/simplify.input": "Postfix aliases are not supported.",
     "try.txtar/try.input": "Experimental try/else/fallback comprehension syntax is not supported."
   }
 }

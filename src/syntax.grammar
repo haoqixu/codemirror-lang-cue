@@ -63,9 +63,23 @@ Declaration     { Field | Ellipsis | Embedding | LetClause | !prec_decl_attr Att
 Ellipsis        { "..." Expression? }
 Embedding       { Comprehension | AliasExpr ~aliasexpr }
 Field           { Label ":" ( Label ":" )* AliasExpr ( Attribute )* }
-Label           { ( aliasIdentifier "=" )? LabelExpr }
+// Parse both pre-v0.18 prefix aliases and aliasv2 postfix aliases. They use
+// separate alternatives so a single label cannot combine the two forms.
+Label           {
+    ( aliasIdentifier "=" )? LabelExpr |
+    PostfixLabelExpr PostfixAlias ( "?" | "!" )? |
+    PostfixPatternExpr PostfixAlias
+}
 LabelExpr       { LabelName ( "?" | "!" )? | "[" AliasExpr ~aliasexpr comma? "]" }
 LabelName       { fieldIdentifier ~label-operand | SimpleStringLit ~strlit | "(" ( aliasIdentifier "=" )? Expression ")" ~paren }
+PostfixLabelExpr[@name=LabelExpr] { PostfixLabelName }
+PostfixPatternExpr[@name=LabelExpr] { "[" Expression ~aliasexpr comma? "]" }
+PostfixLabelName[@name=LabelName] {
+    fieldIdentifier ~label-operand |
+    SimpleStringLit ~strlit |
+    "(" Expression ")" ~paren
+}
+PostfixAlias    { "~" ( aliasIdentifier | "(" aliasIdentifier ( comma aliasIdentifier )? ")" ) }
 
 // Reserved words can name fields/selectors and some can be references or aliases,
 // but they are not ordinary binding identifiers (for/let/package/import names).
@@ -83,6 +97,7 @@ AttrTokens      { ( attr_token | AttributeString | insertedComma |
                     "[" AttrTokens "]" |
                     "{" AttrTokens "}" )* }
 
+// Legacy value aliases have no direct aliasv2 equivalent (`let V = self` is used instead).
 AliasExpr  { ( aliasIdentifier "=" )? Expression }
 
 ListLit       { "[" ( ElementList )? "]" }
@@ -213,7 +228,7 @@ comma { "," | insertedComma }
   "(" ")"[@export=closeParen]
   "{" "}"[@export=closeBrace]
   "[" "]"[@export=closeBracket]
-  ":" "," "." "@" "="
+  ":" "," "." "@" "=" "~"
   "+" "-" "*" "/" "!"
   "&&" "||" "|" "&"
   "==" "!=" "<" "<=" ">" ">=" "=~" "!~"

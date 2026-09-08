@@ -48,6 +48,12 @@ describe("CUE highlighting", () => {
     ok(!withStyle(source, "null").includes("null"))
   })
 
+  it("highlights prefix and postfix alias bindings", () => {
+    const source = "Old=legacy: 1, modern~(Key, Value): {name: Key, copy: Value}"
+    deepStrictEqual(withStyle(source, "definition"), ["Old", "Key", "Value"])
+    deepStrictEqual(withStyle(source, "operator"), ["=", "~"])
+  })
+
   it("highlights operators and separators that used to be absent from the tree", () => {
     const operators = ["+", "-", "*", "/", "==", "!=", "<", "<=", ">", ">=", "=~", "!~", "&&", "||", "&", "|", "!"]
     const source = `ops: [${operators.map(op => op === "!" ? "!a" : `a ${op} b`).join(", ")}]`

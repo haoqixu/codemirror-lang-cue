@@ -102,6 +102,39 @@ describe("contextual keywords", () => {
     rejects(source)
 })
 
+describe("prefix and postfix aliases", () => {
+  const source = [
+    "plain~X: 1",
+    "paren~(V): 2",
+    "dual~(K, Field): {name: K, value: Field}",
+    "fieldOnly~(_, FieldOnly): FieldOnly",
+    '"quoted label"~(Quoted): 3',
+    "(prefix + suffix)~(DynamicKey, DynamicField): 4",
+    "[string,]~(PatternKey, PatternField): {name: PatternKey, value: PatternField}",
+    '[=~"^x"]~(Match, _): string',
+    "optional~Optional?: int",
+    "required~(Required)!: int",
+    "outer~(Outer): inner~(Inner): 1",
+  ].join("\n")
+  accepts(source, tree => {
+    deepStrictEqual(texts(tree, source, "PostfixAlias"), [
+      "~X", "~(V)", "~(K, Field)", "~(_, FieldOnly)", "~(Quoted)",
+      "~(DynamicKey, DynamicField)",
+      "~(PatternKey, PatternField)", "~(Match, _)", "~Optional", "~(Required)",
+      "~(Outer)", "~(Inner)",
+    ])
+    strictEqual(nodes(tree, "PostfixAlias")[2].getChildren("Identifier").length, 2)
+  })
+
+  // Compatibility mode accepts aliases from both sides of the v0.18 boundary.
+  accepts("Old=legacy: Value={field: Value}\nmodern~(New): New")
+  for (const invalid of [
+    "x~: 1", "x~(): 1", "x~(K,): 1", "x~(K,V,W): 1", "x~(K V): 1",
+    "x?~V: 1", "X=x~V: 1", "[K=string]~V: 1", "(K=label)~V: 1",
+    "[string]~V?: 1", "[string]~V!: 1",
+  ]) rejects(invalid)
+})
+
 describe("Unicode identifiers and BOM", () => {
   accepts("\ufeffpackage p", tree => strictEqual(nodes(tree, "PackageClause").length, 1))
   accepts("\ufeff// header\npackage p")
@@ -254,6 +287,7 @@ for (const bufferLength of [16, 32, 128]) describe(`incremental basic syntax (bu
     ['if!: 1', '!:', ':'], ['if!: 1', '!: 1', '!condition {x: 1}'],
     ['x: f(1, 2)', ', ', '\n'], ['x: { ... }', '... ', '...\n_ '],
     ['x: xs[1]', '1', '1:2'], ['x: xs[1:2]', ':2', ','],
+    ['X=field: 1', 'X=field', 'field~(X)'],
     ['x: 3.T', '3.T', '0x_FF'], ['x: [string]: int', 'string', 'string\n']
   ]) it(`${JSON.stringify(original)}: ${JSON.stringify(find)} → ${JSON.stringify(replacement)}`, () => {
     const oldSource = before + original + '\n' + after
@@ -305,6 +339,7 @@ for (const bufferLength of [16, 32, 128]) describe(`incremental basic syntax (bu
       'x: f(1\n2\n)', 'x: [1, ...\n]', 'x: 3.Ki\ny: 0x_FF',
       'x: {last: 1 // comment\n}', String.raw`x: "\(for) \(obj.if)"`,
       'package: 1\nimport: 2', 'let value = 1\nx: value',
+      'Old=legacy: 1\nmodern~(New): 2\npattern: {[string]~(K,_): K}',
       'x: """\n  for if package\n  \\(a[1:\n2])\n  """'
     ]
     const parts = Array.from({length: 40}, (_, i) => `block${i}: {\n${bodies[i % bodies.length]}\n}\n`)
