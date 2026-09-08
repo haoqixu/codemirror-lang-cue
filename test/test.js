@@ -4,6 +4,8 @@ import {printTree} from "./tree.js"
 import "./precedence.js"
 import "./strings.js"
 import "./basic-syntax.js"
+import "./language-support.js"
+import "./highlight.js"
 
 import * as fs from "fs"
 import * as path from "path"

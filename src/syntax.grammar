@@ -214,6 +214,10 @@ comma { "," | insertedComma }
   "(" ")"[@export=closeParen]
   "{" "}"[@export=closeBrace]
   "[" "]"[@export=closeBracket]
+  ":" "," "." "@" "="
+  "+" "-" "*" "/" "!"
+  "&&" "||" "|" "&"
+  "==" "!=" "<" "<=" ">" ">=" "=~" "!~"
 
   @precedence {
       attr_token
