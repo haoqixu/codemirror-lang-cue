@@ -25,6 +25,7 @@ SourceFile(
                 LabelExpr(
                   LabelName(
                     Identifier))),
+              ":",
               AliasExpr(
                 Expression(
                   PrimaryExpr(
@@ -43,6 +44,7 @@ SourceFile(
     LetClause(
       let,
       Identifier,
+      "=",
       Expression(
         PrimaryExpr(
           Literal(
@@ -55,6 +57,7 @@ SourceFile(
         LabelExpr(
           LabelName(
             Identifier))),
+      ":",
       AliasExpr(
         Expression(
           PrimaryExpr(
@@ -90,6 +93,7 @@ SourceFile(
                                   BasicLit(
                                     StringLit(
                                       SimpleStringLit))))))),
+                        ",",
                         Embedding(
                           AliasExpr(
                             Expression(
@@ -112,6 +116,7 @@ SourceFile(
                         OperandName(
                           Identifier))),
                     ")"))),
+              ":",
               AliasExpr(
                 Expression(
                   PrimaryExpr(

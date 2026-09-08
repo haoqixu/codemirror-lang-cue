@@ -12,6 +12,7 @@ SourceFile(
 ==>
 SourceFile(
   Attribute(
+    "@",
     Identifier,
     "(",
     AttrTokens,
@@ -111,6 +112,7 @@ SourceFile(
         LabelExpr(
           LabelName(
             Identifier))),
+      ":",
       AliasExpr(
         Expression(
           PrimaryExpr(
@@ -118,6 +120,7 @@ SourceFile(
               OperandName(
                 Identifier)),
             Selector(
+              ".",
               Identifier)))))),
   Declaration(
     Field(
@@ -125,6 +128,7 @@ SourceFile(
         LabelExpr(
           LabelName(
             Identifier))),
+      ":",
       AliasExpr(
         Expression(
           PrimaryExpr(
@@ -132,6 +136,7 @@ SourceFile(
               OperandName(
                 Identifier)),
             Selector(
+              ".",
               Identifier)))))),
   Declaration(
     Field(
@@ -139,6 +144,7 @@ SourceFile(
         LabelExpr(
           LabelName(
             Identifier))),
+      ":",
       AliasExpr(
         Expression(
           PrimaryExpr(
@@ -146,6 +152,7 @@ SourceFile(
               OperandName(
                 Identifier)),
             Selector(
+              ".",
               Identifier)))))))
 
 # cue/format/testdata/imports.txtar / lparen-comment.input (adapted to Lezer)
@@ -179,6 +186,7 @@ SourceFile(
         LabelExpr(
           LabelName(
             Identifier))),
+      ":",
       AliasExpr(
         Expression(
           PrimaryExpr(
@@ -186,6 +194,7 @@ SourceFile(
               OperandName(
                 Identifier)),
             Selector(
+              ".",
               Identifier)))))),
   Declaration(
     Field(
@@ -193,6 +202,7 @@ SourceFile(
         LabelExpr(
           LabelName(
             Identifier))),
+      ":",
       AliasExpr(
         Expression(
           PrimaryExpr(
@@ -200,6 +210,7 @@ SourceFile(
               OperandName(
                 Identifier)),
             Selector(
+              ".",
               Identifier)))))))
 
 # cue/format/testdata/imports.txtar / lparen-rparen-comments.input (adapted to Lezer)
@@ -230,6 +241,7 @@ SourceFile(
         LabelExpr(
           LabelName(
             Identifier))),
+      ":",
       AliasExpr(
         Expression(
           PrimaryExpr(
@@ -237,6 +249,7 @@ SourceFile(
               OperandName(
                 Identifier)),
             Selector(
+              ".",
               Identifier)))))))
 
 # cue/format/testdata/imports.txtar / issue1447.input (adapted to Lezer)
@@ -259,6 +272,7 @@ SourceFile(
         LabelExpr(
           LabelName(
             Identifier))),
+      ":",
       AliasExpr(
         Expression(
           PrimaryExpr(
@@ -270,6 +284,7 @@ SourceFile(
         LabelExpr(
           LabelName(
             Identifier))),
+      ":",
       AliasExpr(
         Expression(
           PrimaryExpr(
@@ -278,6 +293,7 @@ SourceFile(
                 OperandName(
                   Identifier)),
               Selector(
+                ".",
                 Identifier)),
             Arguments(
               "(",

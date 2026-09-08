@@ -14,6 +14,7 @@ SourceFile(
         LabelExpr(
           LabelName(
             Identifier))),
+      ":",
       AliasExpr(
         Expression(
           PrimaryExpr(
@@ -29,6 +30,7 @@ SourceFile(
                             BasicLit(
                               IntLit(
                                 DecimalLit))))))),
+                  ",",
                   Embedding(
                     AliasExpr(
                       Expression(
@@ -37,6 +39,7 @@ SourceFile(
                             BasicLit(
                               IntLit(
                                 DecimalLit))))))),
+                  ",",
                   Embedding(
                     AliasExpr(
                       Expression(
@@ -44,7 +47,8 @@ SourceFile(
                           Literal(
                             BasicLit(
                               IntLit(
-                                DecimalLit)))))))),
+                                DecimalLit))))))),
+                  ","),
                 "]"))))))),
   Declaration(
     Field(
@@ -52,6 +56,7 @@ SourceFile(
         LabelExpr(
           LabelName(
             Identifier))),
+      ":",
       AliasExpr(
         Expression(
           PrimaryExpr(
@@ -67,6 +72,7 @@ SourceFile(
                             BasicLit(
                               IntLit(
                                 DecimalLit))))))),
+                  ",",
                   Embedding(
                     AliasExpr(
                       Expression(
@@ -75,6 +81,7 @@ SourceFile(
                             BasicLit(
                               IntLit(
                                 DecimalLit))))))),
+                  ",",
                   Embedding(
                     AliasExpr(
                       Expression(
@@ -101,6 +108,7 @@ SourceFile(
         LabelExpr(
           LabelName(
             Identifier))),
+      ":",
       AliasExpr(
         Expression(
           PrimaryExpr(
@@ -139,6 +147,7 @@ SourceFile(
         LabelExpr(
           LabelName(
             Identifier))),
+      ":",
       AliasExpr(
         Expression(
           PrimaryExpr(
@@ -154,6 +163,7 @@ SourceFile(
                             BasicLit(
                               IntLit(
                                 DecimalLit))))))),
+                  ",",
                   Embedding(
                     AliasExpr(
                       Expression(
@@ -162,6 +172,7 @@ SourceFile(
                             BasicLit(
                               IntLit(
                                 DecimalLit))))))),
+                  ",",
                   Embedding(
                     AliasExpr(
                       Expression(
@@ -186,6 +197,7 @@ SourceFile(
         LabelExpr(
           LabelName(
             Identifier))),
+      ":",
       AliasExpr(
         Expression(
           PrimaryExpr(
@@ -201,6 +213,7 @@ SourceFile(
                             BasicLit(
                               IntLit(
                                 DecimalLit))))))),
+                  ",",
                   Embedding(
                     AliasExpr(
                       Expression(
@@ -216,7 +229,8 @@ SourceFile(
                           Literal(
                             BasicLit(
                               IntLit(
-                                DecimalLit)))))))),
+                                DecimalLit))))))),
+                  ","),
                 "]"))))))))
 
 # cue/format/testdata/list-commas.txtar / last-commas-missing.input (adapted to Lezer)
@@ -233,6 +247,7 @@ SourceFile(
         LabelExpr(
           LabelName(
             Identifier))),
+      ":",
       AliasExpr(
         Expression(
           PrimaryExpr(
@@ -248,6 +263,7 @@ SourceFile(
                             BasicLit(
                               IntLit(
                                 DecimalLit))))))),
+                  ",",
                   Embedding(
                     AliasExpr(
                       Expression(
@@ -256,6 +272,7 @@ SourceFile(
                             BasicLit(
                               IntLit(
                                 DecimalLit))))))),
+                  ",",
                   Embedding(
                     AliasExpr(
                       Expression(

@@ -34,6 +34,7 @@ SourceFile(
         LabelExpr(
           LabelName(
             Identifier))),
+      ":",
       AliasExpr(
         Expression(
           PrimaryExpr(
@@ -49,6 +50,7 @@ SourceFile(
                             BasicLit(
                               IntLit(
                                 DecimalLit))))))),
+                  ",",
                   Embedding(
                     AliasExpr(
                       Expression(
@@ -57,6 +59,50 @@ SourceFile(
                             BasicLit(
                               IntLit(
                                 DecimalLit))))))),
+                  ",",
+                  Embedding(
+                    AliasExpr(
+                      Expression(
+                        PrimaryExpr(
+                          Literal(
+                            BasicLit(
+                              IntLit(
+                                DecimalLit))))))),
+                  ","),
+                "]"))))))),
+  Comment,
+  Declaration(
+    Field(
+      Label(
+        LabelExpr(
+          LabelName(
+            Identifier))),
+      ":",
+      AliasExpr(
+        Expression(
+          PrimaryExpr(
+            Literal(
+              ListLit(
+                "[",
+                ElementList(
+                  Embedding(
+                    AliasExpr(
+                      Expression(
+                        PrimaryExpr(
+                          Literal(
+                            BasicLit(
+                              IntLit(
+                                DecimalLit))))))),
+                  ",",
+                  Embedding(
+                    AliasExpr(
+                      Expression(
+                        PrimaryExpr(
+                          Literal(
+                            BasicLit(
+                              IntLit(
+                                DecimalLit))))))),
+                  ",",
                   Embedding(
                     AliasExpr(
                       Expression(
@@ -73,45 +119,7 @@ SourceFile(
         LabelExpr(
           LabelName(
             Identifier))),
-      AliasExpr(
-        Expression(
-          PrimaryExpr(
-            Literal(
-              ListLit(
-                "[",
-                ElementList(
-                  Embedding(
-                    AliasExpr(
-                      Expression(
-                        PrimaryExpr(
-                          Literal(
-                            BasicLit(
-                              IntLit(
-                                DecimalLit))))))),
-                  Embedding(
-                    AliasExpr(
-                      Expression(
-                        PrimaryExpr(
-                          Literal(
-                            BasicLit(
-                              IntLit(
-                                DecimalLit))))))),
-                  Embedding(
-                    AliasExpr(
-                      Expression(
-                        PrimaryExpr(
-                          Literal(
-                            BasicLit(
-                              IntLit(
-                                DecimalLit)))))))),
-                "]"))))))),
-  Comment,
-  Declaration(
-    Field(
-      Label(
-        LabelExpr(
-          LabelName(
-            Identifier))),
+      ":",
       AliasExpr(
         Expression(
           PrimaryExpr(
@@ -156,6 +164,7 @@ SourceFile(
                 OperandName(
                   Identifier)))),
           "]")),
+      ":",
       AliasExpr(
         Expression(
           PrimaryExpr(
@@ -171,6 +180,7 @@ SourceFile(
                             BasicLit(
                               IntLit(
                                 DecimalLit))))))),
+                  ",",
                   Embedding(
                     AliasExpr(
                       Expression(
@@ -179,6 +189,7 @@ SourceFile(
                             BasicLit(
                               IntLit(
                                 DecimalLit))))))),
+                  ",",
                   Embedding(
                     AliasExpr(
                       Expression(
@@ -195,6 +206,7 @@ SourceFile(
         LabelExpr(
           LabelName(
             Identifier))),
+      ":",
       AliasExpr(
         Expression(
           PrimaryExpr(
@@ -210,6 +222,7 @@ SourceFile(
                             BasicLit(
                               IntLit(
                                 DecimalLit))))))),
+                  ",",
                   Comment,
                   Embedding(
                     AliasExpr(
@@ -219,6 +232,7 @@ SourceFile(
                             BasicLit(
                               IntLit(
                                 DecimalLit))))))),
+                  ",",
                   Comment,
                   Embedding(
                     AliasExpr(
@@ -227,6 +241,7 @@ SourceFile(
                           Literal(
                             BasicLit(
                               IntLit(
-                                DecimalLit)))))))),
+                                DecimalLit))))))),
+                  ","),
                 Comment,
                 "]"))))))))
