@@ -1,6 +1,6 @@
 import {ExternalTokenizer, ContextTracker} from "@lezer/lr"
 import {
-  DecimalLit, SiLit, OctalLit, BinaryLit, HexLit,
+  DecimalLit, SiLit, OctalLit, BinaryLit, HexLit, postfixDecimal,
   SimpleStringLit, SimpleBytesLit, MultilineStringLit, MultilineBytesLit,
   SelectorString, AttributeString, ImportPath,
   simpleStringStart, simpleBytesStart, multilineStringStart, multilineBytesStart,
@@ -12,7 +12,7 @@ import {
 } from "./syntax.grammar.terms"
 
 const newline = 10, carriageReturn = 13, space = 32, tab = 9, slash = 47,
-  closeParen = 41, comma = 44, colon = 58, hash = 35, backslash = 92
+  closeParen = 41, comma = 44, period = 46, colon = 58, hash = 35, underscore = 95, backslash = 92
 const starts = new Set([simpleStringStart, simpleBytesStart, multilineStringStart,
   multilineBytesStart, importStringStart, selectorStringStart])
 const literals = new Set([SimpleStringLit, SimpleBytesLit, MultilineStringLit,
@@ -21,7 +21,7 @@ const literals = new Set([SimpleStringLit, SimpleBytesLit, MultilineStringLit,
 // that is not represented by a named syntax-tree node.
 const separatorLists = new Set([SourceFile, Clauses, AttrTokens])
 const trackedTokens = new Set([
-  Identifier, DecimalLit, SiLit, OctalLit, BinaryLit, HexLit,
+  Identifier, DecimalLit, postfixDecimal, SiLit, OctalLit, BinaryLit, HexLit,
   _null, BottomLit, _true, _false, Top, FloatLit, stringEnd,
   closeParenToken, closeBracket, closeBraceToken,
   _for, _if, _let, _in, _package, _import, forStart, ifStart, ellipsisToken, optionalMarker
@@ -32,6 +32,35 @@ export const fileStart = new ExternalTokenizer(input => {
   input.advance()
   input.acceptToken(bom)
 })
+
+// CUE scans a decimal followed by two dots as an integer, so the canonical
+// explicit-open spelling `1...` is an integer followed by the postfix operator,
+// not the otherwise valid float `1.` followed by two stray periods.
+export const numericEllipsis = new ExternalTokenizer((input, stack) => {
+  if (!stack.canShift(postfixDecimal)) return
+  let offset = 0
+  if (input.next === 48) {
+    offset = 1
+  } else if (input.next >= 49 && input.next <= 57) {
+    offset = 1
+    while (true) {
+      const ch = input.peek(offset)
+      if (ch >= 48 && ch <= 57) {
+        offset++
+      } else if (ch === underscore && input.peek(offset + 1) >= 48 && input.peek(offset + 1) <= 57) {
+        offset += 2
+      } else {
+        break
+      }
+    }
+  } else {
+    return
+  }
+  if (input.peek(offset) !== period || input.peek(offset + 1) !== period ||
+      input.peek(offset + 2) !== period) return
+  input.advance(offset)
+  input.acceptToken(postfixDecimal)
+}, {contextual: true})
 
 const unicodeLetter = /^\p{L}$/u, unicodeDigit = /^\p{Nd}$/u
 

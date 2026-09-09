@@ -32,12 +32,10 @@ const view = new EditorView({
 });
 ```
 
-## Alias compatibility
+## Language-version compatibility
 
-The parser accepts both legacy prefix aliases (`X=field: value`) and aliasv2
-postfix aliases (`field~(X): value`). This is intentional: an editor may not
-have access to the module language version, so version-specific validation is
-left to the CUE toolchain.
+The parser is version-agnostic. It accepts supported legacy and experimental
+syntax, leaving language-version and experiment validation to the CUE toolchain.
 
 ## Testing
 

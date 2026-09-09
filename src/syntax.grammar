@@ -17,6 +17,7 @@
 @external propSource cueHighlighting from "./highlight"
 // The tokenizer only accepts this at absolute source position zero.
 @external tokens fileStart from "./tokens" { bom }
+@external tokens numericEllipsis from "./tokens" { postfixDecimal[@name=DecimalLit] }
 
 @top SourceFile {
     bom?
@@ -29,7 +30,8 @@
 @skip { space | Comment }
 
 // Numeric literals
-IntLit     { DecimalLit | SiLit | OctalLit | BinaryLit | HexLit }
+// The external alternative keeps `1...` from being tokenized as `1.` plus `..`.
+IntLit     { postfixDecimal | DecimalLit | SiLit | OctalLit | BinaryLit | HexLit }
 
 // String delimiters and contents are context-sensitive (hashes, multiline
 // indentation, and nested interpolations). Whitespace inside them is content.
@@ -113,12 +115,15 @@ BasicLit    { IntLit | FloatLit | StringLit |
 OperandName { (Identifier | KeywordIdentifier) ~label-operand }
 // QualifiedIdent { PackageName "." Identifier }
 
+// Parse explicitopen syntax unconditionally; version checks belong to the CUE toolchain.
 PrimaryExpr {
     operand |
     PrimaryExpr Selector |
     PrimaryExpr Index |
     PrimaryExpr Slice |
-    PrimaryExpr Arguments }
+    PrimaryExpr Arguments |
+    PostfixExpr }
+PostfixExpr    { PrimaryExpr "..." }
 
 Selector       { "." (fieldIdentifier | SelectorString) }
 Index          { "[" Expression comma? "]" }

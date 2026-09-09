@@ -135,6 +135,38 @@ describe("prefix and postfix aliases", () => {
   ]) rejects(invalid)
 })
 
+describe("explicitopen postfix expressions", () => {
+  // Editor parsing is version-agnostic, so the CUE toolchain—not this parser—
+  // checks whether @experiment(explicitopen) is present.
+  for (const expression of [
+    "#Base...", "schemas.base...", 'schemas["base"]...', "schema()...",
+    "{a: int}...", "[1, 2]...", "(#A & #B)...", "1...", "123_456...",
+  ]) {
+    const source = `x: ${expression}`
+    accepts(source, tree => deepStrictEqual(texts(tree, source, "PostfixExpr"), [expression]))
+  }
+
+  const precedence = [
+    "a: #A... & #B",
+    "b: (#A & #B)...",
+    "c: #A & #B...",
+  ].join("\n")
+  accepts(precedence, tree => {
+    deepStrictEqual(texts(tree, precedence, "PostfixExpr"), ["#A...", "(#A & #B)...", "#B..."])
+    deepStrictEqual(texts(tree, precedence, "BinExpr"), ["#A... & #B", "#A & #B", "#A & #B..."])
+  })
+
+  const declarations = "x: {#A...\nb: int}\ny: {#A\n...}"
+  accepts(declarations, tree => {
+    deepStrictEqual(texts(tree, declarations, "PostfixExpr"), ["#A..."])
+    deepStrictEqual(texts(tree, declarations, "Ellipsis"), ["..."])
+  })
+  accepts("@experiment(explicitopen)\npackage p\n#A: {a: int}\nx: #A ...")
+
+  for (const source of ["x: ...#A", "x: (#A\n...)", "x: #A....", "x: (#A... #B)"])
+    rejects(source)
+})
+
 describe("Unicode identifiers and BOM", () => {
   accepts("\ufeffpackage p", tree => strictEqual(nodes(tree, "PackageClause").length, 1))
   accepts("\ufeff// header\npackage p")
@@ -287,7 +319,7 @@ for (const bufferLength of [16, 32, 128]) describe(`incremental basic syntax (bu
     ['if!: 1', '!:', ':'], ['if!: 1', '!: 1', '!condition {x: 1}'],
     ['x: f(1, 2)', ', ', '\n'], ['x: { ... }', '... ', '...\n_ '],
     ['x: xs[1]', '1', '1:2'], ['x: xs[1:2]', ':2', ','],
-    ['X=field: 1', 'X=field', 'field~(X)'],
+    ['X=field: 1', 'X=field', 'field~(X)'], ['x: 1...', '...', ''],
     ['x: 3.T', '3.T', '0x_FF'], ['x: [string]: int', 'string', 'string\n']
   ]) it(`${JSON.stringify(original)}: ${JSON.stringify(find)} → ${JSON.stringify(replacement)}`, () => {
     const oldSource = before + original + '\n' + after
@@ -340,6 +372,7 @@ for (const bufferLength of [16, 32, 128]) describe(`incremental basic syntax (bu
       'x: {last: 1 // comment\n}', String.raw`x: "\(for) \(obj.if)"`,
       'package: 1\nimport: 2', 'let value = 1\nx: value',
       'Old=legacy: 1\nmodern~(New): 2\npattern: {[string]~(K,_): K}',
+      'x: #Schema...\ny: (#A & #B)...\nz: 1...',
       'x: """\n  for if package\n  \\(a[1:\n2])\n  """'
     ]
     const parts = Array.from({length: 40}, (_, i) => `block${i}: {\n${bodies[i % bodies.length]}\n}\n`)

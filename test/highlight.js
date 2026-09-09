@@ -54,6 +54,12 @@ describe("CUE highlighting", () => {
     deepStrictEqual(withStyle(source, "operator"), ["=", "~"])
   })
 
+  it("highlights explicit-open ellipses", () => {
+    const source = "x: #Schema... & (#A | #B)..."
+    deepStrictEqual(withStyle(source, "punctuation"), [":", "...", "..."])
+    deepStrictEqual(withStyle(source, "operator"), ["&", "|"])
+  })
+
   it("highlights operators and separators that used to be absent from the tree", () => {
     const operators = ["+", "-", "*", "/", "==", "!=", "<", "<=", ">", ">=", "=~", "!~", "&&", "||", "&", "|", "!"]
     const source = `ops: [${operators.map(op => op === "!" ? "!a" : `a ${op} b`).join(", ")}]`
