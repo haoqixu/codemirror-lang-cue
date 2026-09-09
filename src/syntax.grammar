@@ -88,7 +88,10 @@ PostfixAlias    { "~" ( aliasIdentifier | "(" aliasIdentifier ( comma aliasIdent
 identifier      { Identifier | BlankIdentifier }
 aliasIdentifier { identifier | KeywordIdentifier }
 fieldIdentifier { aliasIdentifier | ValueIdentifier }
-KeywordIdentifier[@name=Identifier] { kw<"for"> | kw<"if"> | kw<"let"> | kw<"in"> }
+KeywordIdentifier[@name=Identifier] {
+    kw<"for"> | kw<"if"> | kw<"let"> | kw<"in"> |
+    kw<"try"> | kw<"else"> | kw<"fallback"> | kw<"otherwise">
+}
 ValueIdentifier[@name=Identifier] { kw<"true"> | kw<"false"> | kw<"null"> }
 BlankIdentifier[@name=Identifier] { top }
 top { @specialize[@name=Top]<Identifier, "_"> }
@@ -115,7 +118,8 @@ BasicLit    { IntLit | FloatLit | StringLit |
 OperandName { (Identifier | KeywordIdentifier) ~label-operand }
 // QualifiedIdent { PackageName "." Identifier }
 
-// Parse explicitopen syntax unconditionally; version checks belong to the CUE toolchain.
+// Parse explicitopen and optional-reference syntax unconditionally; version and
+// experiment checks belong to the CUE toolchain.
 PrimaryExpr {
     operand |
     PrimaryExpr Selector |
@@ -123,7 +127,14 @@ PrimaryExpr {
     PrimaryExpr Slice |
     PrimaryExpr Arguments |
     PostfixExpr }
-PostfixExpr    { PrimaryExpr "..." }
+PostfixExpr    {
+    PrimaryExpr "..." |
+    // CUE only permits ? directly on an identifier, selector, or index.
+    optionalOperandName "?" |
+    PrimaryExpr Selector "?" |
+    PrimaryExpr Index "?"
+}
+optionalOperandName[@name=OperandName] { Identifier ~label-operand }
 
 Selector       { "." (fieldIdentifier | SelectorString) }
 Index          { "[" Expression comma? "]" }
@@ -164,14 +175,28 @@ add_op         { "+" | "-" }
 mul_op         { "*" | "/" }
 unary_op       { "+" | "-" | "!" | "*" | rel_op }
 
-Comprehension       { Clauses StructLit }
+Comprehension {
+    singleGuardClauses StructLit elseClause? |
+    generalClauses StructLit otherwiseClause?
+}
 
-Clauses             { StartClause (comma? Clause)* comma? }
-StartClause         { ForClause | GuardClause }
+// A lone if/try uses `else`. A for clause or a sequence of two or more clauses
+// uses canonical `otherwise`; `fallback` remains a legacy spelling.
+singleGuardClauses[@name=Clauses] { singleGuardClause comma? }
+generalClauses[@name=Clauses] {
+    forClauseStart (comma? Clause)* comma? |
+    singleGuardClause comma? Clause (comma? Clause)* comma?
+}
+forClauseStart[@name=StartClause] { ForClause }
+singleGuardClause[@name=StartClause] { GuardClause | TryClause }
+StartClause         { ForClause | GuardClause | TryClause }
 Clause              { StartClause | LetClause }
 ForClause           { forStart identifier ("," identifier)? kw<"in"> Expression }
 GuardClause         { ifStart Expression }
+TryClause           { tryStart (identifier "=" Expression)? }
 LetClause           { kw<"let"> !prec_clause identifier "=" Expression }
+elseClause[@name=FallbackClause] { kw<"else"> StructLit }
+otherwiseClause[@name=FallbackClause] { (kw<"fallback"> | kw<"otherwise">) StructLit }
 
 PackageClause  { package PackageName }
 PackageName    { identifier }
@@ -188,7 +213,9 @@ kw<word> { @specialize[@name={word}]<Identifier, word> }
     simpleStringStart, simpleBytesStart, multilineStringStart, multilineBytesStart,
     importStringStart, selectorStringStart, stringContent, stringEnd, Escape, InterpolationStart, InterpolationEnd
 }
-@external tokens clauseKeywords from "./tokens" { forStart[@name=for], ifStart[@name=if] }
+@external tokens clauseKeywords from "./tokens" {
+    forStart[@name=for], ifStart[@name=if], tryStart[@name=try]
+}
 // Scan whitespace together with commas so a required comma cannot disappear
 // just because the current grammar position does not accept it.
 @external tokens layout from "./tokens" { insertedComma, space, Comment }

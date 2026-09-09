@@ -2,13 +2,13 @@ import {styleTags, tags as t} from "@lezer/highlight"
 
 export const cueHighlighting = styleTags({
   "import package": t.moduleKeyword,
-  "for if": t.controlKeyword,
+  "for if try else fallback otherwise": t.controlKeyword,
   let: t.definitionKeyword,
   in: t.operatorKeyword,
 
   "LabelName/Identifier! Selector/Identifier!": t.propertyName,
   "LabelName/SimpleStringLit Selector/SimpleStringLit": t.propertyName,
-  "ForClause/Identifier! LetClause/Identifier! AliasExpr/Identifier! Label/Identifier! PostfixAlias/Identifier!": t.definition(t.variableName),
+  "ForClause/Identifier! TryClause/Identifier! LetClause/Identifier! AliasExpr/Identifier! Label/Identifier! PostfixAlias/Identifier!": t.definition(t.variableName),
   "PackageName/Identifier!": t.definition(t.namespace),
   "OperandName/Identifier!": t.variableName,
   "Attribute/Identifier!": t.attributeName,

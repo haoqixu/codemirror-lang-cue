@@ -43,8 +43,9 @@ describe("CUE highlighting", () => {
   })
 
   it("treats selectors and keyword-shaped field names as properties", () => {
-    const source = "if: 1, true: 2, null: 3, result: obj.field"
-    deepStrictEqual(withStyle(source, "property"), ["if", "true", "null", "result", "field"])
+    const source = "if: 1, try: 2, else: 3, fallback: 4, otherwise: 5, true: 6, null: 7, result: obj.try"
+    deepStrictEqual(withStyle(source, "property"),
+      ["if", "try", "else", "fallback", "otherwise", "true", "null", "result", "try"])
     ok(!withStyle(source, "null").includes("null"))
   })
 
@@ -52,6 +53,19 @@ describe("CUE highlighting", () => {
     const source = "Old=legacy: 1, modern~(Key, Value): {name: Key, copy: Value}"
     deepStrictEqual(withStyle(source, "definition"), ["Old", "Key", "Value"])
     deepStrictEqual(withStyle(source, "operator"), ["=", "~"])
+  })
+
+  it("highlights try clauses, fallbacks, and optional references", () => {
+    const source = [
+      "try value = input? if value > 0 {out: value} otherwise {out: 0}",
+      "try {out: input?} else {out: 0}",
+      "for value in [] {value} fallback {0}",
+    ].join("\n")
+    deepStrictEqual(withStyle(source, "keyword"), [
+      "try", "if", "otherwise", "try", "else", "for", "in", "fallback",
+    ])
+    deepStrictEqual(withStyle(source, "definition"), ["value", "value"])
+    deepStrictEqual(withStyle(source, "punctuation").filter(token => token === "?"), ["?", "?"])
   })
 
   it("highlights explicit-open ellipses", () => {

@@ -3,7 +3,6 @@
   "revision": "eb886ed07a0864cc6bbc081bb8f1efa9fb834944",
   "directory": "cue/format/testdata",
   "exclude": {
-    "functions.txtar/functions.input": "Experimental function syntax is not supported.",
-    "try.txtar/try.input": "Experimental try/else/fallback comprehension syntax is not supported."
+    "functions.txtar/functions.input": "Experimental function syntax is not supported."
   }
 }

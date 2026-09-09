@@ -6,8 +6,10 @@ import {
   simpleStringStart, simpleBytesStart, multilineStringStart, multilineBytesStart,
   importStringStart, selectorStringStart, stringContent, stringEnd, Escape, InterpolationStart, InterpolationEnd,
   _null, BottomLit, _true, _false, Top, FloatLit,
-  _for, _if, _let, _in, _package, _import, forStart, ifStart, ellipsisToken, optionalMarker,
-  insertedComma, space as spaceToken, Identifier, Comment, bom, SourceFile, Clauses, AttrTokens,
+  _for, _if, _let, _in, _try, _else, fallback, otherwise, _package, _import,
+  forStart, ifStart, tryStart, ellipsisToken, optionalMarker,
+  insertedComma, space as spaceToken, Identifier, Comment, bom, SourceFile,
+  singleGuardClauses, generalClauses, AttrTokens,
   closeBracket, closeParen as closeParenToken, closeBrace as closeBraceToken,
 } from "./syntax.grammar.terms"
 
@@ -19,12 +21,13 @@ const literals = new Set([SimpleStringLit, SimpleBytesLit, MultilineStringLit,
   MultilineBytesLit, SelectorString, AttributeString, ImportPath])
 // These wrappers, like anonymous repetitions, may consume a trailing separator
 // that is not represented by a named syntax-tree node.
-const separatorLists = new Set([SourceFile, Clauses, AttrTokens])
+const separatorLists = new Set([SourceFile, singleGuardClauses, generalClauses, AttrTokens])
 const trackedTokens = new Set([
   Identifier, DecimalLit, postfixDecimal, SiLit, OctalLit, BinaryLit, HexLit,
   _null, BottomLit, _true, _false, Top, FloatLit, stringEnd,
   closeParenToken, closeBracket, closeBraceToken,
-  _for, _if, _let, _in, _package, _import, forStart, ifStart, ellipsisToken, optionalMarker
+  _for, _if, _let, _in, _try, _else, fallback, otherwise, _package, _import,
+  forStart, ifStart, tryStart, ellipsisToken, optionalMarker
 ])
 
 export const fileStart = new ExternalTokenizer(input => {
@@ -230,14 +233,17 @@ export const strings = new ExternalTokenizer((input, stack) => {
   input.acceptToken(term)
 }, {contextual: true})
 
-// At declaration/list-element boundaries, for/if introduce a comprehension
+// At declaration/list-element boundaries, for/if/try introduce a comprehension
 // unless followed by a label/alias marker or a separator. Commit to that choice:
 // an incomplete `if(x)` must not silently turn into a call of a field named if.
 export const clauseKeywords = new ExternalTokenizer((input, stack) => {
   if (stack.context.string && !stack.context.string.expression) return
-  const word = input.next === 102 ? "for" : input.next === 105 ? "if" : null
+  const word = input.next === 102 ? "for"
+    : input.next === 105 ? "if"
+    : input.next === 116 ? "try"
+    : null
   if (!word) return
-  const term = word === "for" ? forStart : ifStart
+  const term = word === "for" ? forStart : word === "if" ? ifStart : tryStart
   if (!stack.canShift(term)) return
   for (let i = 0; i < word.length; i++) if (input.peek(i) !== word.charCodeAt(i)) return
   let offset = word.length
@@ -254,7 +260,7 @@ export const clauseKeywords = new ExternalTokenizer((input, stack) => {
   if (ch < 0 || ch === comma || ch === colon || ch === 63 ||
       ch === 61 && input.peek(offset + 1) !== 61 && input.peek(offset + 1) !== 126) return
   if (ch === 33 && input.peek(offset + 1) !== 61 && input.peek(offset + 1) !== 126) {
-    if (word === "for") return
+    if (word !== "if") return
     // The upstream parser distinguishes `if!: ...` from `if !condition {...}`
     // by peeking past whitespace (but not comments) for the following colon.
     do { ch = input.peek(++offset) }

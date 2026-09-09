@@ -26,7 +26,7 @@ function rejects(source) {
   it(`rejects ${JSON.stringify(source)}`, () => throws(() => parser.parse(source)))
 }
 
-const clauseWords = ["for", "if", "let", "in"]
+const clauseWords = ["for", "if", "let", "in", "try", "else", "fallback", "otherwise"]
 const valueWords = ["true", "false", "null"]
 const preambleWords = ["package", "import"]
 const fieldWords = [...clauseWords, ...valueWords, ...preambleWords, "_"]
@@ -64,7 +64,10 @@ describe("contextual keywords", () => {
     rejects(`x: ${word}=1`)
   }
   accepts("x: _", tree => strictEqual(nodes(tree, "Top").length, 1))
-  for (const word of ["iffy", "forEach", "for1", "if_", "if$", "for界", "#if", "_#for"]) {
+  for (const word of [
+    "iffy", "forEach", "for1", "if_", "if$", "for界",
+    "trying", "try1", "try_", "try$", "try界", "#if", "_#for"
+  ]) {
     accepts(`${word}: 1`, tree => strictEqual(nodes(tree, "Comprehension").length, 0))
   }
   accepts(String.raw`x: "\(for) \(obj.if)"`, tree => {
@@ -87,12 +90,15 @@ describe("contextual keywords", () => {
   accepts("if!\n: 1", tree => strictEqual(nodes(tree, "GuardClause").length, 0))
   rejects("if! // not a required-field marker in the upstream parser\n: 1")
   accepts("x: if(condition)", tree => strictEqual(nodes(tree, "Arguments").length, 1))
+  accepts("x: try(value)", tree => strictEqual(nodes(tree, "Arguments").length, 1))
   accepts("if\ntrue\n{}", tree => {
     strictEqual(nodes(tree, "Comprehension").length, 0)
     strictEqual(tree.topNode.getChildren("Declaration").length, 3)
   })
-  for (const source of ["if(condition)", "for(1)", "for[0]", "for+1", "x: {if}", "x: {for}"])
-    rejects(source)
+  for (const source of [
+    "if(condition)", "for(1)", "for[0]", "for+1",
+    "try(value)", "try[0]", "try+1", "x: {if}", "x: {for}", "x: {try}"
+  ]) rejects(source)
   accepts("x: 0\npackage: 1\nimport: 2", tree => {
     strictEqual(nodes(tree, "PackageClause").length, 0)
     strictEqual(nodes(tree, "ImportDecl").length, 0)
@@ -165,6 +171,55 @@ describe("explicitopen postfix expressions", () => {
 
   for (const source of ["x: ...#A", "x: (#A\n...)", "x: #A....", "x: (#A... #B)"])
     rejects(source)
+})
+
+describe("try comprehensions and fallback clauses", () => {
+  // Experimental syntax is parsed unconditionally; CUE validates the language
+  // version, @experiment attribute, and optional-reference scope.
+  const source = [
+    "@experiment(try)",
+    "a?: int",
+    "single: {try {value: a?} else {value: 0}}",
+    "bound: {try x = a? {value: x} else {value: 0}}",
+    "chained: {try x = a? try y = b? {sum: x+y} otherwise {sum: 0}}",
+    'loop: [for x in xs try {x.value?} otherwise {0}]',
+  ].join("\n")
+  accepts(source, tree => {
+    deepStrictEqual(texts(tree, source, "TryClause"), [
+      "try", "try x = a?", "try x = a?", "try y = b?", "try",
+    ])
+    deepStrictEqual(texts(tree, source, "FallbackClause"), [
+      "else {value: 0}", "else {value: 0}",
+      "otherwise {sum: 0}", "otherwise {0}",
+    ])
+    deepStrictEqual(nodes(tree, "TryClause").map(node =>
+      node.getChild("Identifier") && source.slice(node.getChild("Identifier").from, node.getChild("Identifier").to)),
+    [null, "x", "x", "y", null])
+  })
+
+  accepts("a?: int\nx: a?", tree =>
+    deepStrictEqual(texts(tree, "a?: int\nx: a?", "PostfixExpr"), ["a?"]))
+  accepts("try {x: root?.field?[index]?}", tree =>
+    deepStrictEqual(texts(tree, "try {x: root?.field?[index]?}", "PostfixExpr"),
+      ["root?.field?[index]?", "root?.field?", "root?"]))
+  accepts("try x = a?, try y = b?, {x+y} otherwise {0}")
+  accepts("try x = a?\nif x > 0\n{value: x} otherwise {value: 0}")
+  accepts("for x in [] {x} fallback {0}") // legacy alias for otherwise
+  accepts("if one if two {value: 1} otherwise {value: 0}")
+  accepts("try if true {x: a?}") // rejected semantically by the CUE toolchain
+  accepts("[try {a?} else {-1}]")
+
+  for (const invalid of [
+    "try {x: a?} otherwise {x: 0}",
+    "if true {x: 1} otherwise {x: 0}",
+    "for x in [] {x} else {0}",
+    "try x = a? if x {x} else {0}",
+    "if one if two {1} else {0}",
+    "try x = a?",
+    "try x a? {x}",
+    "x: (a)?", "x: f()?", "x: {a: 1}?", "x: [1]?", "x: 1?",
+    "x: a??", "x: try?", "x: xs[1:2]?",
+  ]) rejects(invalid)
 })
 
 describe("Unicode identifiers and BOM", () => {
@@ -320,6 +375,7 @@ for (const bufferLength of [16, 32, 128]) describe(`incremental basic syntax (bu
     ['x: f(1, 2)', ', ', '\n'], ['x: { ... }', '... ', '...\n_ '],
     ['x: xs[1]', '1', '1:2'], ['x: xs[1:2]', ':2', ','],
     ['X=field: 1', 'X=field', 'field~(X)'], ['x: 1...', '...', ''],
+    ['try: 1', ': 1', ' {x: a?} else {x: 0}'],
     ['x: 3.T', '3.T', '0x_FF'], ['x: [string]: int', 'string', 'string\n']
   ]) it(`${JSON.stringify(original)}: ${JSON.stringify(find)} → ${JSON.stringify(replacement)}`, () => {
     const oldSource = before + original + '\n' + after
@@ -373,7 +429,8 @@ for (const bufferLength of [16, 32, 128]) describe(`incremental basic syntax (bu
       'package: 1\nimport: 2', 'let value = 1\nx: value',
       'Old=legacy: 1\nmodern~(New): 2\npattern: {[string]~(K,_): K}',
       'x: #Schema...\ny: (#A & #B)...\nz: 1...',
-      'x: """\n  for if package\n  \\(a[1:\n2])\n  """'
+      'opt?: int\ntry {x: opt?} else {x: 0}\nfor x in [] {x} otherwise {0}',
+      'x: """\n  for if try otherwise package\n  \\(a[1:\n2])\n  """'
     ]
     const parts = Array.from({length: 40}, (_, i) => `block${i}: {\n${bodies[i % bodies.length]}\n}\n`)
     const header = '@file()\npackage p\n@package()\nimport "math"\n'
