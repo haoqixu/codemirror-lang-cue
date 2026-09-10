@@ -359,5 +359,5 @@ SourceFile(
                     Expression(
                       PrimaryExpr(
                         OperandName(
-                          Identifier))))),
+                          PredeclaredType))))),
                 "]"))))))))

@@ -73,7 +73,9 @@ Label           {
     PostfixPatternExpr PostfixAlias
 }
 LabelExpr       { LabelName ( "?" | "!" )? | "[" AliasExpr ~aliasexpr comma? "]" }
-LabelName       { fieldIdentifier ~label-operand | SimpleStringLit ~strlit | "(" ( aliasIdentifier "=" )? Expression ")" ~paren }
+LabelName       { fieldIdentifier ~label-operand | SimpleStringLit ~strlit | dynamicLabelName ~paren }
+dynamicLabelName { "(" LabelAlias? Expression ")" }
+LabelAlias      { aliasIdentifier "=" }
 PostfixLabelExpr[@name=LabelExpr] { PostfixLabelName }
 PostfixPatternExpr[@name=LabelExpr] { "[" Expression ~aliasexpr comma? "]" }
 PostfixLabelName[@name=LabelName] {
@@ -85,7 +87,9 @@ PostfixAlias    { "~" ( aliasIdentifier | "(" aliasIdentifier ( comma aliasIdent
 
 // Reserved words can name fields/selectors and some can be references or aliases,
 // but they are not ordinary binding identifiers (for/let/package/import names).
-identifier      { Identifier | BlankIdentifier }
+// The dedicated definition and predeclared terms retain identifier grammar
+// behavior while allowing the highlighter to assign semantic tags.
+identifier      { Identifier | DefinitionIdentifier | PredeclaredType | PredeclaredFunction | BlankIdentifier }
 aliasIdentifier { identifier | KeywordIdentifier }
 fieldIdentifier { aliasIdentifier | ValueIdentifier }
 KeywordIdentifier[@name=Identifier] {
@@ -108,14 +112,14 @@ AliasExpr  { ( aliasIdentifier "=" )? Expression }
 ListLit       { "[" ( ElementList )? "]" }
 ElementList   { Ellipsis comma? | Embedding ( comma Embedding )* ( comma Ellipsis )? comma? }
 
-// Predeclared identifiers
-// ...
-
 operand     { Literal | OperandName | "(" Expression !prec_operand_expr ")" ~paren }
 Literal     { BasicLit | ListLit | StructLit }
 BasicLit    { IntLit | FloatLit | StringLit |
               NullLit | BoolLit | BottomLit | top }
-OperandName { (Identifier | KeywordIdentifier) ~label-operand }
+OperandName {
+    (Identifier | DefinitionIdentifier | PredeclaredType | PredeclaredFunction | KeywordIdentifier)
+    ~label-operand
+}
 // QualifiedIdent { PackageName "." Identifier }
 
 // Parse explicitopen and optional-reference syntax unconditionally; version and
@@ -125,8 +129,9 @@ PrimaryExpr {
     PrimaryExpr Selector |
     PrimaryExpr Index |
     PrimaryExpr Slice |
-    PrimaryExpr Arguments |
+    CallExpr |
     PostfixExpr }
+CallExpr       { PrimaryExpr Arguments }
 PostfixExpr    {
     PrimaryExpr "..." |
     // CUE only permits ? directly on an identifier, selector, or index.
@@ -134,7 +139,9 @@ PostfixExpr    {
     PrimaryExpr Selector "?" |
     PrimaryExpr Index "?"
 }
-optionalOperandName[@name=OperandName] { Identifier ~label-operand }
+optionalOperandName[@name=OperandName] {
+    (Identifier | DefinitionIdentifier | PredeclaredType | PredeclaredFunction) ~label-operand
+}
 
 Selector       { "." (fieldIdentifier | SelectorString) }
 Index          { "[" Expression comma? "]" }
@@ -207,7 +214,10 @@ ImportSpec       { PackageName? ImportPath }
 kw<word> { @specialize[@name={word}]<Identifier, word> }
 
 // Unlike other keywords, package/import are ordinary identifiers outside the preamble.
-@external specialize {Identifier} preambleKeyword from "./tokens" { package[@name=package], import[@name=import] }
+// Predeclared names remain valid identifiers too, since CUE allows them to be shadowed.
+@external specialize {Identifier} identifierKind from "./tokens" {
+    package[@name=package], import[@name=import], PredeclaredType, PredeclaredFunction
+}
 
 @external tokens strings from "./tokens" {
     simpleStringStart, simpleBytesStart, multilineStringStart, multilineBytesStart,
@@ -220,7 +230,7 @@ kw<word> { @specialize[@name={word}]<Identifier, word> }
 // just because the current grammar position does not accept it.
 @external tokens layout from "./tokens" { insertedComma, space, Comment }
 // Unicode category checks and surrogate-pair decoding require an external scanner.
-@external tokens identifiers from "./tokens" { Identifier }
+@external tokens identifiers from "./tokens" { Identifier, DefinitionIdentifier }
 @context trackTokens from "./tokens"
 
 comma { "," | insertedComma }

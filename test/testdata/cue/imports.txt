@@ -277,7 +277,7 @@ SourceFile(
         Expression(
           PrimaryExpr(
             OperandName(
-              Identifier)))))),
+              PredeclaredType)))))),
   Declaration(
     Field(
       Label(
@@ -288,18 +288,19 @@ SourceFile(
       AliasExpr(
         Expression(
           PrimaryExpr(
-            PrimaryExpr(
+            CallExpr(
               PrimaryExpr(
-                OperandName(
+                PrimaryExpr(
+                  OperandName(
+                    Identifier)),
+                Selector(
+                  ".",
                   Identifier)),
-              Selector(
-                ".",
-                Identifier)),
-            Arguments(
-              "(",
-              Argument(
-                Expression(
-                  PrimaryExpr(
-                    OperandName(
-                      Identifier)))),
-              ")")))))))
+              Arguments(
+                "(",
+                Argument(
+                  Expression(
+                    PrimaryExpr(
+                      OperandName(
+                        Identifier)))),
+                ")"))))))))

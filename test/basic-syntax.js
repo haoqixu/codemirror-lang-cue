@@ -227,7 +227,8 @@ describe("Unicode identifiers and BOM", () => {
   accepts("\ufeff// header\npackage p")
 
   for (const name of ["αβ", "界١", "𐐀𝟘", "#界２", "_#δ३"])
-    accepts(`${name}: 1`, tree => deepStrictEqual(texts(tree, `${name}: 1`, "Identifier"), [name]))
+    accepts(`${name}: 1`, tree => deepStrictEqual(
+      texts(tree, `${name}: 1`, name.includes("#") ? "DefinitionIdentifier" : "Identifier"), [name]))
 
   for (const name of [
     "١x", "𝟘x", "#١x", "_#١x", // Unicode digits cannot start identifiers.

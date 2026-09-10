@@ -687,41 +687,42 @@ SourceFile(
                     AliasExpr(
                       Expression(
                         PrimaryExpr(
-                          PrimaryExpr(
+                          CallExpr(
                             PrimaryExpr(
-                              OperandName(
+                              PrimaryExpr(
+                                OperandName(
+                                  Identifier)),
+                              Selector(
+                                ".",
                                 Identifier)),
-                            Selector(
-                              ".",
-                              Identifier)),
-                          Arguments(
-                            "(",
-                            Argument(
-                              Expression(
-                                PrimaryExpr(
-                                  Literal(
-                                    ListLit(
-                                      "[",
-                                      ElementList(
-                                        Embedding(
-                                          AliasExpr(
-                                            Expression(
-                                              PrimaryExpr(
-                                                Literal(
-                                                  BasicLit(
-                                                    IntLit(
-                                                      DecimalLit))))))),
-                                        ",",
-                                        Embedding(
-                                          AliasExpr(
-                                            Expression(
-                                              PrimaryExpr(
-                                                Literal(
-                                                  BasicLit(
-                                                    IntLit(
-                                                      DecimalLit)))))))),
-                                      "]"))))),
-                            ")"))))),
+                            Arguments(
+                              "(",
+                              Argument(
+                                Expression(
+                                  PrimaryExpr(
+                                    Literal(
+                                      ListLit(
+                                        "[",
+                                        ElementList(
+                                          Embedding(
+                                            AliasExpr(
+                                              Expression(
+                                                PrimaryExpr(
+                                                  Literal(
+                                                    BasicLit(
+                                                      IntLit(
+                                                        DecimalLit))))))),
+                                          ",",
+                                          Embedding(
+                                            AliasExpr(
+                                              Expression(
+                                                PrimaryExpr(
+                                                  Literal(
+                                                    BasicLit(
+                                                      IntLit(
+                                                        DecimalLit)))))))),
+                                        "]"))))),
+                              ")")))))),
                   ",",
                   Comment,
                   Embedding(
@@ -761,22 +762,23 @@ SourceFile(
       AliasExpr(
         Expression(
           PrimaryExpr(
-            PrimaryExpr(
-              OperandName(
-                Identifier)),
-            Arguments(
-              "(",
-              Comment,
-              Comment,
-              Argument(
-                Expression(
-                  PrimaryExpr(
-                    Literal(
-                      BasicLit(
-                        IntLit(
-                          DecimalLit)))))),
-              Comment,
-              ")")))))),
+            CallExpr(
+              PrimaryExpr(
+                OperandName(
+                  Identifier)),
+              Arguments(
+                "(",
+                Comment,
+                Comment,
+                Argument(
+                  Expression(
+                    PrimaryExpr(
+                      Literal(
+                        BasicLit(
+                          IntLit(
+                            DecimalLit)))))),
+                Comment,
+                ")"))))))),
   Declaration(
     Field(
       Label(
@@ -787,22 +789,23 @@ SourceFile(
       AliasExpr(
         Expression(
           PrimaryExpr(
-            PrimaryExpr(
-              OperandName(
-                Identifier)),
-            Arguments(
-              "(",
-              Comment,
-              Comment,
-              Argument(
-                Expression(
-                  PrimaryExpr(
-                    Literal(
-                      BasicLit(
-                        IntLit(
-                          DecimalLit)))))),
-              Comment,
-              ")")))))),
+            CallExpr(
+              PrimaryExpr(
+                OperandName(
+                  Identifier)),
+              Arguments(
+                "(",
+                Comment,
+                Comment,
+                Argument(
+                  Expression(
+                    PrimaryExpr(
+                      Literal(
+                        BasicLit(
+                          IntLit(
+                            DecimalLit)))))),
+                Comment,
+                ")"))))))),
   Declaration(
     Field(
       Label(
@@ -813,30 +816,31 @@ SourceFile(
       AliasExpr(
         Expression(
           PrimaryExpr(
-            PrimaryExpr(
-              OperandName(
-                Identifier)),
-            Arguments(
-              "(",
-              Argument(
-                Expression(
-                  PrimaryExpr(
-                    Literal(
-                      BasicLit(
-                        IntLit(
-                          DecimalLit)))))),
-              ",",
-              Comment,
-              Comment,
-              Argument(
-                Expression(
-                  PrimaryExpr(
-                    Literal(
-                      BasicLit(
-                        IntLit(
-                          DecimalLit)))))),
-              Comment,
-              ")")))))),
+            CallExpr(
+              PrimaryExpr(
+                OperandName(
+                  Identifier)),
+              Arguments(
+                "(",
+                Argument(
+                  Expression(
+                    PrimaryExpr(
+                      Literal(
+                        BasicLit(
+                          IntLit(
+                            DecimalLit)))))),
+                ",",
+                Comment,
+                Comment,
+                Argument(
+                  Expression(
+                    PrimaryExpr(
+                      Literal(
+                        BasicLit(
+                          IntLit(
+                            DecimalLit)))))),
+                Comment,
+                ")"))))))),
   Comment,
   Comment,
   Declaration(
@@ -935,7 +939,7 @@ SourceFile(
                                         Expression(
                                           PrimaryExpr(
                                             OperandName(
-                                              Identifier)))),
+                                              PredeclaredType)))),
                                       "]")),
                                   ":",
                                   AliasExpr(
@@ -957,7 +961,7 @@ SourceFile(
             Expression(
               PrimaryExpr(
                 OperandName(
-                  Identifier)))),
+                  PredeclaredType)))),
           "]")),
       ":",
       AliasExpr(
@@ -972,7 +976,7 @@ SourceFile(
                     Expression(
                       PrimaryExpr(
                         OperandName(
-                          Identifier))))),
+                          PredeclaredType))))),
                 Comment,
                 "]"))))))),
   Declaration(
@@ -984,7 +988,7 @@ SourceFile(
             Expression(
               PrimaryExpr(
                 OperandName(
-                  Identifier)))),
+                  PredeclaredType)))),
           "]")),
       ":",
       AliasExpr(
@@ -999,7 +1003,7 @@ SourceFile(
                     Expression(
                       PrimaryExpr(
                         OperandName(
-                          Identifier)))),
+                          PredeclaredType)))),
                   ","),
                 Comment,
                 "]"))))))))
@@ -1027,7 +1031,7 @@ SourceFile(
         Expression(
           PrimaryExpr(
             OperandName(
-              Identifier)))))))
+              PredeclaredType)))))))
 
 # cue/format/testdata/comments.txtar / comments_alone.input (adapted to Lezer)
 // Just a few comments
@@ -1056,7 +1060,7 @@ SourceFile(
         Expression(
           PrimaryExpr(
             OperandName(
-              Identifier)))))))
+              PredeclaredType)))))))
 
 # cue/format/testdata/comments.txtar / issue4404.input (adapted to Lezer)
 // A file with a single comment block
@@ -1119,7 +1123,7 @@ SourceFile(
                           Expression(
                             PrimaryExpr(
                               OperandName(
-                                Identifier)))))),
+                                PredeclaredType)))))),
                     Comment,
                     Declaration(
                       Field(
@@ -1132,7 +1136,7 @@ SourceFile(
                           Expression(
                             PrimaryExpr(
                               OperandName(
-                                Identifier)))))),
+                                PredeclaredType)))))),
                     Comment,
                     "}")))),
             "|",
@@ -1197,27 +1201,28 @@ SourceFile(
           BinExpr(
             Expression(
               PrimaryExpr(
-                PrimaryExpr(
-                  OperandName(
-                    Identifier)),
-                Arguments(
-                  "(",
-                  Comment,
-                  Argument(
-                    Expression(
-                      PrimaryExpr(
-                        OperandName(
-                          Identifier)))),
-                  ",",
-                  Comment,
-                  Argument(
-                    Expression(
-                      PrimaryExpr(
-                        OperandName(
-                          Identifier)))),
-                  ",",
-                  Comment,
-                  ")"))),
+                CallExpr(
+                  PrimaryExpr(
+                    OperandName(
+                      Identifier)),
+                  Arguments(
+                    "(",
+                    Comment,
+                    Argument(
+                      Expression(
+                        PrimaryExpr(
+                          OperandName(
+                            Identifier)))),
+                    ",",
+                    Comment,
+                    Argument(
+                      Expression(
+                        PrimaryExpr(
+                          OperandName(
+                            Identifier)))),
+                    ",",
+                    Comment,
+                    ")")))),
             "|",
             Expression(
               PrimaryExpr(

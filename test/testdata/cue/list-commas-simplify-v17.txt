@@ -162,7 +162,7 @@ SourceFile(
             Expression(
               PrimaryExpr(
                 OperandName(
-                  Identifier)))),
+                  PredeclaredType)))),
           "]")),
       ":",
       AliasExpr(

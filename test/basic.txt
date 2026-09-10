@@ -245,7 +245,7 @@ SourceFile(
         Expression(
           PrimaryExpr(
             OperandName(
-              Identifier)))))),
+              PredeclaredType)))))),
   Comment,
   Comment)
 
@@ -503,7 +503,7 @@ SourceFile(
             Expression(
               PrimaryExpr(
                 OperandName(
-                  Identifier)))),
+                  PredeclaredType)))),
           "]")),
       ":",
       AliasExpr(

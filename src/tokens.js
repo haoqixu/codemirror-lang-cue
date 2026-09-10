@@ -7,8 +7,9 @@ import {
   importStringStart, selectorStringStart, stringContent, stringEnd, Escape, InterpolationStart, InterpolationEnd,
   _null, BottomLit, _true, _false, Top, FloatLit,
   _for, _if, _let, _in, _try, _else, fallback, otherwise, _package, _import,
+  PredeclaredType, PredeclaredFunction,
   forStart, ifStart, tryStart, ellipsisToken, optionalMarker,
-  insertedComma, space as spaceToken, Identifier, Comment, bom, SourceFile,
+  insertedComma, space as spaceToken, Identifier, DefinitionIdentifier, Comment, bom, SourceFile,
   singleGuardClauses, generalClauses, AttrTokens,
   closeBracket, closeParen as closeParenToken, closeBrace as closeBraceToken,
 } from "./syntax.grammar.terms"
@@ -23,7 +24,8 @@ const literals = new Set([SimpleStringLit, SimpleBytesLit, MultilineStringLit,
 // that is not represented by a named syntax-tree node.
 const separatorLists = new Set([SourceFile, singleGuardClauses, generalClauses, AttrTokens])
 const trackedTokens = new Set([
-  Identifier, DecimalLit, postfixDecimal, SiLit, OctalLit, BinaryLit, HexLit,
+  Identifier, DefinitionIdentifier, PredeclaredType, PredeclaredFunction,
+  DecimalLit, postfixDecimal, SiLit, OctalLit, BinaryLit, HexLit,
   _null, BottomLit, _true, _false, Top, FloatLit, stringEnd,
   closeParenToken, closeBracket, closeBraceToken,
   _for, _if, _let, _in, _try, _else, fallback, otherwise, _package, _import,
@@ -99,8 +101,11 @@ export const identifiers = new ExternalTokenizer(input => {
   // underscore as an identifier.
   if (input.next === 95 && input.peek(1) === 124 && input.peek(2) === 95) return
 
+  // Definitions (`#name`) and hidden definitions (`_#name`) need their own
+  // term so themes can distinguish them from ordinary and hidden fields.
+  const definition = input.next === hash || input.next === underscore && input.peek(1) === hash
   let offset = input.next === hash ? 1
-    : input.next === 95 && input.peek(1) === hash ? 2 : 0
+    : input.next === underscore && input.peek(1) === hash ? 2 : 0
   let ch = codePointAt(input, offset)
   if (!isIdentifierLetter(ch)) return
   do {
@@ -108,11 +113,23 @@ export const identifiers = new ExternalTokenizer(input => {
     ch = codePointAt(input, offset)
   } while (isIdentifierContinue(ch))
   input.advance(offset)
-  input.acceptToken(Identifier)
+  input.acceptToken(definition ? DefinitionIdentifier : Identifier)
 })
 
-export function preambleKeyword(word, stack) {
-  const term = word === "package" ? _package : word === "import" ? _import : -1
+const predeclaredTypes = new Set([
+  "bool", "int", "float", "string", "bytes", "number",
+  "uint", "uint8", "uint16", "uint32", "uint64", "uint128",
+  "int8", "int16", "int32", "int64", "int128", "rune", "float32", "float64"
+])
+
+const predeclaredFunctions = new Set([
+  "len", "close", "and", "or", "div", "mod", "quo", "rem", "error"
+])
+
+export function identifierKind(word, stack) {
+  const term = word === "package" ? _package : word === "import" ? _import
+    : predeclaredTypes.has(word) ? PredeclaredType
+    : predeclaredFunctions.has(word) ? PredeclaredFunction : -1
   return term >= 0 && stack.canShift(term) ? term : -1
 }
 

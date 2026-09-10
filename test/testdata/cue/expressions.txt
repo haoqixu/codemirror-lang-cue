@@ -441,7 +441,7 @@ SourceFile(
                         Expression(
                           PrimaryExpr(
                             OperandName(
-                              Identifier))),
+                              PredeclaredType))),
                         "]"),
                       PostfixAlias(
                         "~",
@@ -461,7 +461,7 @@ SourceFile(
                       Expression(
                         PrimaryExpr(
                           OperandName(
-                            Identifier)))))),
+                            PredeclaredType)))))),
                 Declaration(
                   LetClause(
                     let,
@@ -576,7 +576,7 @@ SourceFile(
                       Expression(
                         PrimaryExpr(
                           OperandName(
-                            Identifier)))))),
+                            PredeclaredType)))))),
                 Declaration(
                   Field(
                     Label(
@@ -733,7 +733,7 @@ SourceFile(
                     Label(
                       LabelExpr(
                         LabelName(
-                          Identifier))),
+                          DefinitionIdentifier))),
                     ":",
                     AliasExpr(
                       Expression(
@@ -768,7 +768,7 @@ SourceFile(
                     Label(
                       LabelExpr(
                         LabelName(
-                          Identifier))),
+                          DefinitionIdentifier))),
                     ":",
                     AliasExpr(
                       Expression(
@@ -787,7 +787,7 @@ SourceFile(
                                     Expression(
                                       PrimaryExpr(
                                         OperandName(
-                                          Identifier)))))),
+                                          PredeclaredType)))))),
                               Declaration(
                                 Ellipsis(
                                   "...")),
@@ -932,7 +932,7 @@ SourceFile(
                       Expression(
                         PrimaryExpr(
                           OperandName(
-                            Identifier)))),
+                            PredeclaredType)))),
                     Attribute(
                       "@",
                       Identifier,
@@ -1460,168 +1460,173 @@ SourceFile(
                     AliasExpr(
                       Expression(
                         PrimaryExpr(
-                          PrimaryExpr(
-                            OperandName(
-                              Identifier)),
-                          Arguments(
-                            "(",
-                            Argument(
-                              Expression(
-                                BinExpr(
-                                  Expression(
-                                    BinExpr(
-                                      Expression(
-                                        PrimaryExpr(
-                                          Literal(
-                                            BasicLit(
-                                              IntLit(
-                                                DecimalLit))))),
-                                      "+",
-                                      Expression(
-                                        PrimaryExpr(
-                                          Literal(
-                                            BasicLit(
-                                              IntLit(
-                                                DecimalLit))))))),
-                                  "+",
-                                  Expression(
-                                    PrimaryExpr(
-                                      Literal(
-                                        BasicLit(
-                                          IntLit(
-                                            DecimalLit)))))))),
-                            ")")))))),
-                Declaration(
-                  Field(
-                    Label(
-                      LabelExpr(
-                        LabelName(
-                          Identifier))),
-                    ":",
-                    AliasExpr(
-                      Expression(
-                        PrimaryExpr(
-                          PrimaryExpr(
-                            OperandName(
-                              Identifier)),
-                          Arguments(
-                            "(",
-                            Argument(
-                              Expression(
-                                BinExpr(
-                                  Expression(
-                                    BinExpr(
-                                      Expression(
-                                        PrimaryExpr(
-                                          Literal(
-                                            BasicLit(
-                                              IntLit(
-                                                DecimalLit))))),
-                                      "*",
-                                      Expression(
-                                        PrimaryExpr(
-                                          Literal(
-                                            BasicLit(
-                                              IntLit(
-                                                DecimalLit))))))),
-                                  "*",
-                                  Expression(
-                                    PrimaryExpr(
-                                      Literal(
-                                        BasicLit(
-                                          IntLit(
-                                            DecimalLit)))))))),
-                            ")")))))),
-                Declaration(
-                  Field(
-                    Label(
-                      LabelExpr(
-                        LabelName(
-                          Identifier))),
-                    ":",
-                    AliasExpr(
-                      Expression(
-                        PrimaryExpr(
-                          PrimaryExpr(
-                            OperandName(
-                              Identifier)),
-                          Arguments(
-                            "(",
-                            Argument(
-                              Expression(
-                                BinExpr(
-                                  Expression(
-                                    PrimaryExpr(
-                                      Literal(
-                                        BasicLit(
-                                          IntLit(
-                                            DecimalLit))))),
-                                  "+",
-                                  Expression(
-                                    BinExpr(
-                                      Expression(
-                                        PrimaryExpr(
-                                          Literal(
-                                            BasicLit(
-                                              IntLit(
-                                                DecimalLit))))),
-                                      "*",
-                                      Expression(
-                                        PrimaryExpr(
-                                          Literal(
-                                            BasicLit(
-                                              IntLit(
-                                                DecimalLit)))))))))),
-                            ")")))))),
-                Declaration(
-                  Field(
-                    Label(
-                      LabelExpr(
-                        LabelName(
-                          Identifier))),
-                    ":",
-                    AliasExpr(
-                      Expression(
-                        PrimaryExpr(
-                          PrimaryExpr(
-                            OperandName(
-                              Identifier)),
-                          Arguments(
-                            "(",
-                            Argument(
-                              Expression(
-                                BinExpr(
-                                  Expression(
-                                    PrimaryExpr(
-                                      Literal(
-                                        BasicLit(
-                                          IntLit(
-                                            DecimalLit))))),
-                                  "+",
-                                  Expression(
-                                    PrimaryExpr(
+                          CallExpr(
+                            PrimaryExpr(
+                              OperandName(
+                                Identifier)),
+                            Arguments(
+                              "(",
+                              Argument(
+                                Expression(
+                                  BinExpr(
+                                    Expression(
+                                      BinExpr(
+                                        Expression(
+                                          PrimaryExpr(
+                                            Literal(
+                                              BasicLit(
+                                                IntLit(
+                                                  DecimalLit))))),
+                                        "+",
+                                        Expression(
+                                          PrimaryExpr(
+                                            Literal(
+                                              BasicLit(
+                                                IntLit(
+                                                  DecimalLit))))))),
+                                    "+",
+                                    Expression(
                                       PrimaryExpr(
-                                        OperandName(
-                                          Identifier)),
-                                      Arguments(
-                                        "(",
-                                        Argument(
-                                          Expression(
-                                            PrimaryExpr(
-                                              Literal(
-                                                BasicLit(
-                                                  IntLit(
-                                                    DecimalLit)))))),
-                                        ",",
-                                        Argument(
-                                          Expression(
-                                            PrimaryExpr(
-                                              Literal(
-                                                BasicLit(
-                                                  IntLit(
-                                                    DecimalLit)))))),
-                                        ")")))))),
-                            ")")))))),
+                                        Literal(
+                                          BasicLit(
+                                            IntLit(
+                                              DecimalLit)))))))),
+                              ")"))))))),
+                Declaration(
+                  Field(
+                    Label(
+                      LabelExpr(
+                        LabelName(
+                          Identifier))),
+                    ":",
+                    AliasExpr(
+                      Expression(
+                        PrimaryExpr(
+                          CallExpr(
+                            PrimaryExpr(
+                              OperandName(
+                                Identifier)),
+                            Arguments(
+                              "(",
+                              Argument(
+                                Expression(
+                                  BinExpr(
+                                    Expression(
+                                      BinExpr(
+                                        Expression(
+                                          PrimaryExpr(
+                                            Literal(
+                                              BasicLit(
+                                                IntLit(
+                                                  DecimalLit))))),
+                                        "*",
+                                        Expression(
+                                          PrimaryExpr(
+                                            Literal(
+                                              BasicLit(
+                                                IntLit(
+                                                  DecimalLit))))))),
+                                    "*",
+                                    Expression(
+                                      PrimaryExpr(
+                                        Literal(
+                                          BasicLit(
+                                            IntLit(
+                                              DecimalLit)))))))),
+                              ")"))))))),
+                Declaration(
+                  Field(
+                    Label(
+                      LabelExpr(
+                        LabelName(
+                          Identifier))),
+                    ":",
+                    AliasExpr(
+                      Expression(
+                        PrimaryExpr(
+                          CallExpr(
+                            PrimaryExpr(
+                              OperandName(
+                                Identifier)),
+                            Arguments(
+                              "(",
+                              Argument(
+                                Expression(
+                                  BinExpr(
+                                    Expression(
+                                      PrimaryExpr(
+                                        Literal(
+                                          BasicLit(
+                                            IntLit(
+                                              DecimalLit))))),
+                                    "+",
+                                    Expression(
+                                      BinExpr(
+                                        Expression(
+                                          PrimaryExpr(
+                                            Literal(
+                                              BasicLit(
+                                                IntLit(
+                                                  DecimalLit))))),
+                                        "*",
+                                        Expression(
+                                          PrimaryExpr(
+                                            Literal(
+                                              BasicLit(
+                                                IntLit(
+                                                  DecimalLit)))))))))),
+                              ")"))))))),
+                Declaration(
+                  Field(
+                    Label(
+                      LabelExpr(
+                        LabelName(
+                          Identifier))),
+                    ":",
+                    AliasExpr(
+                      Expression(
+                        PrimaryExpr(
+                          CallExpr(
+                            PrimaryExpr(
+                              OperandName(
+                                Identifier)),
+                            Arguments(
+                              "(",
+                              Argument(
+                                Expression(
+                                  BinExpr(
+                                    Expression(
+                                      PrimaryExpr(
+                                        Literal(
+                                          BasicLit(
+                                            IntLit(
+                                              DecimalLit))))),
+                                    "+",
+                                    Expression(
+                                      PrimaryExpr(
+                                        CallExpr(
+                                          PrimaryExpr(
+                                            OperandName(
+                                              PredeclaredFunction)),
+                                          Arguments(
+                                            "(",
+                                            Argument(
+                                              Expression(
+                                                PrimaryExpr(
+                                                  Literal(
+                                                    BasicLit(
+                                                      IntLit(
+                                                        DecimalLit)))))),
+                                            ",",
+                                            Argument(
+                                              Expression(
+                                                PrimaryExpr(
+                                                  Literal(
+                                                    BasicLit(
+                                                      IntLit(
+                                                        DecimalLit)))))),
+                                            ")"))))))),
+                              ")"))))))),
                 Declaration(
                   Field(
                     Label(
@@ -1970,23 +1975,24 @@ SourceFile(
                         BinExpr(
                           Expression(
                             PrimaryExpr(
-                              PrimaryExpr(
-                                OperandName(
-                                  Identifier)),
-                              Arguments(
-                                "(",
-                                Argument(
-                                  Expression(
-                                    PrimaryExpr(
-                                      OperandName(
-                                        Identifier)))),
-                                ",",
-                                Argument(
-                                  Expression(
-                                    PrimaryExpr(
-                                      OperandName(
-                                        Identifier)))),
-                                ")"))),
+                              CallExpr(
+                                PrimaryExpr(
+                                  OperandName(
+                                    PredeclaredFunction)),
+                                Arguments(
+                                  "(",
+                                  Argument(
+                                    Expression(
+                                      PrimaryExpr(
+                                        OperandName(
+                                          Identifier)))),
+                                  ",",
+                                  Argument(
+                                    Expression(
+                                      PrimaryExpr(
+                                        OperandName(
+                                          Identifier)))),
+                                  ")")))),
                           "+",
                           Expression(
                             PrimaryExpr(
@@ -2138,25 +2144,26 @@ SourceFile(
                     AliasExpr(
                       Expression(
                         PrimaryExpr(
-                          PrimaryExpr(
-                            OperandName(
-                              Identifier)),
-                          Arguments(
-                            "(",
-                            Argument(
-                              Expression(
-                                PrimaryExpr(
-                                  OperandName(
-                                    Identifier)))),
-                            ",",
-                            Argument(
-                              Expression(
-                                UnaryExpr(
-                                  "-",
+                          CallExpr(
+                            PrimaryExpr(
+                              OperandName(
+                                PredeclaredFunction)),
+                            Arguments(
+                              "(",
+                              Argument(
+                                Expression(
                                   PrimaryExpr(
                                     OperandName(
-                                      Identifier))))),
-                            ")")))))),
+                                      Identifier)))),
+                              ",",
+                              Argument(
+                                Expression(
+                                  UnaryExpr(
+                                    "-",
+                                    PrimaryExpr(
+                                      OperandName(
+                                        Identifier))))),
+                              ")"))))))),
                 Declaration(
                   Field(
                     Label(
@@ -2227,17 +2234,18 @@ SourceFile(
                         BinExpr(
                           Expression(
                             PrimaryExpr(
-                              PrimaryExpr(
-                                OperandName(
-                                  Identifier)),
-                              Arguments(
-                                "(",
-                                Argument(
-                                  Expression(
-                                    PrimaryExpr(
-                                      OperandName(
-                                        Identifier)))),
-                                ")"))),
+                              CallExpr(
+                                PrimaryExpr(
+                                  OperandName(
+                                    PredeclaredFunction)),
+                                Arguments(
+                                  "(",
+                                  Argument(
+                                    Expression(
+                                      PrimaryExpr(
+                                        OperandName(
+                                          Identifier)))),
+                                  ")")))),
                           "*",
                           Expression(
                             PrimaryExpr(
@@ -2713,7 +2721,7 @@ SourceFile(
                                   Expression(
                                     PrimaryExpr(
                                       OperandName(
-                                        Identifier))))),
+                                        PredeclaredType))))),
                               "]"))))))),
                 Declaration(
                   Field(
@@ -2734,7 +2742,7 @@ SourceFile(
                                   Expression(
                                     PrimaryExpr(
                                       OperandName(
-                                        Identifier)))),
+                                        PredeclaredType)))),
                                 ","),
                               "]"))))))),
                 Declaration(
@@ -2758,12 +2766,12 @@ SourceFile(
                                       Expression(
                                         PrimaryExpr(
                                           OperandName(
-                                            Identifier))),
+                                            PredeclaredType))),
                                       "|",
                                       Expression(
                                         PrimaryExpr(
                                           OperandName(
-                                            Identifier))))))),
+                                            PredeclaredType))))))),
                               "]"))))))),
                 Declaration(
                   Field(
@@ -3727,31 +3735,32 @@ SourceFile(
                     AliasExpr(
                       Expression(
                         PrimaryExpr(
-                          PrimaryExpr(
+                          CallExpr(
                             PrimaryExpr(
-                              OperandName(
+                              PrimaryExpr(
+                                OperandName(
+                                  Identifier)),
+                              Selector(
+                                ".",
                                 Identifier)),
-                            Selector(
-                              ".",
-                              Identifier)),
-                          Arguments(
-                            "(",
-                            Argument(
-                              Expression(
-                                PrimaryExpr(
-                                  Literal(
-                                    BasicLit(
-                                      IntLit(
-                                        DecimalLit)))))),
-                            ",",
-                            Argument(
-                              Expression(
-                                PrimaryExpr(
-                                  Literal(
-                                    BasicLit(
-                                      IntLit(
-                                        DecimalLit)))))),
-                            ")")))))),
+                            Arguments(
+                              "(",
+                              Argument(
+                                Expression(
+                                  PrimaryExpr(
+                                    Literal(
+                                      BasicLit(
+                                        IntLit(
+                                          DecimalLit)))))),
+                              ",",
+                              Argument(
+                                Expression(
+                                  PrimaryExpr(
+                                    Literal(
+                                      BasicLit(
+                                        IntLit(
+                                          DecimalLit)))))),
+                              ")"))))))),
                 Declaration(
                   Field(
                     Label(
@@ -4071,42 +4080,43 @@ SourceFile(
                     AliasExpr(
                       Expression(
                         PrimaryExpr(
-                          PrimaryExpr(
+                          CallExpr(
                             PrimaryExpr(
-                              OperandName(
+                              PrimaryExpr(
+                                OperandName(
+                                  Identifier)),
+                              Selector(
+                                ".",
                                 Identifier)),
-                            Selector(
-                              ".",
-                              Identifier)),
-                          Arguments(
-                            "(",
-                            Argument(
-                              Expression(
-                                PrimaryExpr(
-                                  Literal(
-                                    ListLit(
-                                      "[",
-                                      ElementList(
-                                        Embedding(
-                                          AliasExpr(
-                                            Expression(
-                                              PrimaryExpr(
-                                                Literal(
-                                                  BasicLit(
-                                                    IntLit(
-                                                      DecimalLit))))))),
-                                        ",",
-                                        Embedding(
-                                          AliasExpr(
-                                            Expression(
-                                              PrimaryExpr(
-                                                Literal(
-                                                  BasicLit(
-                                                    IntLit(
-                                                      DecimalLit))))))),
-                                        ","),
-                                      "]"))))),
-                            ")")))))),
+                            Arguments(
+                              "(",
+                              Argument(
+                                Expression(
+                                  PrimaryExpr(
+                                    Literal(
+                                      ListLit(
+                                        "[",
+                                        ElementList(
+                                          Embedding(
+                                            AliasExpr(
+                                              Expression(
+                                                PrimaryExpr(
+                                                  Literal(
+                                                    BasicLit(
+                                                      IntLit(
+                                                        DecimalLit))))))),
+                                          ",",
+                                          Embedding(
+                                            AliasExpr(
+                                              Expression(
+                                                PrimaryExpr(
+                                                  Literal(
+                                                    BasicLit(
+                                                      IntLit(
+                                                        DecimalLit))))))),
+                                          ","),
+                                        "]"))))),
+                              ")"))))))),
                 Declaration(
                   Field(
                     Label(
@@ -4842,7 +4852,7 @@ SourceFile(
                           Expression(
                             PrimaryExpr(
                               OperandName(
-                                Identifier)))),
+                                PredeclaredType)))),
                         "]")),
                     ":",
                     Label(
@@ -4852,7 +4862,7 @@ SourceFile(
                           Expression(
                             PrimaryExpr(
                               OperandName(
-                                Identifier)))),
+                                PredeclaredType)))),
                         "]")),
                     ":",
                     AliasExpr(
@@ -4874,7 +4884,7 @@ SourceFile(
                           Expression(
                             PrimaryExpr(
                               OperandName(
-                                Identifier)))),
+                                PredeclaredType)))),
                         "]")),
                     ":",
                     AliasExpr(
@@ -4894,7 +4904,7 @@ SourceFile(
                                     Expression(
                                       PrimaryExpr(
                                         OperandName(
-                                          Identifier)))))),
+                                          PredeclaredType)))))),
                               "}"))))))),
                 Comment,
                 Comment,
@@ -5213,24 +5223,24 @@ SourceFile(
                     Label(
                       LabelExpr(
                         LabelName(
-                          Identifier))),
+                          DefinitionIdentifier))),
                     ":",
                     AliasExpr(
                       Expression(
                         PrimaryExpr(
                           OperandName(
-                            Identifier)))))),
+                            PredeclaredType)))))),
                 Declaration(
                   Field(
                     Label(
                       LabelExpr(
                         LabelName(
-                          Identifier))),
+                          DefinitionIdentifier))),
                     ":",
                     AliasExpr(
                       Expression(
                         PrimaryExpr(
                           OperandName(
-                            Identifier)))))),
+                            PredeclaredType)))))),
                 Comment,
                 "}"))))))))

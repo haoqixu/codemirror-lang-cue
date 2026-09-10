@@ -93,12 +93,12 @@ SourceFile(
                     Expression(
                       PrimaryExpr(
                         OperandName(
-                          Identifier))),
+                          PredeclaredType))),
                     "|",
                     Expression(
                       PrimaryExpr(
                         OperandName(
-                          Identifier))))),
+                          PredeclaredType))))),
                 ")")),
             "&",
             Expression(
@@ -181,7 +181,7 @@ SourceFile(
             Expression(
               PrimaryExpr(
                 OperandName(
-                  Identifier))),
+                  PredeclaredType))),
             "|",
             Expression(
               UnaryExpr(
@@ -517,7 +517,7 @@ SourceFile(
                 "*",
                 PrimaryExpr(
                   OperandName(
-                    Identifier)))),
+                    PredeclaredType)))),
             "|",
             Expression(
               PrimaryExpr(
@@ -748,7 +748,7 @@ SourceFile(
                     Expression(
                       PrimaryExpr(
                         OperandName(
-                          Identifier))))),
+                          PredeclaredType))))),
                 ")")),
             "&",
             Expression(
@@ -769,7 +769,7 @@ SourceFile(
                     Expression(
                       PrimaryExpr(
                         OperandName(
-                          Identifier))))),
+                          PredeclaredType))))),
                 ")"))))))))
 
 # `(*"tcp"|"udp") & ("udp"|*"tcp")`
@@ -950,7 +950,7 @@ SourceFile(
             Expression(
               PrimaryExpr(
                 OperandName(
-                  Identifier)))))))))
+                  PredeclaredType)))))))))
 
 # `(*true | false) & (true | false)`
 (*true | false) & (true | false)
