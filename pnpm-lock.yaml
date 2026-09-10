@@ -11,6 +11,9 @@ importers:
       '@codemirror/language':
         specifier: ^6.0.0
         version: 6.10.8
+      '@codemirror/state':
+        specifier: ^6.5.0
+        version: 6.5.0
       '@lezer/highlight':
         specifier: ^1.0.0
         version: 1.2.1
@@ -18,9 +21,6 @@ importers:
         specifier: ^1.0.0
         version: 1.4.2
     devDependencies:
-      '@codemirror/state':
-        specifier: ^6.5.0
-        version: 6.5.0
       '@lezer/common':
         specifier: ^1.2.3
         version: 1.2.3

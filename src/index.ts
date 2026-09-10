@@ -1,6 +1,7 @@
 import {parser} from "./syntax.grammar"
-import {LRLanguage, LanguageSupport, indentNodeProp, foldNodeProp, foldInside, delimitedIndent} from "@codemirror/language"
+import {LRLanguage, LanguageSupport, indentNodeProp, foldNodeProp, foldInside, delimitedIndent, indentUnit} from "@codemirror/language"
 import type {TreeIndentContext} from "@codemirror/language"
+import {Prec} from "@codemirror/state"
 import type {EditorState} from "@codemirror/state"
 import type {SyntaxNode} from "@lezer/common"
 
@@ -27,6 +28,11 @@ const foldMultilineString = (node: SyntaxNode, state: EditorState) => {
   return delimiter.from < to ? {from: delimiter.from, to} : null
 }
 
+const foldImportGroup = (node: SyntaxNode) => {
+  const open = node.getChild("("), close = node.getChild(")")
+  return open && close && open.to < close.from ? {from: open.to, to: close.from} : null
+}
+
 export const cueLanguage = LRLanguage.define({
   parser: parser.configure({
     props: [
@@ -36,15 +42,17 @@ export const cueLanguage = LRLanguage.define({
       }),
       foldNodeProp.add({
         "StructLit ListLit Arguments": foldInside,
+        ImportDecl: foldImportGroup,
         "MultilineStringLit MultilineBytesLit AttributeString ImportPath": foldMultilineString
       }),
     ]
   }),
   languageData: {
-    commentTokens: {line: "//"}
+    commentTokens: {line: "//"},
+    indentOnInput: /^\s*[}\]\)]$/
   }
 })
 
 export function cue() {
-  return new LanguageSupport(cueLanguage)
+  return new LanguageSupport(cueLanguage, Prec.lowest(indentUnit.of("\t")))
 }
