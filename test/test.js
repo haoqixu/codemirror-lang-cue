@@ -18,8 +18,8 @@ function updateFile(filePath, content) {
   const parser = cueLanguage.parser
   // Replace each expected output in-place, preserving original formatting
   const updated = content.replace(
-    /(#[ \t]*(.*?)(?:\{.*?\})?\s*(?:\r\n|\r|\n)([^]*?)==+>)([^]*?)(?=$|(?:\r\n|\r|\n)+(?=#))/g,
-    (match, before, name, input, expectedBlock) => {
+    /(# ([^\n]*)\n(.*?)==+>).*?(?=\n{2,}#|$)/gs,
+    (_, before, name, input) => {
       const text = input.trim()
       const configMatch = /\{.*\}$/.exec(name)
       const config = configMatch ? JSON.parse(configMatch[0]) : null
