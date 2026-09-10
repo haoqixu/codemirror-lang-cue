@@ -19,6 +19,7 @@ SourceFile(
                             BasicLit(
                               IntLit(
                                 DecimalLit))))))),
+                  ",",
                   Embedding(
                     AliasExpr(
                       Expression(
@@ -50,6 +51,7 @@ SourceFile(
                             BasicLit(
                               IntLit(
                                 DecimalLit))))))),
+                  ",",
                   Embedding(
                     AliasExpr(
                       Expression(
@@ -57,7 +59,8 @@ SourceFile(
                           Literal(
                             BasicLit(
                               IntLit(
-                                DecimalLit)))))))),
+                                DecimalLit))))))),
+                  ","),
                 "]"))))))))
 
 # [1,2,3]
@@ -81,6 +84,7 @@ SourceFile(
                             BasicLit(
                               IntLit(
                                 DecimalLit))))))),
+                  ",",
                   Embedding(
                     AliasExpr(
                       Expression(
@@ -89,6 +93,7 @@ SourceFile(
                             BasicLit(
                               IntLit(
                                 DecimalLit))))))),
+                  ",",
                   Embedding(
                     AliasExpr(
                       Expression(
@@ -120,6 +125,7 @@ SourceFile(
                             BasicLit(
                               IntLit(
                                 DecimalLit))))))),
+                  ",",
                   Embedding(
                     AliasExpr(
                       Expression(
@@ -128,6 +134,7 @@ SourceFile(
                             BasicLit(
                               IntLit(
                                 DecimalLit))))))),
+                  ",",
                   Embedding(
                     AliasExpr(
                       Expression(
@@ -135,7 +142,8 @@ SourceFile(
                           Literal(
                             BasicLit(
                               IntLit(
-                                DecimalLit)))))))),
+                                DecimalLit))))))),
+                  ","),
                 "]"))))))))
 
 # [1,2,3,4]
@@ -159,6 +167,7 @@ SourceFile(
                             BasicLit(
                               IntLit(
                                 DecimalLit))))))),
+                  ",",
                   Embedding(
                     AliasExpr(
                       Expression(
@@ -167,6 +176,7 @@ SourceFile(
                             BasicLit(
                               IntLit(
                                 DecimalLit))))))),
+                  ",",
                   Embedding(
                     AliasExpr(
                       Expression(
@@ -175,6 +185,7 @@ SourceFile(
                             BasicLit(
                               IntLit(
                                 DecimalLit))))))),
+                  ",",
                   Embedding(
                     AliasExpr(
                       Expression(
@@ -206,6 +217,7 @@ SourceFile(
                             BasicLit(
                               IntLit(
                                 DecimalLit))))))),
+                  ",",
                   Embedding(
                     AliasExpr(
                       Expression(
@@ -214,6 +226,7 @@ SourceFile(
                             BasicLit(
                               IntLit(
                                 DecimalLit))))))),
+                  ",",
                   Embedding(
                     AliasExpr(
                       Expression(
@@ -222,6 +235,7 @@ SourceFile(
                             BasicLit(
                               IntLit(
                                 DecimalLit))))))),
+                  ",",
                   Embedding(
                     AliasExpr(
                       Expression(
@@ -229,7 +243,8 @@ SourceFile(
                           Literal(
                             BasicLit(
                               IntLit(
-                                DecimalLit)))))))),
+                                DecimalLit))))))),
+                  ","),
                 "]"))))))))
 
 # newlines in array
@@ -274,6 +289,7 @@ SourceFile(
                             BasicLit(
                               IntLit(
                                 DecimalLit))))))),
+                  ",",
                   Embedding(
                     AliasExpr(
                       Expression(
@@ -282,6 +298,7 @@ SourceFile(
                             BasicLit(
                               IntLit(
                                 DecimalLit))))))),
+                  ",",
                   Embedding(
                     AliasExpr(
                       Expression(
@@ -308,6 +325,7 @@ SourceFile(
                             BasicLit(
                               IntLit(
                                 DecimalLit))))))),
+                  ",",
                   Embedding(
                     AliasExpr(
                       Expression(
@@ -316,6 +334,7 @@ SourceFile(
                             BasicLit(
                               IntLit(
                                 DecimalLit))))))),
+                  ",",
                   Embedding(
                     AliasExpr(
                       Expression(
@@ -323,7 +342,8 @@ SourceFile(
                           Literal(
                             BasicLit(
                               IntLit(
-                                DecimalLit)))))))),
+                                DecimalLit))))))),
+                  ","),
                 "]"))))))),
   Declaration(
     Embedding(
@@ -335,6 +355,7 @@ SourceFile(
                 "[",
                 ElementList(
                   Ellipsis(
+                    "...",
                     Expression(
                       PrimaryExpr(
                         OperandName(

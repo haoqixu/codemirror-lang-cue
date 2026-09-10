@@ -23,6 +23,7 @@ SourceFile(
                                   LabelExpr(
                                     LabelName(
                                       Identifier))),
+                                ":",
                                 AliasExpr(
                                   Expression(
                                     PrimaryExpr(
@@ -31,6 +32,7 @@ SourceFile(
                                           IntLit(
                                             DecimalLit)))))))),
                             "}")))),
+                    "|",
                     Expression(
                       PrimaryExpr(
                         Literal(
@@ -42,6 +44,7 @@ SourceFile(
                                   LabelExpr(
                                     LabelName(
                                       Identifier))),
+                                ":",
                                 AliasExpr(
                                   Expression(
                                     PrimaryExpr(
@@ -51,6 +54,7 @@ SourceFile(
                                             DecimalLit)))))))),
                             "}")))))),
                 ")")),
+            "&",
             Expression(
               PrimaryExpr(
                 Literal(
@@ -62,6 +66,7 @@ SourceFile(
                           LabelExpr(
                             LabelName(
                               Identifier))),
+                        ":",
                         AliasExpr(
                           Expression(
                             PrimaryExpr(
@@ -89,11 +94,13 @@ SourceFile(
                       PrimaryExpr(
                         OperandName(
                           Identifier))),
+                    "|",
                     Expression(
                       PrimaryExpr(
                         OperandName(
                           Identifier))))),
                 ")")),
+            "&",
             Expression(
               PrimaryExpr(
                 Literal(
@@ -121,6 +128,7 @@ SourceFile(
                           BasicLit(
                             StringLit(
                               SimpleStringLit))))),
+                    "|",
                     Expression(
                       PrimaryExpr(
                         Literal(
@@ -128,6 +136,7 @@ SourceFile(
                             StringLit(
                               SimpleStringLit))))))),
                 ")")),
+            "&",
             Expression(
               PrimaryExpr(
                 Literal(
@@ -146,11 +155,13 @@ SourceFile(
           BinExpr(
             Expression(
               UnaryExpr(
+                "*",
                 PrimaryExpr(
                   Literal(
                     BasicLit(
                       StringLit(
                         SimpleStringLit)))))),
+            "|",
             Expression(
               PrimaryExpr(
                 Literal(
@@ -171,8 +182,10 @@ SourceFile(
               PrimaryExpr(
                 OperandName(
                   Identifier))),
+            "|",
             Expression(
               UnaryExpr(
+                "*",
                 PrimaryExpr(
                   Literal(
                     BasicLit(
@@ -192,17 +205,20 @@ SourceFile(
               BinExpr(
                 Expression(
                   UnaryExpr(
+                    "*",
                     PrimaryExpr(
                       Literal(
                         BasicLit(
                           IntLit(
                             DecimalLit)))))),
+                "|",
                 Expression(
                   PrimaryExpr(
                     Literal(
                       BasicLit(
                         IntLit(
                           DecimalLit))))))),
+            "|",
             Expression(
               PrimaryExpr(
                 Literal(
@@ -228,17 +244,20 @@ SourceFile(
                       BinExpr(
                         Expression(
                           UnaryExpr(
+                            "*",
                             PrimaryExpr(
                               Literal(
                                 BasicLit(
                                   IntLit(
                                     DecimalLit)))))),
+                        "|",
                         Expression(
                           PrimaryExpr(
                             Literal(
                               BasicLit(
                                 IntLit(
                                   DecimalLit))))))),
+                    "|",
                     Expression(
                       PrimaryExpr(
                         Literal(
@@ -246,6 +265,7 @@ SourceFile(
                             IntLit(
                               DecimalLit))))))),
                 ")")),
+            "|",
             Expression(
               PrimaryExpr(
                 "(",
@@ -259,13 +279,16 @@ SourceFile(
                               BasicLit(
                                 IntLit(
                                   DecimalLit))))),
+                        "|",
                         Expression(
                           UnaryExpr(
+                            "*",
                             PrimaryExpr(
                               Literal(
                                 BasicLit(
                                   IntLit(
                                     DecimalLit)))))))),
+                    "|",
                     Expression(
                       PrimaryExpr(
                         Literal(
@@ -292,17 +315,20 @@ SourceFile(
                       BinExpr(
                         Expression(
                           UnaryExpr(
+                            "*",
                             PrimaryExpr(
                               Literal(
                                 BasicLit(
                                   IntLit(
                                     DecimalLit)))))),
+                        "|",
                         Expression(
                           PrimaryExpr(
                             Literal(
                               BasicLit(
                                 IntLit(
                                   DecimalLit))))))),
+                    "|",
                     Expression(
                       PrimaryExpr(
                         Literal(
@@ -310,8 +336,10 @@ SourceFile(
                             IntLit(
                               DecimalLit))))))),
                 ")")),
+            "|",
             Expression(
               UnaryExpr(
+                "*",
                 PrimaryExpr(
                   "(",
                   Expression(
@@ -324,13 +352,16 @@ SourceFile(
                                 BasicLit(
                                   IntLit(
                                     DecimalLit))))),
+                          "|",
                           Expression(
                             UnaryExpr(
+                              "*",
                               PrimaryExpr(
                                 Literal(
                                   BasicLit(
                                     IntLit(
                                       DecimalLit)))))))),
+                      "|",
                       Expression(
                         PrimaryExpr(
                           Literal(
@@ -357,17 +388,20 @@ SourceFile(
                       BinExpr(
                         Expression(
                           UnaryExpr(
+                            "*",
                             PrimaryExpr(
                               Literal(
                                 BasicLit(
                                   IntLit(
                                     DecimalLit)))))),
+                        "|",
                         Expression(
                           PrimaryExpr(
                             Literal(
                               BasicLit(
                                 IntLit(
                                   DecimalLit))))))),
+                    "|",
                     Expression(
                       PrimaryExpr(
                         Literal(
@@ -375,6 +409,7 @@ SourceFile(
                             IntLit(
                               DecimalLit))))))),
                 ")")),
+            "|",
             Expression(
               BinExpr(
                 Expression(
@@ -390,13 +425,16 @@ SourceFile(
                                   BasicLit(
                                     IntLit(
                                       DecimalLit))))),
+                            "|",
                             Expression(
                               UnaryExpr(
+                                "*",
                                 PrimaryExpr(
                                   Literal(
                                     BasicLit(
                                       IntLit(
                                         DecimalLit)))))))),
+                        "|",
                         Expression(
                           PrimaryExpr(
                             Literal(
@@ -404,6 +442,7 @@ SourceFile(
                                 IntLit(
                                   DecimalLit))))))),
                     ")")),
+                "&",
                 Expression(
                   PrimaryExpr(
                     Literal(
@@ -427,11 +466,13 @@ SourceFile(
                   BinExpr(
                     Expression(
                       UnaryExpr(
+                        "*",
                         PrimaryExpr(
                           Literal(
                             BasicLit(
                               IntLit(
                                 DecimalLit)))))),
+                    "|",
                     Expression(
                       PrimaryExpr(
                         Literal(
@@ -439,6 +480,7 @@ SourceFile(
                             IntLit(
                               DecimalLit))))))),
                 ")")),
+            "&",
             Expression(
               PrimaryExpr(
                 "(",
@@ -450,8 +492,10 @@ SourceFile(
                           BasicLit(
                             IntLit(
                               DecimalLit))))),
+                    "|",
                     Expression(
                       UnaryExpr(
+                        "*",
                         PrimaryExpr(
                           Literal(
                             BasicLit(
@@ -470,9 +514,11 @@ SourceFile(
           BinExpr(
             Expression(
               UnaryExpr(
+                "*",
                 PrimaryExpr(
                   OperandName(
                     Identifier)))),
+            "|",
             Expression(
               PrimaryExpr(
                 Literal(
@@ -495,11 +541,13 @@ SourceFile(
                   BinExpr(
                     Expression(
                       UnaryExpr(
+                        "*",
                         PrimaryExpr(
                           Literal(
                             BasicLit(
                               IntLit(
                                 DecimalLit)))))),
+                    "|",
                     Expression(
                       PrimaryExpr(
                         Literal(
@@ -507,6 +555,7 @@ SourceFile(
                             IntLit(
                               DecimalLit))))))),
                 ")")),
+            "+",
             Expression(
               PrimaryExpr(
                 "(",
@@ -518,8 +567,10 @@ SourceFile(
                           BasicLit(
                             IntLit(
                               DecimalLit))))),
+                    "|",
                     Expression(
                       UnaryExpr(
+                        "*",
                         PrimaryExpr(
                           Literal(
                             BasicLit(
@@ -546,17 +597,20 @@ SourceFile(
                       BinExpr(
                         Expression(
                           UnaryExpr(
+                            "*",
                             PrimaryExpr(
                               Literal(
                                 BasicLit(
                                   IntLit(
                                     DecimalLit)))))),
+                        "|",
                         Expression(
                           PrimaryExpr(
                             Literal(
                               BasicLit(
                                 IntLit(
                                   DecimalLit))))))),
+                    "|",
                     Expression(
                       PrimaryExpr(
                         Literal(
@@ -564,6 +618,7 @@ SourceFile(
                             IntLit(
                               DecimalLit))))))),
                 ")")),
+            "|",
             Expression(
               PrimaryExpr(
                 "(",
@@ -577,13 +632,16 @@ SourceFile(
                               BasicLit(
                                 IntLit(
                                   DecimalLit))))),
+                        "|",
                         Expression(
                           UnaryExpr(
+                            "*",
                             PrimaryExpr(
                               Literal(
                                 BasicLit(
                                   IntLit(
                                     DecimalLit)))))))),
+                    "|",
                     Expression(
                       PrimaryExpr(
                         Literal(
@@ -610,17 +668,20 @@ SourceFile(
                       BinExpr(
                         Expression(
                           UnaryExpr(
+                            "*",
                             PrimaryExpr(
                               Literal(
                                 BasicLit(
                                   IntLit(
                                     DecimalLit)))))),
+                        "|",
                         Expression(
                           PrimaryExpr(
                             Literal(
                               BasicLit(
                                 IntLit(
                                   DecimalLit))))))),
+                    "|",
                     Expression(
                       PrimaryExpr(
                         Literal(
@@ -628,6 +689,7 @@ SourceFile(
                             IntLit(
                               DecimalLit))))))),
                 ")")),
+            "&",
             Expression(
               PrimaryExpr(
                 "(",
@@ -641,13 +703,16 @@ SourceFile(
                               BasicLit(
                                 IntLit(
                                   DecimalLit))))),
+                        "|",
                         Expression(
                           UnaryExpr(
+                            "*",
                             PrimaryExpr(
                               Literal(
                                 BasicLit(
                                   IntLit(
                                     DecimalLit)))))))),
+                    "|",
                     Expression(
                       PrimaryExpr(
                         Literal(
@@ -672,16 +737,20 @@ SourceFile(
                   BinExpr(
                     Expression(
                       UnaryExpr(
+                        "*",
+                        ">=",
                         PrimaryExpr(
                           Literal(
                             BasicLit(
                               IntLit(
                                 DecimalLit)))))),
+                    "|",
                     Expression(
                       PrimaryExpr(
                         OperandName(
                           Identifier))))),
                 ")")),
+            "&",
             Expression(
               PrimaryExpr(
                 "(",
@@ -689,11 +758,14 @@ SourceFile(
                   BinExpr(
                     Expression(
                       UnaryExpr(
+                        "*",
+                        "<=",
                         PrimaryExpr(
                           Literal(
                             BasicLit(
                               IntLit(
                                 DecimalLit)))))),
+                    "|",
                     Expression(
                       PrimaryExpr(
                         OperandName(
@@ -716,11 +788,13 @@ SourceFile(
                   BinExpr(
                     Expression(
                       UnaryExpr(
+                        "*",
                         PrimaryExpr(
                           Literal(
                             BasicLit(
                               StringLit(
                                 SimpleStringLit)))))),
+                    "|",
                     Expression(
                       PrimaryExpr(
                         Literal(
@@ -728,6 +802,7 @@ SourceFile(
                             StringLit(
                               SimpleStringLit))))))),
                 ")")),
+            "&",
             Expression(
               PrimaryExpr(
                 "(",
@@ -739,8 +814,10 @@ SourceFile(
                           BasicLit(
                             StringLit(
                               SimpleStringLit))))),
+                    "|",
                     Expression(
                       UnaryExpr(
+                        "*",
                         PrimaryExpr(
                           Literal(
                             BasicLit(
@@ -764,11 +841,13 @@ SourceFile(
                   BinExpr(
                     Expression(
                       UnaryExpr(
+                        "*",
                         PrimaryExpr(
                           Literal(
                             BasicLit(
                               StringLit(
                                 SimpleStringLit)))))),
+                    "|",
                     Expression(
                       PrimaryExpr(
                         Literal(
@@ -776,6 +855,7 @@ SourceFile(
                             StringLit(
                               SimpleStringLit))))))),
                 ")")),
+            "&",
             Expression(
               PrimaryExpr(
                 Literal(
@@ -799,11 +879,13 @@ SourceFile(
                   BinExpr(
                     Expression(
                       UnaryExpr(
+                        "*",
                         PrimaryExpr(
                           Literal(
                             BasicLit(
                               StringLit(
                                 SimpleStringLit)))))),
+                    "|",
                     Expression(
                       PrimaryExpr(
                         Literal(
@@ -811,6 +893,7 @@ SourceFile(
                             StringLit(
                               SimpleStringLit))))))),
                 ")")),
+            "&",
             Expression(
               PrimaryExpr(
                 "(",
@@ -818,11 +901,13 @@ SourceFile(
                   BinExpr(
                     Expression(
                       UnaryExpr(
+                        "*",
                         PrimaryExpr(
                           Literal(
                             BasicLit(
                               StringLit(
                                 SimpleStringLit)))))),
+                    "|",
                     Expression(
                       PrimaryExpr(
                         Literal(
@@ -847,11 +932,13 @@ SourceFile(
                   BinExpr(
                     Expression(
                       UnaryExpr(
+                        "*",
                         PrimaryExpr(
                           Literal(
                             BasicLit(
                               BoolLit(
                                 true)))))),
+                    "|",
                     Expression(
                       PrimaryExpr(
                         Literal(
@@ -859,6 +946,7 @@ SourceFile(
                             BoolLit(
                               false))))))),
                 ")")),
+            "&",
             Expression(
               PrimaryExpr(
                 OperandName(
@@ -880,11 +968,13 @@ SourceFile(
                   BinExpr(
                     Expression(
                       UnaryExpr(
+                        "*",
                         PrimaryExpr(
                           Literal(
                             BasicLit(
                               BoolLit(
                                 true)))))),
+                    "|",
                     Expression(
                       PrimaryExpr(
                         Literal(
@@ -892,6 +982,7 @@ SourceFile(
                             BoolLit(
                               false))))))),
                 ")")),
+            "&",
             Expression(
               PrimaryExpr(
                 "(",
@@ -903,6 +994,7 @@ SourceFile(
                           BasicLit(
                             BoolLit(
                               true))))),
+                    "|",
                     Expression(
                       PrimaryExpr(
                         Literal(
@@ -931,6 +1023,7 @@ SourceFile(
                           LabelExpr(
                             LabelName(
                               Identifier))),
+                        ":",
                         AliasExpr(
                           Expression(
                             PrimaryExpr(
@@ -939,6 +1032,7 @@ SourceFile(
                                   IntLit(
                                     DecimalLit)))))))),
                     "}")))),
+            "|",
             Expression(
               PrimaryExpr(
                 Literal(
@@ -950,6 +1044,7 @@ SourceFile(
                           LabelExpr(
                             LabelName(
                               Identifier))),
+                        ":",
                         AliasExpr(
                           Expression(
                             PrimaryExpr(
@@ -979,6 +1074,7 @@ SourceFile(
                           LabelExpr(
                             LabelName(
                               Identifier))),
+                        ":",
                         AliasExpr(
                           Expression(
                             PrimaryExpr(
@@ -987,8 +1083,10 @@ SourceFile(
                                   IntLit(
                                     DecimalLit)))))))),
                     "}")))),
+            "|",
             Expression(
               UnaryExpr(
+                "*",
                 PrimaryExpr(
                   Literal(
                     StructLit(
@@ -999,6 +1097,7 @@ SourceFile(
                             LabelExpr(
                               LabelName(
                                 Identifier))),
+                          ":",
                           AliasExpr(
                             Expression(
                               PrimaryExpr(
@@ -1019,6 +1118,7 @@ SourceFile(
           BinExpr(
             Expression(
               UnaryExpr(
+                "*",
                 PrimaryExpr(
                   Literal(
                     StructLit(
@@ -1029,6 +1129,7 @@ SourceFile(
                             LabelExpr(
                               LabelName(
                                 Identifier))),
+                          ":",
                           AliasExpr(
                             Expression(
                               PrimaryExpr(
@@ -1037,8 +1138,10 @@ SourceFile(
                                     IntLit(
                                       DecimalLit)))))))),
                       "}"))))),
+            "|",
             Expression(
               UnaryExpr(
+                "*",
                 PrimaryExpr(
                   Literal(
                     StructLit(
@@ -1049,6 +1152,7 @@ SourceFile(
                             LabelExpr(
                               LabelName(
                                 Identifier))),
+                          ":",
                           AliasExpr(
                             Expression(
                               PrimaryExpr(
@@ -1083,6 +1187,7 @@ SourceFile(
                                   LabelExpr(
                                     LabelName(
                                       Identifier))),
+                                ":",
                                 AliasExpr(
                                   Expression(
                                     PrimaryExpr(
@@ -1091,6 +1196,7 @@ SourceFile(
                                           IntLit(
                                             DecimalLit)))))))),
                             "}")))),
+                    "|",
                     Expression(
                       PrimaryExpr(
                         Literal(
@@ -1102,6 +1208,7 @@ SourceFile(
                                   LabelExpr(
                                     LabelName(
                                       Identifier))),
+                                ":",
                                 AliasExpr(
                                   Expression(
                                     PrimaryExpr(
@@ -1111,6 +1218,7 @@ SourceFile(
                                             DecimalLit)))))))),
                             "}")))))),
                 ")")),
+            "&",
             Expression(
               PrimaryExpr(
                 Literal(
@@ -1122,6 +1230,7 @@ SourceFile(
                           LabelExpr(
                             LabelName(
                               Identifier))),
+                        ":",
                         AliasExpr(
                           Expression(
                             PrimaryExpr(
@@ -1156,6 +1265,7 @@ SourceFile(
                                   LabelExpr(
                                     LabelName(
                                       Identifier))),
+                                ":",
                                 AliasExpr(
                                   Expression(
                                     PrimaryExpr(
@@ -1164,8 +1274,10 @@ SourceFile(
                                           IntLit(
                                             DecimalLit)))))))),
                             "}")))),
+                    "|",
                     Expression(
                       UnaryExpr(
+                        "*",
                         PrimaryExpr(
                           Literal(
                             StructLit(
@@ -1176,6 +1288,7 @@ SourceFile(
                                     LabelExpr(
                                       LabelName(
                                         Identifier))),
+                                  ":",
                                   AliasExpr(
                                     Expression(
                                       PrimaryExpr(
@@ -1185,6 +1298,7 @@ SourceFile(
                                               DecimalLit)))))))),
                               "}"))))))),
                 ")")),
+            "&",
             Expression(
               PrimaryExpr(
                 "(",
@@ -1201,6 +1315,7 @@ SourceFile(
                                   LabelExpr(
                                     LabelName(
                                       Identifier))),
+                                ":",
                                 AliasExpr(
                                   Expression(
                                     PrimaryExpr(
@@ -1209,8 +1324,10 @@ SourceFile(
                                           IntLit(
                                             DecimalLit)))))))),
                             "}")))),
+                    "|",
                     Expression(
                       UnaryExpr(
+                        "*",
                         PrimaryExpr(
                           Literal(
                             StructLit(
@@ -1221,6 +1338,7 @@ SourceFile(
                                     LabelExpr(
                                       LabelName(
                                         Identifier))),
+                                  ":",
                                   AliasExpr(
                                     Expression(
                                       PrimaryExpr(
@@ -1245,6 +1363,7 @@ SourceFile(
                 Literal(
                   BasicLit(
                     Top)))),
+            "&",
             Expression(
               PrimaryExpr(
                 Literal(
@@ -1266,6 +1385,7 @@ SourceFile(
                 Literal(
                   BasicLit(
                     Top)))),
+            "&",
             Expression(
               PrimaryExpr(
                 Literal(
@@ -1286,6 +1406,7 @@ SourceFile(
                 Literal(
                   BasicLit(
                     Top)))),
+            "&",
             Expression(
               PrimaryExpr(
                 Literal(

@@ -21,6 +21,7 @@ SourceFile(
         LabelExpr(
           LabelName(
             Identifier))),
+      ":",
       AliasExpr(
         Expression(
           PrimaryExpr(
@@ -33,6 +34,7 @@ SourceFile(
                       LabelExpr(
                         LabelName(
                           Identifier))),
+                    ":",
                     AliasExpr(
                       Expression(
                         PrimaryExpr(
@@ -46,12 +48,14 @@ SourceFile(
                         AliasExpr(
                           Expression(
                             UnaryExpr(
+                              "=~",
                               PrimaryExpr(
                                 Literal(
                                   BasicLit(
                                     StringLit(
                                       SimpleStringLit))))))),
                         "]")),
+                    ":",
                     AliasExpr(
                       Expression(
                         PrimaryExpr(
@@ -65,12 +69,14 @@ SourceFile(
                         AliasExpr(
                           Expression(
                             UnaryExpr(
+                              "=~",
                               PrimaryExpr(
                                 Literal(
                                   BasicLit(
                                     StringLit(
                                       SimpleStringLit))))))),
                         "]")),
+                    ":",
                     AliasExpr(
                       Expression(
                         PrimaryExpr(
@@ -84,12 +90,14 @@ SourceFile(
                         AliasExpr(
                           Expression(
                             UnaryExpr(
+                              ">",
                               PrimaryExpr(
                                 Literal(
                                   BasicLit(
                                     StringLit(
                                       SimpleStringLit))))))),
                         "]")),
+                    ":",
                     AliasExpr(
                       Expression(
                         PrimaryExpr(
@@ -97,6 +105,7 @@ SourceFile(
                             Identifier)))))),
                 Declaration(
                   Ellipsis(
+                    "...",
                     Expression(
                       PrimaryExpr(
                         OperandName(
@@ -126,6 +135,7 @@ SourceFile(
         LabelExpr(
           LabelName(
             Identifier))),
+      ":",
       AliasExpr(
         Expression(
           PrimaryExpr(
@@ -138,6 +148,7 @@ SourceFile(
                       LabelExpr(
                         LabelName(
                           Identifier))),
+                    ":",
                     AliasExpr(
                       Expression(
                         PrimaryExpr(
@@ -152,12 +163,14 @@ SourceFile(
                         AliasExpr(
                           Expression(
                             UnaryExpr(
+                              "=~",
                               PrimaryExpr(
                                 Literal(
                                   BasicLit(
                                     StringLit(
                                       SimpleStringLit))))))),
                         "]")),
+                    ":",
                     AliasExpr(
                       Expression(
                         PrimaryExpr(
@@ -172,12 +185,14 @@ SourceFile(
                         AliasExpr(
                           Expression(
                             UnaryExpr(
+                              "=~",
                               PrimaryExpr(
                                 Literal(
                                   BasicLit(
                                     StringLit(
                                       SimpleStringLit))))))),
                         "]")),
+                    ":",
                     AliasExpr(
                       Expression(
                         PrimaryExpr(
@@ -192,12 +207,14 @@ SourceFile(
                         AliasExpr(
                           Expression(
                             UnaryExpr(
+                              ">",
                               PrimaryExpr(
                                 Literal(
                                   BasicLit(
                                     StringLit(
                                       SimpleStringLit))))))),
                         "]")),
+                    ":",
                     AliasExpr(
                       Expression(
                         PrimaryExpr(
@@ -206,6 +223,7 @@ SourceFile(
                 Comment,
                 Declaration(
                   Ellipsis(
+                    "...",
                     Expression(
                       PrimaryExpr(
                         OperandName(
@@ -218,6 +236,7 @@ SourceFile(
         LabelExpr(
           LabelName(
             Identifier))),
+      ":",
       AliasExpr(
         Expression(
           BinExpr(
@@ -225,6 +244,7 @@ SourceFile(
               PrimaryExpr(
                 OperandName(
                   Identifier))),
+            "&",
             Expression(
               PrimaryExpr(
                 Literal(
@@ -236,6 +256,7 @@ SourceFile(
                           LabelExpr(
                             LabelName(
                               Identifier))),
+                        ":",
                         AliasExpr(
                           Expression(
                             PrimaryExpr(
@@ -249,6 +270,7 @@ SourceFile(
                           LabelExpr(
                             LabelName(
                               Identifier))),
+                        ":",
                         AliasExpr(
                           Expression(
                             PrimaryExpr(
@@ -262,6 +284,7 @@ SourceFile(
                           LabelExpr(
                             LabelName(
                               Identifier))),
+                        ":",
                         AliasExpr(
                           Expression(
                             PrimaryExpr(
@@ -292,6 +315,7 @@ SourceFile(
         LabelExpr(
           LabelName(
             Identifier))),
+      ":",
       Label(
         LabelExpr(
           "[",
@@ -301,6 +325,7 @@ SourceFile(
                 OperandName(
                   Identifier)))),
           "]")),
+      ":",
       AliasExpr(
         Expression(
           PrimaryExpr(
@@ -312,6 +337,7 @@ SourceFile(
         LabelExpr(
           LabelName(
             Identifier))),
+      ":",
       AliasExpr(
         Expression(
           PrimaryExpr(
@@ -324,6 +350,7 @@ SourceFile(
                       LabelExpr(
                         LabelName(
                           Identifier))),
+                    ":",
                     AliasExpr(
                       Expression(
                         PrimaryExpr(
@@ -337,6 +364,7 @@ SourceFile(
                       LabelExpr(
                         LabelName(
                           Identifier))),
+                    ":",
                     AliasExpr(
                       Expression(
                         PrimaryExpr(
@@ -351,6 +379,7 @@ SourceFile(
         LabelExpr(
           LabelName(
             Identifier))),
+      ":",
       Label(
         LabelExpr(
           "[",
@@ -360,6 +389,7 @@ SourceFile(
                 OperandName(
                   Identifier)))),
           "]")),
+      ":",
       AliasExpr(
         Expression(
           PrimaryExpr(
@@ -372,6 +402,7 @@ SourceFile(
                       LabelExpr(
                         LabelName(
                           Identifier))),
+                    ":",
                     AliasExpr(
                       Expression(
                         PrimaryExpr(
@@ -383,14 +414,17 @@ SourceFile(
                       LabelExpr(
                         LabelName(
                           Identifier))),
+                    ":",
                     AliasExpr(
                       Expression(
                         BinExpr(
                           Expression(
                             UnaryExpr(
+                              "*",
                               PrimaryExpr(
                                 OperandName(
                                   Identifier)))),
+                          "|",
                           Expression(
                             PrimaryExpr(
                               OperandName(
@@ -402,14 +436,17 @@ SourceFile(
         LabelExpr(
           LabelName(
             Identifier))),
+      ":",
       Label(
         LabelExpr(
           LabelName(
             Identifier))),
+      ":",
       Label(
         LabelExpr(
           LabelName(
             Identifier))),
+      ":",
       AliasExpr(
         Expression(
           PrimaryExpr(
@@ -430,7 +467,9 @@ SourceFile(
       Label(
         LabelExpr(
           LabelName(
-            Identifier))),
+            Identifier),
+          "?")),
+      ":",
       AliasExpr(
         Expression(
           PrimaryExpr(
@@ -443,7 +482,9 @@ SourceFile(
       Label(
         LabelExpr(
           LabelName(
-            Identifier))),
+            Identifier),
+          "?")),
+      ":",
       AliasExpr(
         Expression(
           PrimaryExpr(
@@ -454,7 +495,9 @@ SourceFile(
       Label(
         LabelExpr(
           LabelName(
-            Identifier))),
+            Identifier),
+          "!")),
+      ":",
       AliasExpr(
         Expression(
           PrimaryExpr(
@@ -465,7 +508,9 @@ SourceFile(
       Label(
         LabelExpr(
           LabelName(
-            Identifier))),
+            Identifier),
+          "!")),
+      ":",
       AliasExpr(
         Expression(
           PrimaryExpr(
