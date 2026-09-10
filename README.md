@@ -40,7 +40,6 @@ syntax, leaving language-version and experiment validation to the CUE toolchain.
 ## Testing
 
 ```sh
-pnpm prepare
 pnpm test
 ```
 
@@ -50,4 +49,4 @@ to run them.
 
 ## Example
 
-TODO:
+![CUE syntax highlighting example](./screenshot/example.png)
